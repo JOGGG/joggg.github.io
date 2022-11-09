@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ClickThrough Sample</title>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+
+  <!-- Our extension's code -->
+  <script src="./FootBarForm.js"></script>
+</head>
+
+<body style="background-color: transparent;">
+  <div class="foot">
+    <div class="FootBar">
+      <div class="footBtn">
+        <img class="iconPic" src="../../assets/blueCir.jpg" /><span class="blue">Result Static</span>
+      </div>
+      <div class="footBtn">
+        <img class="iconPic" src="../../assets/greTr.jpg" />Normal Ship<span class="green">36</span>
+      </div>
+      <div class="footBtn">
+        <img class="iconPic" src="../../assets/redTr.jpg" />Delay Ship<span class="red">12</span>
+      </div>
+      <div class="footBtn">
+        <img class="iconPic" src="../../assets/blackTr.jpg" />Cancelled Ship<span class="black">7</span>
+      </div>
+    </div>
+
+
+</body>
+<style>
+  * {
+    font-weight: 700;
+  }
+  body{
+    overflow-y: hidden;
+  }
+  .foot {
+    display: flex;
+ 
+    justify-content: space-between;
+  }
+  
+  .FootBar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .footBtn {
+    margin-right: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+
+  input[type="checkbox"] {
+    margin-top: 0px;
+  }
+
+  .iconPic {
+    width: 20px;
+    height: 20px;
+  }
+
+  .GreenLine,
+  .RedLine {
+    height: 2px;
+    width: 50px;
+  }
+
+  .green {
+    color: rgb(122, 166, 88);
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+  .blue {
+    color: rgb(62, 112, 199);
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+  .red {
+    color: rgb(218, 76, 77);
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+  .black {
+    color: rgb(125, 123, 124);
+    margin-left: 5px;
+    font-size: 10px;
+  }
+
+  .GreenLine {
+    background-color: greenyellow;
+  }
+
+  .RedLine {
+    background-color: red;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  .home{
+    width: 180px;
+    height: 70px;
+  }
+</style>
+
+</html>

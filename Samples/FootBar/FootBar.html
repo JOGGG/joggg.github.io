@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ClickThrough Sample</title>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+
+  <!-- Our extension's code -->
+  <script src="./FootBar.js"></script>
+</head>
+
+<body style="background-color: transparent;">
+  <div class="FootBar">
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/12 A-LIN.png" />
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic"  src="../../assets/13 L-CENTER.png" />
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/14 EXTERNAL warehouse.png" />
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/15 suppliers.png" />
+    </div>
+</body>
+<style>
+  body{
+    overflow: hidden;
+  }
+  .FootBar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .footBtn {
+    margin-right: 40px;
+    font-weight: 700;
+  }
+
+  .iconPic {
+    min-width: 120px;
+    max-width: 250px;
+    height: 50px;
+    margin-left: 5px;
+  }
+</style>
+
+</html>

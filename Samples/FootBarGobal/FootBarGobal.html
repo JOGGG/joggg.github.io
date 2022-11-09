@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ClickThrough Sample</title>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+
+  <!-- Our extension's code -->
+  <script src="./FootBarGobal.js"></script>
+</head>
+
+<body style="background-color: transparent;">
+  <div class="FootBar">
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/greTr.jpg" />Normal Ship
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/redTr.jpg" />Delay Ship
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/blackTr.jpg" />Cancelled Ship
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/balckRt.jpg" />Incoming Ship
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/blueCir.jpg" />Ports
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/houseOrg.jpg" />Warehouse
+    </div>
+    <div class="footBtn">
+      <input name="Fruit" type="checkbox" value="" /><img class="iconPic" src="../../assets/purpleSq.jpg" />Factory
+    </div>
+    <div class="footBtn flex">
+      <div class="GreenLine"></div>Normal
+    </div>
+    <div class="footBtn flex">
+      <div class="RedLine"></div>Delay
+    </div>
+</body>
+<style>
+  *{
+    font-weight: 700;
+  }
+  .FootBar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-x: auto;
+  }
+
+  .footBtn {
+    margin-right: 20px;
+    font-weight: 700;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+  input[type="checkbox"]{
+    margin-top: 0px;
+  }
+
+  .iconPic {
+    width: 20px;
+    height: 20px;
+  }
+
+  .GreenLine,
+  .RedLine {
+    height: 2px;
+    width: 50px;
+  }
+
+  .GreenLine {
+    background-color: greenyellow;
+  }
+
+  .RedLine {
+    background-color: red;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+</style>
+
+</html>
