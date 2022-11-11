@@ -20,18 +20,18 @@
 <body style="background-color: transparent;">
   <div class="HeadBar">
     <div class="selectItem">
-      <span class="selectTitle">Target Region:</span> <select>
-        <option value="Saab">US North</option>
+      <span class="selectTitle">Target Region:</span>
+      <select id="Target" onchange="tarchange(this)">
       </select>
     </div>
     <div class="selectItem">
-      <span class="selectTitle">Service Line:</span> <select>
-        <option value="Saab">ETD/ETA/VTT</option>
+      <span class="selectTitle">Service Line:</span>
+      <select id="Service" onchange="serchange(this)">
       </select>
     </div>
     <div class="selectItem">
-      <span class="selectTitle">Ship:</span> <select>
-        <option value="Saab">5 Days</option>
+      <span class="selectTitle">Ship:</span>
+      <select id="Ship" onchange="shipchange(this)">
       </select>
     </div>
 
@@ -42,10 +42,12 @@
     display: flex;
     justify-content: flex-end;
   }
-  .selectTitle{
+
+  .selectTitle {
     color: rgb(72, 114, 185);
   }
-  .selectItem{
+
+  .selectItem {
     margin-right: 20px;
   }
 </style>
