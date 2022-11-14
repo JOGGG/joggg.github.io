@@ -5,31 +5,10 @@ tableau.extensions.initializeAsync().then(function () {
         var dataSource = datasources.find(datasource => datasource.name === "宏观航运New3.0");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
-            return dataSource.getLogicalTableDataAsync(logicalTables[3].id)//基础信息表
+            return dataSource.getLogicalTableDataAsync(logicalTables[2].id)//船舶表
         });
     }).then(dataTable => {
-        //筛选出地区
-        let field = dataTable.columns.find(column => column.fieldName === "Sup Area");
-        let list = [];
-        for (let row of dataTable.data) {
-            list.push(row[field.index].value);
-        }
-        let values = list.filter((el, i, arr) => arr.indexOf(el) === i);
-        values.forEach(item => {
-            if (item) {
-                var tar = document.getElementById("Target")
-                tar.options.add(new Option(item), item)
-            }
-        })
-    });
-
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界地图").getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "宏观航运New3.0");
-        return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-            console.log('nihao=>', logicalTables)
-            return dataSource.getLogicalTableDataAsync(logicalTables[2].id)//航线表
-        });
-    }).then(dataTable => {
+        console.log('dataTable=>',dataTable.columns)
         //筛选出船名
         let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel Name");
         let listA = [];
@@ -57,12 +36,26 @@ tableau.extensions.initializeAsync().then(function () {
                 ser.options.add(new Option(item), item)
             }
         })
+
+        //筛选出地区
+        let fieldC = dataTable.columns.find(column => column.fieldName === "Region");
+        let listC = [];
+        for (let row of dataTable.data) {
+            listC.push(row[fieldC.index].value);
+        }
+        let values = listC.filter((el, i, arr) => arr.indexOf(el) === i);
+        values.forEach(item => {
+            if (item) {
+                var tar = document.getElementById("Target")
+                tar.options.add(new Option(item), item)
+            }
+        })
     });
 });
 function tarchange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界地图")
-    data.applyFilterAsync("Sup Area", [that.value], "replace", { isExcludeMode: false })
-    console.log('area change=>', that.value)
+    data.applyFilterAsync("Region", [that.value], "replace", { isExcludeMode: false })
+    console.log('Region change=>', that.value)
 }
 function serchange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界地图")
