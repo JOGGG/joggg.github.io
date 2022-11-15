@@ -7,9 +7,9 @@ tableau.extensions.initializeAsync().then(function () {
         document.getElementById(item).checked = true
     })
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-    data.applyFilterAsync("类型 (海外工厂)", [10, 'Null'],  "add", { isExcludeMode: false })
-    data.applyFilterAsync("类型", [1, 'Null'], "add", { isExcludeMode: false })
-    data.applyFilterAsync("类型 (港口)", [5, 'Null'], "add", { isExcludeMode: false })
+    data.applyFilterAsync("类型 (海外工厂)", [10, 'Null'],  "replace", { isExcludeMode: false })
+    data.applyFilterAsync("类型", [1, 'Null'], "replace", { isExcludeMode: false })
+    data.applyFilterAsync("类型 (港口)", [5, 'Null'], "replace", { isExcludeMode: false })
 
 });
 function normal(that) {
@@ -20,7 +20,7 @@ function normal(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("poleta_status", filterData, "add" , { isExcludeMode: false })
+    data.applyFilterAsync("poleta_status", filterData, "replace" , { isExcludeMode: false })
     console.log('poleta_status=>', 1)
 }
 function delay(that) {
@@ -31,7 +31,7 @@ function delay(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("poleta_status", filterData,"add", { isExcludeMode: false })
+    data.applyFilterAsync("poleta_status", filterData,"replace", { isExcludeMode: false })
     console.log('poleta_status=>', 2)
 }
 function cancelled(that) {
@@ -42,7 +42,7 @@ function cancelled(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("poleta_status", filterData, "add", { isExcludeMode: false })
+    data.applyFilterAsync("poleta_status", filterData, "replace", { isExcludeMode: false })
     console.log('poleta_status=>', 3)
 }
 function incoming(that) {
@@ -53,7 +53,7 @@ function incoming(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("Ship_direction", filterData, "add", { isExcludeMode: false })
+    data.applyFilterAsync("Ship_direction", filterData, "replace", { isExcludeMode: false })
     console.log('Ship_direction=>', 'E')
 }
 function ports(that) {
@@ -64,7 +64,7 @@ function ports(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型 (港口)", filterData, "add", { isExcludeMode: false })
+    data.applyFilterAsync("类型 (港口)", filterData, "replace", { isExcludeMode: false })
     console.log('类型 (港口)=>', 5)
 }
 function warehouse(that) {
@@ -75,7 +75,7 @@ function warehouse(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型", filterData, "add", { isExcludeMode: false })
+    data.applyFilterAsync("类型", filterData, "replace", { isExcludeMode: false })
     console.log('类型=>',1)
 }
 function factory(that) {
@@ -86,7 +86,7 @@ function factory(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型 (海外工厂)", filterData,  "add", { isExcludeMode: false })
+    data.applyFilterAsync("类型 (海外工厂)", filterData,  "replace", { isExcludeMode: false })
     console.log('类型 (海外工厂)=>', 10)
 }
 
