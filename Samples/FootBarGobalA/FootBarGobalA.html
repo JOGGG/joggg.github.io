@@ -18,57 +18,69 @@
 </head>
 
 <body style="background-color: transparent;">
-  <div class="FootBar" >
-    <div class="footBtn" >
-      <input id="normal" name="Fruit" onclick="normal(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/03 normal ship.png" />
+  <div class="FootBar">
+    <div class="footBtn">
+      <input id="normal" name="Fruit" onclick="normal(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/03 normal ship.png" />
     </div>
     <div class="footBtn">
-      <input id="delay"  name="Fruit" onclick="delay(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/04 delay ship.png" />
+      <input id="delay" name="Fruit" onclick="delay(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/04 delay ship.png" />
     </div>
     <div class="footBtn">
-      <input id="cancelled"  name="Fruit" onclick="cancelled(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/05 cancelled ship.png" />
+      <input id="cancelled" name="Fruit" onclick="cancelled(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/05 cancelled ship.png" />
     </div>
     <div class="footBtn">
-      <input id="incoming" name="Fruit"  onclick="incoming(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/06 incoming ship.png" />
+      <input id="incoming" name="Fruit" onclick="incoming(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/06 incoming ship.png" />
     </div>
     <div class="footBtn">
-      <input id="ports" name="Fruit" onclick="ports(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/07 ports.png" />
+      <input id="ports" name="Fruit" onclick="ports(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/07 ports.png" />
     </div>
     <div class="footBtn">
-      <input id="warehouse" name="Fruit" onclick="warehouse(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/08 warehouse.png" />
+      <input id="warehouse" name="Fruit" onclick="warehouse(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/08 warehouse.png" />
     </div>
     <div class="footBtn">
-      <input id="factory" name="Fruit" onclick="factory(this)" type="checkbox" value="" /><img class="iconPic" src="../../assets/09 factory.png" />
+      <input id="factory" name="Fruit" onclick="factory(this)" type="checkbox" value="" /><img class="iconPic"
+        src="../../assets/09 factory.png" />
     </div>
+  </div>
 </body>
 <style>
-  *{
+  * {
     font-weight: 700;
   }
+
   .FootBar {
     display: flex;
-    justify-content: flex-start;
+    justify-content:space-around;
     align-items: center;
     overflow-x: auto;
   }
-  body{
+
+  body {
     overflow-y: hidden;
   }
+
   .footBtn {
-    margin-right: 20px;
+    width: 14.2%;
     font-weight: 700;
     white-space: nowrap;
     display: flex;
     align-items: center;
   }
-  input[type="checkbox"]{
+
+  input[type="checkbox"] {
     margin-top: 0px;
   }
 
   .iconPic {
-    max-width: 100px;
-    margin-left: 5px;
-    height: 30px;
+    max-width: 80%;
+    margin-left: 3px;
+    height: 25px;
   }
 
   .GreenLine,
