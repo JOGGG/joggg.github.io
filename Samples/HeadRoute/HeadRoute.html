@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ClickThrough Sample</title>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+
+  <!-- Our extension's code -->
+  <script src="./HeadRoute.js"></script>
+</head>
+
+<body style="background-color: transparent;">
+  <div class="routeRow">
+    <div class="routeItem">
+      <img class="routeImg" style="width: 150px;" src="../../assets/Global map.png" />
+    </div>
+    <div class="routeItem" onclick="goChina()">
+      <img class="routeImg" style="width: 115px;"  src="../../assets/China map.png" />
+    </div>
+  </div>
+</body>
+<style>
+  body{
+    position:absolute;
+    bottom: 0;
+  }
+  .routeRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .routeItem {
+    cursor: pointer;
+    text-align: center;
+    margin-left: 5px;
+    width: 170px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  .routeItem:nth-child(1) {
+    border: 1px solid white;
+   background-color: white;
+  }
+  .routeItem:nth-child(2) {
+    border: 1px solid rgb(242, 242, 242);
+   background-color: rgb(242, 242, 242);
+  }
+
+  .routeImg {
+    width: 150px;
+    height: 30px;
+  }
+</style>
+
+</html>
