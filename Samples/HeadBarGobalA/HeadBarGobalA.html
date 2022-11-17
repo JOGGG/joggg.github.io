@@ -20,6 +20,11 @@
 <body style="background-color: transparent;">
   <div class="HeadBar">
     <div class="selectItem">
+      <span class="selectTitle">Week:</span>
+      <select id="Week" onchange="wekchange(this)">
+      </select>
+    </div>
+    <div class="selectItem">
       <span class="selectTitle">Target Region:</span>
       <select id="Target" onchange="tarchange(this)">
       </select>
@@ -60,7 +65,7 @@
   .selectItem {
     margin-right: 20px;
   }
-  .selectItem:nth-child(3){
+  .selectItem:nth-last-child(1){
     margin-right: unset;
   }
 </style>
