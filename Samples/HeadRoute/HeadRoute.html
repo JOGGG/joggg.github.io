@@ -18,29 +18,40 @@
 </head>
 
 <body style="background-color: transparent;">
-  <div class="routeRow">
+  <div class="flexRow">
+    <div class="routeRow">
+      <div class="routeItem">
+        <img class="routeImg" style="width: 150px;" src="../../assets/Global map.png" />
+        </a>
+      </div>
+      <div class="routeItem">
+        <a href="https://10.192.112.83/#/views/KPI3_0/sheet6_1?:iid=2" target="_s">
+          <img class="routeImg" style="width: 115px;" src="../../assets/China map.png" />
+        </a>
+      </div>
 
-    <div class="routeItem">
-      <img class="routeImg" style="width: 150px;" src="../../assets/Global map.png" />
-      </a>
     </div>
-    <div class="routeItem">
-      <a href="https://10.192.112.83/#/views/KPI3_0/sheet6_1?:iid=2" target="_s">
-        <img class="routeImg" style="width: 115px;" src="../../assets/China map.png" />
-      </a>
+    <div id="timeA" class="timeRow">
+      Up to date:
     </div>
   </div>
+
 </body>
 <style>
   body {
     position: absolute;
     height: 100%;
+    width: 100%;
     bottom: 0;
     display: flex;
     align-items: center;
-
+    overflow-y: hidden;
   }
-
+  .flexRow{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
   .routeRow {
     display: flex;
     height: 100%;
@@ -73,6 +84,11 @@
   .routeImg {
     width: 150px;
     height: 30px;
+  }
+  .timeRow{
+    display: flex;
+    align-items: center;
+    font-size: 12px;
   }
 </style>
 
