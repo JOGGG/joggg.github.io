@@ -116,7 +116,7 @@ function incoming(that) {
     dataList.forEach(item => {
         document.getElementById(item).checked = true
     })
-    console.log('Ship_direction=>', that.checked ? 'I' : 'E')
+    console.log('OK','Ship_direction=>', that.checked ? 'I' : 'E')
 }
 
 function ports(that) {
