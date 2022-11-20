@@ -98,11 +98,13 @@ function tarchange(that) {
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
             data.applyFilterAsync('Region', valuesA, "replace", { isExcludeMode: false })
-            console.log('Region', valuesA)
+            data.applyFilterAsync('Region (航线)', valuesA, "replace", { isExcludeMode: false })
+            console.log('Region Region (航线)', valuesA)
         });
     } else {
         data.applyFilterAsync("Region", [that.value, 'Null'], "replace", { isExcludeMode: false })
-        console.log('Region change=>', that.value)
+        data.applyFilterAsync("Region (航线)", [that.value, 'Null'], "replace", { isExcludeMode: false })
+        console.log('Region (航线) Region  change=>', that.value)
     }
 
 }
