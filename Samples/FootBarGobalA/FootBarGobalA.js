@@ -2,7 +2,7 @@
 
 tableau.extensions.initializeAsync().then(function () {
     //Add your JavaScript code here to call the Extensions API
-    var dataList = ['warehouse', 'ports', 'factory']
+    var dataList = ['warehouse', 'ports', 'factory','normal','delay','cancelled','incoming']
     dataList.forEach(item => {
         document.getElementById(item).checked = true
     })
@@ -20,12 +20,12 @@ tableau.extensions.initializeAsync().then(function () {
     data.applyFilterAsync("podeta_status", ['Null'], "replace", {
         isExcludeMode: false
     })
-    //勾选清空
-    data.applyFilterAsync("poletd_status", ['Null'], "replace", {
+    //勾选初始化
+    data.applyFilterAsync("poletd_status", ['Null',1,2,3], "replace", {
         isExcludeMode: false
     })
     //incoming
-    data.applyFilterAsync("Ship_direction",  ['E', 'Null'], "replace", {
+    data.applyFilterAsync("Ship_direction",  ['I', 'Null'], "replace", {
         isExcludeMode: false
     })
 });
