@@ -89,9 +89,7 @@ function incoming(that) {
         data.applyFilterAsync("poletd_status", [3], document.getElementById('cancelled').checked ? "add" : "remove", {
             isExcludeMode: false
         })
-        data.applyFilterAsync("podeta_status", ['Null'], "replace", {
-            isExcludeMode: false
-        })
+       
     } else {
         filterData = ['E', 'Null']
         data.applyFilterAsync("podeta_status", [1], document.getElementById('normal').checked ? "add" : "remove", {
@@ -103,14 +101,21 @@ function incoming(that) {
         data.applyFilterAsync("podeta_status", [3], document.getElementById('cancelled').checked ? "add" : "remove", {
             isExcludeMode: false
         })
-        data.applyFilterAsync("poletd_status", ['Null'], "replace", {
-            isExcludeMode: false
-        })
+       
     }
     data.applyFilterAsync("Ship_direction", filterData, "replace", {
         isExcludeMode: false
     })
-
+    data.applyFilterAsync("podeta_status", ['Null',1,2,3], "replace", {
+        isExcludeMode: false
+    })
+    data.applyFilterAsync("poletd_status", ['Null',1,2,3], "replace", {
+        isExcludeMode: false
+    })
+    var dataList = ['normal','delay','cancelled']
+    dataList.forEach(item => {
+        document.getElementById(item).checked = true
+    })
     console.log('Ship_direction=>', that.checked ? 'I' : 'E')
 }
 
