@@ -17,7 +17,7 @@ tableau.extensions.initializeAsync().then(function () {
         isExcludeMode: false
     })
     //未勾选清空
-    data.applyFilterAsync("podeta_status", ['Null'], "replace", {
+    data.applyFilterAsync("podeta_status", ['Null',1,2,3], "replace", {
         isExcludeMode: false
     })
     //勾选初始化
