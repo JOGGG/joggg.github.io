@@ -28,6 +28,7 @@ tableau.extensions.initializeAsync().then(function () {
     data.applyFilterAsync("Ship_direction",  ['I', 'Null'], "replace", {
         isExcludeMode: false
     })
+    console.log('A')
 });
 
 function normal(that) {
