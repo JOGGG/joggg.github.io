@@ -5,7 +5,7 @@ tableau.extensions.initializeAsync().then(function () {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
-            return dataSource.getLogicalTableDataAsync(logicalTables[7].id)//船舶表
+            return dataSource.getLogicalTableDataAsync(logicalTables[6].id)//船舶表
         });
     }).then(dataTable => {
         console.log('dataTable=>', dataTable.columns)
@@ -84,7 +84,7 @@ function tarchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                return dataSource.getLogicalTableDataAsync(logicalTables[7].id)//船舶表
+                return dataSource.getLogicalTableDataAsync(logicalTables[6].id)//船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -113,7 +113,7 @@ function serchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                return dataSource.getLogicalTableDataAsync(logicalTables[7].id)//船舶表
+                return dataSource.getLogicalTableDataAsync(logicalTables[6].id)//船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -142,7 +142,7 @@ function shipchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                return dataSource.getLogicalTableDataAsync(logicalTables[7].id)//船舶表
+                return dataSource.getLogicalTableDataAsync(logicalTables[6].id)//船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -171,7 +171,7 @@ function wekchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                return dataSource.getLogicalTableDataAsync(logicalTables[7].id)//船舶表
+                return dataSource.getLogicalTableDataAsync(logicalTables[6].id)//船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
