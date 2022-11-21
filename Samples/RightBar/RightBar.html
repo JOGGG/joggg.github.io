@@ -4,17 +4,11 @@
 <head>
   <title>ClickThrough Sample</title>
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <script src="../../lib/tableau.extensions.1.latest.js"></script>
 
   <!-- Our extension's code -->
-  <script src="./HeadBar.js"></script>
+  <script src="./RightBar.js"></script>
 </head>
 
 <body style="background-color: transparent;">
@@ -30,9 +24,7 @@
         Logistic Region:
       </div>
       <div>
-        <select>
-          <option value="Mid">Mid</option>
-          <option value="Saab">Saab</option>
+        <select id="Logistic" onchange="logchange(this)">
         </select>
       </div>
     </div>
@@ -41,9 +33,7 @@
         Province:
       </div>
       <div>
-        <select>
-          <option value="Shanghai">Shanghai</option>
-          <option value="Saab">Saab</option>
+        <select id="Province" onchange="prochange(this)">
         </select>
       </div>
     </div>
