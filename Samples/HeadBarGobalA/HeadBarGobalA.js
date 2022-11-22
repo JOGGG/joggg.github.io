@@ -20,12 +20,12 @@ tableau.extensions.initializeAsync().then(function () {
             listA.push(row[fieldA.index].value);
         }
         let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Ship").options.add(new Option('All'), 'All')
+        document.getElementById("Ship").options.add(new Option('All','All')) 
         valuesA.forEach(item => {
             //存在筛选项
             if (item) {
                 var shipOp = document.getElementById("Ship")
-                shipOp.options.add(new Option(item), item)
+                shipOp.options.add(new Option(item,item)) 
             }
         })
 
@@ -36,11 +36,11 @@ tableau.extensions.initializeAsync().then(function () {
             listB.push(row[fieldB.index].value);
         }
         let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Service").options.add(new Option('All'), 'All')
+        document.getElementById("Service").options.add(new Option('All','All'))
         valuesB.forEach(item => {
             if (item) {
                 var ser = document.getElementById("Service")
-                ser.options.add(new Option(item), item)
+                ser.options.add(new Option(item,item))
             }
         })
 
@@ -51,11 +51,11 @@ tableau.extensions.initializeAsync().then(function () {
             listC.push(row[fieldC.index].value);
         }
         let valuesC = listC.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Target").options.add(new Option('All'), 'All')
+        document.getElementById("Target").options.add(new Option('All','All'))
         valuesC.forEach(item => {
             if (item) {
                 var tar = document.getElementById("Target")
-                tar.options.add(new Option(item), item)
+                tar.options.add(new Option(item,item))
             }
         })
 
@@ -66,11 +66,11 @@ tableau.extensions.initializeAsync().then(function () {
              listD.push(row[fieldD.index].value);
          }
          let valuesD = listD.filter((el, i, arr) => arr.indexOf(el) === i);
-         document.getElementById("Week").options.add(new Option('All'), 'All')
-         valuesD.forEach(item => {
+         document.getElementById("Week").options.add(new Option('All','All'))
+         valuesD.sort().forEach(item => {
              if (item) {
                  var tar = document.getElementById("Week")
-                 tar.options.add(new Option(item), item)
+                 tar.options.add(new Option(item,item))
              }
          })
         tarchange({value:'All'})
