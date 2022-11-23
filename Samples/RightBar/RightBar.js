@@ -14,7 +14,7 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'Suppliers'
+                    return item.caption === '完整数据'
                 })
                 console.log(lgTabel)
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
@@ -75,7 +75,7 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log(logicalTables)
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'Area_Province_Mapping'
+                    return item.caption === '完整数据'
                 })
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //PickList
             })
@@ -106,7 +106,7 @@ function logchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'Suppliers'
+                    return item.caption === '完整数据'
                 })
                 console.log(lgTabel)
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
@@ -123,7 +123,7 @@ function logchange(that) {
             window.Region = valuesA
             var log = document.getElementById("Logistic")
             log.options.length = 0
-            var filterLog = []
+            var filterLog = ['Null']
             log.options.add(new Option('All', 'All'))
             valuesA.forEach(item => {
                 //存在筛选项
@@ -144,7 +144,7 @@ function logchange(that) {
             var pro = document.getElementById("Province")
             pro.options.length = 0
             pro.options.add(new Option('All', 'All'))
-            var filterPro = []
+            var filterPro = ['Null']
             valuesB.forEach(item => {
                 //存在筛选项
                 if (item) {
@@ -164,7 +164,7 @@ function logchange(that) {
             getData()
         });
     } else {
-        data.applyFilterAsync("sup area (Suppliers)", [that.value], "replace", {
+        data.applyFilterAsync("sup area (Suppliers)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         reloadPro(that.value)
@@ -177,7 +177,7 @@ function prochange(that) {
 
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
     if (that.value !== 'All') {
-        data.applyFilterAsync('sup province (Suppliers)', [that.value], "replace", {
+        data.applyFilterAsync('sup province (Suppliers)', [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         var RegItem = window.listPick.find(item => {
@@ -199,7 +199,7 @@ function prochange(that) {
         var sonAll = window.listPick.filter(item => {
             return item.Region == document.getElementById('Logistic').value
         })
-        var filterData = []
+        var filterData = ['Null']
         sonAll.forEach(item => {
             //存在筛选项
             filterData.push(item.Province)
@@ -217,7 +217,7 @@ function reloadPro(data) {
         return item.Region == data
     })
     var Province = document.getElementById("Province")
-    var filterData = []
+    var filterData = ['Null']
     Province.options.length = 0
     Province.options.add(new Option('All', 'All'))
     newOptions.forEach(item => {
@@ -272,19 +272,24 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'A-ILN' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                alinAll = dataTable.data.length
+                console.log(dataTable)
                 let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
-                let alinB = dataTable.columns.find(column => column.fieldName === "sup province (A-ILN)");
+                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
+                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+                console.log(111111111111111111,alinB)
+                let newAA = dataTable.data.filter(item => {
+                    return (item[alAA.index].value == 1 && item[alinB.index].value == Province)
+                })
+                alinAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[alin.index].value == 'Yes' && item[alinB.index].value == Province) {
+                    if (item[alin.index].value == 'Yes'&&item[alAA.index].value == 1 && item[alinB.index].value == Province) {
                         alinM += 1
                     }
                 })
@@ -300,7 +305,7 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Lcenter' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
@@ -308,11 +313,16 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                lcAll = dataTable.data.length
                 let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
                 let LcenterB = dataTable.columns.find(column => column.fieldName === "sup province (Lcenter)");
+                let lcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenter)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[lcAA.index].value == 2 && item[LcenterB.index].value == Province)
+                })
+                lcAll = newAA.length
+
                 dataTable.data.forEach(item => {
-                    if (item[Lcenter.index].value == 'Yes' && item[LcenterB.index].value == Province) {
+                    if (item[Lcenter.index].value == 'Yes'&&item[lcAA.index].value == 2 && item[LcenterB.index].value == Province) {
                         lcM += 1
                     }
                 })
@@ -327,7 +337,7 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Ex-warehouse' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
@@ -335,11 +345,15 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                warAll = dataTable.data.length
                 let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
                 let warB = dataTable.columns.find(column => column.fieldName === "sup province (Ex-warehouse)");
+                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex-warehouse)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[warAA.index].value == 3 && item[warB.index].value == Province)
+                })
+                warAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[war.index].value == 'Yes' && item[warB.index].value == Province) {
+                    if (item[war.index].value == 'Yes' &&item[warAA.index].value == 3&& item[warB.index].value == Province) {
                         warM += 1
                     }
                 })
@@ -354,7 +368,7 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Suppliers' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
@@ -362,11 +376,15 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                supAll = dataTable.data.length
                 let sup = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Suppliers)");
                 let supB = dataTable.columns.find(column => column.fieldName === "sup province (Suppliers)");
+                let supAA = dataTable.columns.find(column => column.fieldName === "type (Suppliers)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[supAA.index].value == 4 && item[supB.index].value == Province)
+                })
+                supAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[sup.index].value == 'Yes' && item[supB.index].value == Province) {
+                    if (item[sup.index].value == 'Yes' &&item[supAA.index].value == 4 &&item[supB.index].value == Province) {
                         supM += 1
                     }
                 })
@@ -382,7 +400,7 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'A-ILN' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
@@ -390,11 +408,15 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                alinAll = dataTable.data.length
                 let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
-                let alinB = dataTable.columns.find(column => column.fieldName === "sup area (A-ILN)");
+                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
+                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[alAA.index].value == 1 && item[alinB.index].value == Logistic)
+                })
+                alinAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[alin.index].value == 'Yes' && item[alinB.index].value == Logistic) {
+                    if (item[alin.index].value == 'Yes' && item[alinB.index].value == Logistic && item[alAA.index].value == 1) {
                         alinM += 1
                     }
                 })
@@ -410,19 +432,23 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Lcenter' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                lcAll = dataTable.data.length
                 let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
                 let LcenterB = dataTable.columns.find(column => column.fieldName === "sup area (Lcenter)");
+                let lcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenter)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[lcAA.index].value == 2 && item[LcenterB.index].value == Logistic)
+                })
+                lcAll = newAA.length
+
                 dataTable.data.forEach(item => {
-                    if (item[Lcenter.index].value == 'Yes' && item[LcenterB.index].value == Logistic) {
+                    if (item[Lcenter.index].value == 'Yes' && item[LcenterB.index].value == Logistic && item[lcAA.index].value == 2) {
                         lcM += 1
                     }
                 })
@@ -437,7 +463,7 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Ex-warehouse' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
@@ -445,11 +471,15 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                warAll = dataTable.data.length
                 let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
                 let warB = dataTable.columns.find(column => column.fieldName === "sup area (Ex-warehouse)");
+                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex-warehouse)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[warAA.index].value == 3 && item[warB.index].value == Logistic)
+                })
+                warAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[war.index].value == 'Yes' && item[warB.index].value == Logistic) {
+                    if (item[war.index].value == 'Yes' && item[warB.index].value == Logistic&&item[warAA.index].value == 3) {
                         warM += 1
                     }
                 })
@@ -464,19 +494,22 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Suppliers' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                supAll = dataTable.data.length
                 let sup = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Suppliers)");
                 let supB = dataTable.columns.find(column => column.fieldName === "sup area (Suppliers)");
+                let supAA = dataTable.columns.find(column => column.fieldName === "type (Suppliers)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[supAA.index].value == 4 && item[supB.index].value == Logistic)
+                })
+                supAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[sup.index].value == 'Yes' && item[supB.index].value == Logistic) {
+                    if (item[sup.index].value == 'Yes' && item[supB.index].value == Logistic&&item[supAA.index].value == 4) {
                         supM += 1
                     }
                 })
@@ -492,18 +525,21 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'A-ILN' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                alinAll = dataTable.data.length
                 let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
+                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+                let newAA = dataTable.data.filter(item => {
+                    return item[alAA.index].value == 1
+                })
+                alinAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[alin.index].value == 'Yes') {
+                    if (item[alin.index].value == 'Yes' && item[alAA.index].value == 1) {
                         alinM += 1
                     }
                 })
@@ -519,18 +555,21 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Lcenter' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                lcAll = dataTable.data.length
                 let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
+                let LcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenter)");
+                let newAA = dataTable.data.filter(item => {
+                    return item[LcAA.index].value == 2
+                })
+                lcAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[Lcenter.index].value == 'Yes') {
+                    if (item[Lcenter.index].value == 'Yes' && item[LcAA.index].value == 2) {
                         lcM += 1
                     }
                 })
@@ -545,18 +584,21 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Ex-warehouse' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                warAll = dataTable.data.length
                 let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
+                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex-warehouse)");
+                let newAA = dataTable.data.filter(item => {
+                    return item[warAA.index].value == 3
+                })
+                warAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[war.index].value == 'Yes') {
+                    if (item[war.index].value == 'Yes' && item[warAA.index].value == 3) {
                         warM += 1
                     }
                 })
@@ -571,18 +613,21 @@ function getData(txt) {
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao=>', logicalTables)
                     var lgTabel = logicalTables.find(item => {
-                        return item.caption === 'Suppliers' //表名
+                        return item.caption === '完整数据' //表名
                     })
                     console.log(lgTabel)
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                supAll = dataTable.data.length
                 let sup = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Suppliers)");
+                let supAA = dataTable.columns.find(column => column.fieldName === "type (Suppliers)");
+                let newAA = dataTable.data.filter(item => {
+                    return item[supAA.index].value == 4
+                })
+                supAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[sup.index].value == 'Yes') {
+                    if (item[sup.index].value == 'Yes' && item[supAA.index].value == 4) {
                         supM += 1
                     }
                 })
