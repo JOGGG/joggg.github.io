@@ -160,6 +160,15 @@ function logchange(that) {
             data.applyFilterAsync("sup province (Suppliers)", filterPro, "replace", {
                 isExcludeMode: false
             })
+            data.applyFilterAsync("Sup Province", filterPro, "replace", {
+                isExcludeMode: false
+            })
+            data.applyFilterAsync("sup province (Ex-warehouse)", filterPro, "replace", {
+                isExcludeMode: false
+            })
+            data.applyFilterAsync("sup province (Lcenter)", filterPro, "replace", {
+                isExcludeMode: false
+            })
             console.log(filterLog, filterPro)
             getData()
         });
@@ -178,6 +187,15 @@ function prochange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
     if (that.value !== 'All') {
         data.applyFilterAsync('sup province (Suppliers)', [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("Sup Province", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("sup province (Ex-warehouse)", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("sup province (Lcenter)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         var RegItem = window.listPick.find(item => {
@@ -207,6 +225,15 @@ function prochange(that) {
         data.applyFilterAsync('sup province (Suppliers)', filterData, "replace", {
             isExcludeMode: false
         })
+        data.applyFilterAsync("Sup Province", filterData, "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("sup province (Ex-warehouse)", filterData, "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("sup province (Lcenter)", filterData, "replace", {
+            isExcludeMode: false
+        })
     }
     getData('pro')
 }
@@ -225,8 +252,17 @@ function reloadPro(data) {
         Province.options.add(new Option(item.Province), item.Province)
         filterData.push(item.Province)
     })
-
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").applyFilterAsync("sup province (Suppliers)", filterData, "replace", {
+    var newFilter = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
+    newFilter.applyFilterAsync("sup province (Suppliers)", filterData, "replace", {
+        isExcludeMode: false
+    })
+    newFilter.applyFilterAsync("Sup Province", filterData, "replace", {
+        isExcludeMode: false
+    })
+    newFilter.applyFilterAsync("sup province (Ex-warehouse)", filterData, "replace", {
+        isExcludeMode: false
+    })
+    newFilter.applyFilterAsync("sup province (Lcenter)", filterData, "replace", {
         isExcludeMode: false
     })
     console.log(newOptions)
