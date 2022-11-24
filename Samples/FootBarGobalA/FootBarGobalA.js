@@ -35,9 +35,9 @@ tableau.extensions.initializeAsync().then(function () {
             dataList.forEach(item => {
                 document.getElementById(item).checked = true
             })
-            normal(true)
-            delay(true)
-            cancelled(true)
+            normal({checked:true})
+            delay({checked:true})
+            cancelled({checked:true})
         }
     });
 });
@@ -55,44 +55,51 @@ function normal(that) {
         direction.appliedValues.forEach(item => {
             List.push(item.value)
         })
-
+        console.log(List.indexOf('E') !== -1,'E')
+        console.log(List.indexOf('I') !== -1,'I')
+        console.log(that.checked,List)
         if (direction.isAllSelected) {
-
+            
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 1], "replace", {
+                data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null', 1], "replace", {
+                data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", [1], "remove", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                data.applyFilterAsync("Podeta Status", [1], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('E') !== -1) {
+            
             if (that.checked) {
-
-                data.applyFilterAsync("Podeta Status", ['Null', 1], "replace", {
+                
+                data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
             } else {
-
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Podeta Status", [1], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('I') !== -1) {
+            
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 1], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
 
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", [1], "remove", {
                     isExcludeMode: false
                 })
 
@@ -117,42 +124,48 @@ function delay(that) {
         })
 
         if (direction.isAllSelected) {
-
+            
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 2], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null', 2], "replace", {
+                data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", [2], "remove", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                data.applyFilterAsync("Podeta Status", [2], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('E') !== -1) {
+            
             if (that.checked) {
-
-                data.applyFilterAsync("Podeta Status", ['Null', 2], "replace", {
+                
+                data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
             } else {
-
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Podeta Status",  [2], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('I') !== -1) {
+            
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 2], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
 
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Poletd Status",  [2], "remove", {
                     isExcludeMode: false
                 })
 
@@ -175,42 +188,44 @@ function cancelled(that) {
         })
 
         if (direction.isAllSelected) {
-
+            
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 3], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null', 3], "replace", {
+                data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                
+                data.applyFilterAsync("Poletd Status", [3], "remove", {
                     isExcludeMode: false
                 })
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                data.applyFilterAsync("Podeta Status", [3], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('E') !== -1) {
             if (that.checked) {
 
-                data.applyFilterAsync("Podeta Status", ['Null', 3], "replace", {
+                data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
             } else {
 
-                data.applyFilterAsync("Podeta Status", ['Null'], "replace", {
+                data.applyFilterAsync("Podeta Status", [3], "remove", {
                     isExcludeMode: false
                 })
             }
         } else if (List.indexOf('I') !== -1) {
             if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 3], "replace", {
+                data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
 
             } else {
-                data.applyFilterAsync("Poletd Status", ['Null'], "replace", {
+                data.applyFilterAsync("Poletd Status", [3], "remove", {
                     isExcludeMode: false
                 })
 
