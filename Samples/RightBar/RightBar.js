@@ -97,6 +97,14 @@ tableau.extensions.initializeAsync().then(function () {
             console.log('window.listPick=>', window.listPick)
 
         });
+
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").addEventListener(markSelection, function (selectionEvent) {
+        // When the selection changes, reload the data
+        console.log('filterChange=>>>>>>>>>', selectionEvent)
+        if (selectionEvent.fieldName === "Ship direction") {
+            
+        }
+    });
 });
 
 function logchange(that) {
@@ -319,13 +327,12 @@ function getData(txt) {
                 let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
                 let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
                 let alAA = dataTable.columns.find(column => column.fieldName === "Type");
-                console.log(111111111111111111,alinB)
                 let newAA = dataTable.data.filter(item => {
                     return (item[alAA.index].value == 1 && item[alinB.index].value == Province)
                 })
                 alinAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[alin.index].value == 'Yes'&&item[alAA.index].value == 1 && item[alinB.index].value == Province) {
+                    if (item[alin.index].value == 'Yes' && item[alAA.index].value == 1 && item[alinB.index].value == Province) {
                         alinM += 1
                     }
                 })
@@ -358,7 +365,7 @@ function getData(txt) {
                 lcAll = newAA.length
 
                 dataTable.data.forEach(item => {
-                    if (item[Lcenter.index].value == 'Yes'&&item[lcAA.index].value == 2 && item[LcenterB.index].value == Province) {
+                    if (item[Lcenter.index].value == 'Yes' && item[lcAA.index].value == 2 && item[LcenterB.index].value == Province) {
                         lcM += 1
                     }
                 })
@@ -389,7 +396,7 @@ function getData(txt) {
                 })
                 warAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[war.index].value == 'Yes' &&item[warAA.index].value == 3&& item[warB.index].value == Province) {
+                    if (item[war.index].value == 'Yes' && item[warAA.index].value == 3 && item[warB.index].value == Province) {
                         warM += 1
                     }
                 })
@@ -420,7 +427,7 @@ function getData(txt) {
                 })
                 supAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[sup.index].value == 'Yes' &&item[supAA.index].value == 4 &&item[supB.index].value == Province) {
+                    if (item[sup.index].value == 'Yes' && item[supAA.index].value == 4 && item[supB.index].value == Province) {
                         supM += 1
                     }
                 })
@@ -515,7 +522,7 @@ function getData(txt) {
                 })
                 warAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[war.index].value == 'Yes' && item[warB.index].value == Logistic&&item[warAA.index].value == 3) {
+                    if (item[war.index].value == 'Yes' && item[warB.index].value == Logistic && item[warAA.index].value == 3) {
                         warM += 1
                     }
                 })
@@ -545,7 +552,7 @@ function getData(txt) {
                 })
                 supAll = newAA.length
                 dataTable.data.forEach(item => {
-                    if (item[sup.index].value == 'Yes' && item[supB.index].value == Logistic&&item[supAA.index].value == 4) {
+                    if (item[sup.index].value == 'Yes' && item[supB.index].value == Logistic && item[supAA.index].value == 4) {
                         supM += 1
                     }
                 })

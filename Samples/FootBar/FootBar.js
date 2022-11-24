@@ -2,7 +2,7 @@
 
 tableau.extensions.initializeAsync().then(function () {
     //Add your JavaScript code here to call the Extensions API
-    var dataList = ['alinCheck', 'lcCheck', 'warCheck', 'supCheck']
+    var dataList = ['alinCheck', 'lcCheck', 'warCheck']
     dataList.forEach(item => {
         document.getElementById(item).checked = true
     })
@@ -16,9 +16,9 @@ tableau.extensions.initializeAsync().then(function () {
     data.applyFilterAsync("type (Ex-warehouse)", [3, 'Null'], "replace", {
         isExcludeMode: false
     })
-    data.applyFilterAsync("type (Suppliers)", [4, 'Null'], "replace", {
-        isExcludeMode: false
-    })
+    // data.applyFilterAsync("type (Suppliers)", [4, 'Null'], "replace", {
+    //     isExcludeMode: false
+    // })
 
 });
 
@@ -76,4 +76,18 @@ function supCheck(that) {
         isExcludeMode: false
     })
     console.log('type (Suppliers)=>', 4)
+}
+function spaCheck(that) {
+    console.log('spaCheck')
+    // var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
+    // var filterData
+    // if (that.checked) {
+    //     filterData = [4, 'Null']
+    // } else {
+    //     filterData = ['Null']
+    // }
+    // data.applyFilterAsync("type (Suppliers)", filterData, "replace", {
+    //     isExcludeMode: false
+    // })
+    // console.log('type (Suppliers)=>', 4)
 }

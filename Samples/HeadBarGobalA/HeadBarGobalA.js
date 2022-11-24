@@ -72,13 +72,6 @@ tableau.extensions.initializeAsync().then(function () {
                 tar.options.add(new Option(item, item))
             }
         })
-        var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-        const markSelection = tableau.TableauEventType.FilterChanged;
-        //
-        worksheet.addEventListener(markSelection, function (selectionEvent) {
-            // When the selection changes, reload the data
-            console.log('filterChange=>>>>>>>>>', selectionEvent)
-        });
         tarchange({
             value: 'All'
         })
