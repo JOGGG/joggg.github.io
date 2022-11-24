@@ -5,11 +5,11 @@ tableau.extensions.initializeAsync().then(function () {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
-            var lgTabel = logicalTables.find(item=>{
+            var lgTabel = logicalTables.find(item => {
                 return item.caption === '船舶'
             })
             console.log(lgTabel)
-            return dataSource.getLogicalTableDataAsync(lgTabel.id)//船舶表
+            return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
         console.log('dataTable=>', dataTable.columns)
@@ -20,12 +20,12 @@ tableau.extensions.initializeAsync().then(function () {
             listA.push(row[fieldA.index].value);
         }
         let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Ship").options.add(new Option('All','All')) 
+        document.getElementById("Ship").options.add(new Option('All', 'All'))
         valuesA.forEach(item => {
             //存在筛选项
             if (item) {
                 var shipOp = document.getElementById("Ship")
-                shipOp.options.add(new Option(item,item)) 
+                shipOp.options.add(new Option(item, item))
             }
         })
 
@@ -36,11 +36,11 @@ tableau.extensions.initializeAsync().then(function () {
             listB.push(row[fieldB.index].value);
         }
         let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Service").options.add(new Option('All','All'))
+        document.getElementById("Service").options.add(new Option('All', 'All'))
         valuesB.forEach(item => {
             if (item) {
                 var ser = document.getElementById("Service")
-                ser.options.add(new Option(item,item))
+                ser.options.add(new Option(item, item))
             }
         })
 
@@ -51,32 +51,43 @@ tableau.extensions.initializeAsync().then(function () {
             listC.push(row[fieldC.index].value);
         }
         let valuesC = listC.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Target").options.add(new Option('All','All'))
+        document.getElementById("Target").options.add(new Option('All', 'All'))
         valuesC.forEach(item => {
             if (item) {
                 var tar = document.getElementById("Target")
-                tar.options.add(new Option(item,item))
+                tar.options.add(new Option(item, item))
             }
         })
 
-         //筛选出week
-         let fieldD = dataTable.columns.find(column => column.fieldName === "etd_weeks");
-         let listD = [];
-         for (let row of dataTable.data) {
-             listD.push(row[fieldD.index].value);
-         }
-         let valuesD = listD.filter((el, i, arr) => arr.indexOf(el) === i);
-         document.getElementById("Week").options.add(new Option('All','All'))
-         valuesD.sort().forEach(item => {
-             if (item) {
-                 var tar = document.getElementById("Week")
-                 tar.options.add(new Option(item,item))
-             }
-         })
-        tarchange({value:'All'})
-        serchange({value:'All'})
-        shipchange({value:'All'})
-        wekchange({value:'All'})
+        //筛选出week
+        let fieldD = dataTable.columns.find(column => column.fieldName === "etd_weeks");
+        let listD = [];
+        for (let row of dataTable.data) {
+            listD.push(row[fieldD.index].value);
+        }
+        let valuesD = listD.filter((el, i, arr) => arr.indexOf(el) === i);
+        document.getElementById("Week").options.add(new Option('All', 'All'))
+        valuesD.sort().forEach(item => {
+            if (item) {
+                var tar = document.getElementById("Week")
+                tar.options.add(new Option(item, item))
+            }
+        })
+        tarchange({
+            value: 'All'
+        })
+        serchange({
+            value: 'All'
+        })
+        shipchange({
+            value: 'All'
+        })
+        wekchange({
+            value: 'All'
+        })
+        dirchange({
+            value: 'All'
+        })
     });
 });
 
@@ -88,10 +99,10 @@ function tarchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                var lgTabel = logicalTables.find(item=>{
+                var lgTabel = logicalTables.find(item => {
                     return item.caption === '船舶'
                 })
-                return dataSource.getLogicalTableDataAsync(lgTabel.id)//船舶表
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -104,17 +115,26 @@ function tarchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('Region', valuesA, "replace", { isExcludeMode: false })
-            data.applyFilterAsync('Region (航线)', valuesA, "replace", { isExcludeMode: false })
+            data.applyFilterAsync('Region', valuesA, "replace", {
+                isExcludeMode: false
+            })
+            data.applyFilterAsync('Region (航线)', valuesA, "replace", {
+                isExcludeMode: false
+            })
             console.log('Region Region (航线)', valuesA)
         });
     } else {
-        data.applyFilterAsync("Region", [that.value, 'Null'], "replace", { isExcludeMode: false })
-        data.applyFilterAsync("Region (航线)", [that.value, 'Null'], "replace", { isExcludeMode: false })
+        data.applyFilterAsync("Region", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        data.applyFilterAsync("Region (航线)", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
         console.log('Region (航线) Region  change=>', that.value)
     }
 
 }
+
 function serchange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
@@ -122,10 +142,10 @@ function serchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                var lgTabel = logicalTables.find(item=>{
+                var lgTabel = logicalTables.find(item => {
                     return item.caption === '船舶'
                 })
-                return dataSource.getLogicalTableDataAsync(lgTabel.id)//船舶表
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -138,11 +158,15 @@ function serchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('service', valuesA, "replace", { isExcludeMode: false })
+            data.applyFilterAsync('service', valuesA, "replace", {
+                isExcludeMode: false
+            })
             console.log('service', valuesA)
         });
     } else {
-        data.applyFilterAsync("service", [that.value, 'Null'], "replace", { isExcludeMode: false })
+        data.applyFilterAsync("service", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
         console.log('service change=>', that.value)
     }
 }
@@ -154,10 +178,10 @@ function shipchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                var lgTabel = logicalTables.find(item=>{
+                var lgTabel = logicalTables.find(item => {
                     return item.caption === '船舶'
                 })
-                return dataSource.getLogicalTableDataAsync(lgTabel.id)//船舶表
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -170,15 +194,20 @@ function shipchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('Vessel（船名）', valuesA, "replace", { isExcludeMode: false })
+            data.applyFilterAsync('Vessel（船名）', valuesA, "replace", {
+                isExcludeMode: false
+            })
             console.log('Vessel（船名）', valuesA)
         });
     } else {
-        data.applyFilterAsync("Vessel（船名）", [that.value, 'Null'], "replace", { isExcludeMode: false })
+        data.applyFilterAsync("Vessel（船名）", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
         console.log('ship change=>', that.value)
     }
 
 }
+
 function wekchange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
@@ -186,10 +215,10 @@ function wekchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
-                var lgTabel = logicalTables.find(item=>{
+                var lgTabel = logicalTables.find(item => {
                     return item.caption === '船舶'
                 })
-                return dataSource.getLogicalTableDataAsync(lgTabel.id)//船舶表
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
             });
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
@@ -202,14 +231,31 @@ function wekchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('etd_weeks', valuesA, "replace", { isExcludeMode: false })
+            data.applyFilterAsync('etd_weeks', valuesA, "replace", {
+                isExcludeMode: false
+            })
             console.log('etd_weeks', valuesA)
         });
     } else {
-        data.applyFilterAsync("etd_weeks", [that.value, 'Null'], "replace", { isExcludeMode: false })
+        data.applyFilterAsync("etd_weeks", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
         console.log('ship change=>', that.value)
     }
 
 }
 
+function dirchange(that) {
+    
+    if (that.value === 'All') {
+        data.applyFilterAsync('Ship_direction', ['Null', 'E', 'I'], "replace", {
+            isExcludeMode: false
+        })
+    } else {
+        data.applyFilterAsync("etd_weeks", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        console.log('Ship_direction=>', that.value)
+    }
 
+}
