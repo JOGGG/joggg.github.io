@@ -30,7 +30,7 @@ tableau.extensions.initializeAsync().then(function () {
         })
 
         //筛选出航线
-        let fieldB = dataTable.columns.find(column => column.fieldName === "service");
+        let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
         let listB = [];
         for (let row of dataTable.data) {
             listB.push(row[fieldB.index].value);
@@ -45,7 +45,7 @@ tableau.extensions.initializeAsync().then(function () {
         })
 
         //筛选出地区
-        let fieldC = dataTable.columns.find(column => column.fieldName === "Region");
+        let fieldC = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
         let listC = [];
         for (let row of dataTable.data) {
             listC.push(row[fieldC.index].value);
@@ -60,7 +60,7 @@ tableau.extensions.initializeAsync().then(function () {
         })
 
         //筛选出week
-        let fieldD = dataTable.columns.find(column => column.fieldName === "etd_weeks");
+        let fieldD = dataTable.columns.find(column => column.fieldName === "Etd Weeks");
         let listD = [];
         for (let row of dataTable.data) {
             listD.push(row[fieldD.index].value);
@@ -107,7 +107,7 @@ function tarchange(that) {
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
             //筛选出地区
-            let fieldA = dataTable.columns.find(column => column.fieldName === "Region");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -115,22 +115,22 @@ function tarchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('Region', valuesA, "replace", {
+            data.applyFilterAsync('Region (DWS Vesselinfo)', valuesA, "replace", {
                 isExcludeMode: false
             })
-            data.applyFilterAsync('Region (航线)', valuesA, "replace", {
+            data.applyFilterAsync('Region (DWS Portshiproute)', valuesA, "replace", {
                 isExcludeMode: false
             })
-            console.log('Region Region (航线)', valuesA)
+            console.log('Region Region (DWS Portshiproute)', valuesA)
         });
     } else {
-        data.applyFilterAsync("Region", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Region (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        data.applyFilterAsync("Region (航线)", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Region (DWS Portshiproute)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        console.log('Region (航线) Region  change=>', that.value)
+        console.log('Region (DWS Portshiproute) Region  change=>', that.value)
     }
 
 }
@@ -150,7 +150,7 @@ function serchange(that) {
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
             //筛选出航线
-            let fieldA = dataTable.columns.find(column => column.fieldName === "service");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -158,13 +158,13 @@ function serchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('service', valuesA, "replace", {
+            data.applyFilterAsync('service (DWS Vesselinfo)', valuesA, "replace", {
                 isExcludeMode: false
             })
-            console.log('service', valuesA)
+            console.log('service (DWS Vesselinfo)', valuesA)
         });
     } else {
-        data.applyFilterAsync("service", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("service (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('service change=>', that.value)
@@ -223,7 +223,7 @@ function wekchange(that) {
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
             //筛选出week
-            let fieldA = dataTable.columns.find(column => column.fieldName === "etd_weeks");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "Etd Weeks");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -237,7 +237,7 @@ function wekchange(that) {
             console.log('etd_weeks', valuesA)
         });
     } else {
-        data.applyFilterAsync("etd_weeks", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('ship change=>', that.value)
@@ -252,7 +252,7 @@ function dirchange(that) {
             isExcludeMode: false
         })
     } else {
-        data.applyFilterAsync("etd_weeks", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('Ship_direction=>', that.value)
