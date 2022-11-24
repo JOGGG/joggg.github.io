@@ -7,13 +7,13 @@ tableau.extensions.initializeAsync().then(function () {
         document.getElementById(item).checked = true
     })
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-    data.applyFilterAsync("类型 (海外工厂)", [10, 'Null'], "replace", {
+    data.applyFilterAsync("Type (Factoryinfo)", [10, 'Null'], "replace", {
         isExcludeMode: false
     })
-    data.applyFilterAsync("类型", [1, 'Null'], "replace", {
+    data.applyFilterAsync("Type", [1, 'Null'], "replace", {
         isExcludeMode: false
     })
-    data.applyFilterAsync("类型 (港口)", [5, 'Null'], "replace", {
+    data.applyFilterAsync("Type (Portinfo)", [5, 'Null'], "replace", {
         isExcludeMode: false
     })
     //未勾选清空
@@ -128,10 +128,10 @@ function ports(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型 (港口)", filterData, "replace", {
+    data.applyFilterAsync("Type (Portinfo)", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('类型 (港口)=>', 5)
+    console.log('Type (Portinfo)=>', 5)
 }
 
 function warehouse(that) {
@@ -142,10 +142,10 @@ function warehouse(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型", filterData, "replace", {
+    data.applyFilterAsync("Type", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('类型=>', 1)
+    console.log('Type=>', 1)
 }
 
 function factory(that) {
@@ -156,8 +156,8 @@ function factory(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("类型 (海外工厂)", filterData, "replace", {
+    data.applyFilterAsync("Type (Factoryinfo)", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('类型 (海外工厂)=>', 10)
+    console.log('Type (Factoryinfo)=>', 10)
 }

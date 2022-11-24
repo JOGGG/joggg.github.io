@@ -14,7 +14,7 @@ tableau.extensions.initializeAsync().then(function () {
     }).then(dataTable => {
         console.log('dataTable=>', dataTable.columns)
         //筛选出船名
-        let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel（船名）");
+        let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel Name");
         var listA = [];
         for (let row of dataTable.data) {
             listA.push(row[fieldA.index].value);
@@ -186,7 +186,7 @@ function shipchange(that) {
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
             //筛选出船名
-            let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel（船名）");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel Name");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -194,13 +194,13 @@ function shipchange(that) {
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
             valuesA.push('Null')
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-            data.applyFilterAsync('Vessel（船名）', valuesA, "replace", {
+            data.applyFilterAsync('Vessel Name', valuesA, "replace", {
                 isExcludeMode: false
             })
-            console.log('Vessel（船名）', valuesA)
+            console.log('Vessel Name', valuesA)
         });
     } else {
-        data.applyFilterAsync("Vessel（船名）", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Vessel Name", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('ship change=>', that.value)
