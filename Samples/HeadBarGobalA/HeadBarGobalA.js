@@ -123,8 +123,56 @@ function tarchange(that) {
         //     })
         //     console.log('Region Region (DWS Portshiproute)', valuesA)
         // });
+        data.getDataSourcesAsync().then(datasources => {
+            console.log('datasource=>', datasources)
+            var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
+            return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+                console.log('nihao=>', logicalTables)
+                var lgTabel = logicalTables.find(item => {
+                    return item.caption === '船舶' //表名
+                })
+                console.log(lgTabel)
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+            })
+        }).then(dataTable => {
+            //筛选出船名
+            let fieldA = dataTable.columns.find(column => column.fieldName === "Vessel Name");
+            var listA = [];
+            for (let row of dataTable.data) {
+                listA.push(row[fieldA.index].value);
+            }
+            let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
+            document.getElementById("Ship").options.length = 0
+            document.getElementById("Ship").options.add(new Option('All', 'All'))
+            valuesA.forEach(item => {
+                //存在筛选项
+                if (item) {
+                    var shipOp = document.getElementById("Ship")
+                    shipOp.options.add(new Option(item, item))
+                }
+            })
+            //筛选出航线
+            let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
+            let listB = [];
+            for (let row of dataTable.data) {
+                listB.push(row[fieldB.index].value);
+            }
+            let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
+            document.getElementById("Service").options.length = 0
+            document.getElementById("Service").options.add(new Option('All', 'All'))
+            valuesB.forEach(item => {
+                if (item) {
+                    var ser = document.getElementById("Service")
+                    ser.options.add(new Option(item, item))
+                }
+            })
+
+        })
+
         data.clearFilterAsync("Region (DWS Portshiproute)")
         data.clearFilterAsync("Region (DWS Vesselinfo)")
+        data.clearFilterAsync("service (DWS Vesselinfo)")
+        data.clearFilterAsync("Vessel Name")
     } else {
         data.applyFilterAsync("Region (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
@@ -133,6 +181,69 @@ function tarchange(that) {
             isExcludeMode: false
         })
         console.log('Region (DWS Portshiproute) Region  change=>', that.value)
+        //级联
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
+            console.log('datasource=>', datasources)
+            var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
+            return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+                console.log('nihao=>', logicalTables)
+                var lgTabel = logicalTables.find(item => {
+                    return item.caption === '船舶' //表名
+                })
+                console.log(lgTabel)
+                return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+            })
+        }).then(dataTable => {
+            let alin = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+            let alinB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
+            let newAA = dataTable.data.filter(item => {
+                return (item[alin.index].value == that.value)
+            })
+
+            var dataList = []
+            newAA.forEach(item => {
+                let newData = [item[alinB.index].value]
+                dataList = [...dataList, ...newData]
+            })
+            let newnewList = [...new Set(dataList)]
+            console.log(newnewList)
+            var serOp = document.getElementById("Service")
+            serOp.options.length = 0
+            document.getElementById("Service").options.add(new Option('All', 'All'))
+            newnewList.forEach(item => {
+                //存在筛选项
+
+                serOp.options.add(new Option(item, item))
+            })
+            data.applyFilterAsync("service (DWS Vesselinfo)", [...newnewList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+
+            //船舶选项改变
+            let shin = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+            let shinB = dataTable.columns.find(column => column.fieldName === "Vessel Name");
+            let newBB = dataTable.data.filter(item => {
+                return (item[shin.index].value == that.value)
+            })
+
+            var dataList = []
+            newBB.forEach(item => {
+                let newData = [item[shinB.index].value]
+                dataList = [...dataList, ...newData]
+            })
+            let filterList = [...new Set(dataList)]
+            var shipOp = document.getElementById("Ship")
+            shipOp.options.length = 0
+            document.getElementById("Ship").options.add(new Option('All', 'All'))
+            filterList.forEach(item => {
+                //存在筛选项
+
+                shipOp.options.add(new Option(item, item))
+            })
+            data.applyFilterAsync("Vessel Name", [...filterList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+        })
     }
 
 }
@@ -205,6 +316,36 @@ function serchange(that) {
             data.applyFilterAsync("Vessel Name", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
+
+            //地区
+            let regin = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+            let reginB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
+            let newFilter = dataTable.data.filter(item => {
+                return (item[reginB.index].value == that.value)
+            })
+
+            var selectValue = []
+            newFilter.forEach(item => {
+                let newData = [item[regin.index].value]
+                selectValue = [...selectValue, ...newData]
+            })
+            let newFilterList = [...new Set(selectValue)][0]
+            console.log(newFilterList)
+            var serOp = document.getElementById("Target")
+            for (let i = 0; i < serOp.length; i++) {
+                if (serOp[i].value === newFilterList) {
+                    serOp[i].selected = true
+                }
+            }
+            data.applyFilterAsync("Region (DWS Portshiproute)", [newFilterList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+            data.applyFilterAsync("Region (DWS Vesselinfo)", [newFilterList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+         
+
+
         })
 
     }
@@ -268,12 +409,39 @@ function shipchange(that) {
             let newnewList = [...new Set(selectValue)][0]
             console.log(newnewList)
             var serOp = document.getElementById("Service")
-            for(let i =0;i<serOp.length;i++){
-                if(serOp[i].value===newnewList){
+            for (let i = 0; i < serOp.length; i++) {
+                if (serOp[i].value === newnewList) {
                     serOp[i].selected = true
                 }
             }
             data.applyFilterAsync("service (DWS Vesselinfo)", [newnewList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+
+            //地区
+            let regin = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+            let reginB = dataTable.columns.find(column => column.fieldName === "Vessel Name");
+            let newFilter = dataTable.data.filter(item => {
+                return (item[reginB.index].value == that.value)
+            })
+
+            var selectValue = []
+            newFilter.forEach(item => {
+                let newData = [item[regin.index].value]
+                selectValue = [...selectValue, ...newData]
+            })
+            let newFilterList = [...new Set(selectValue)][0]
+            console.log(newFilterList)
+            var serOp = document.getElementById("Target")
+            for (let i = 0; i < serOp.length; i++) {
+                if (serOp[i].value === newFilterList) {
+                    serOp[i].selected = true
+                }
+            }
+            data.applyFilterAsync("Region (DWS Portshiproute)", [newFilterList, 'Null'], "replace", {
+                isExcludeMode: false
+            })
+            data.applyFilterAsync("Region (DWS Vesselinfo)", [newFilterList, 'Null'], "replace", {
                 isExcludeMode: false
             })
         })
