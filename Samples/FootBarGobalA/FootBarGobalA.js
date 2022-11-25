@@ -26,7 +26,7 @@ tableau.extensions.initializeAsync().then(function () {
     })
     var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     const markSelection = tableau.TableauEventType.FilterChanged;
-    //
+    //监听筛选器
     worksheet.addEventListener(markSelection, function (selectionEvent) {
         // When the selection changes, reload the data
         console.log('filterChange=>>>>>>>>>', selectionEvent)
@@ -55,9 +55,6 @@ function normal(that) {
         direction.appliedValues.forEach(item => {
             List.push(item.value)
         })
-        console.log(List.indexOf('E') !== -1,'E')
-        console.log(List.indexOf('I') !== -1,'I')
-        console.log(that.checked,List)
         if (direction.isAllSelected) {
             
             if (that.checked) {
@@ -322,6 +319,7 @@ function warehouse(that) {
 }
 
 function factory(that) {
+    //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     var filterData
     if (that.checked) {

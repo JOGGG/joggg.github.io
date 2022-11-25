@@ -324,6 +324,7 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable)
+                //多重条件筛选数据
                 let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
                 let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
                 let alAA = dataTable.columns.find(column => column.fieldName === "Type");

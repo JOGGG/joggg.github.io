@@ -1,4 +1,5 @@
 tableau.extensions.initializeAsync().then(function () {
+
     var timeDate = new Date().toLocaleDateString()
     var list = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
     var hour = new Date().getHours()
