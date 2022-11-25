@@ -83,6 +83,9 @@ function normal(that) {
                 data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
+                data.applyFilterAsync("Poletd Status", [1], "remove", {
+                    isExcludeMode: false
+                })
             } else {
                 
                 data.applyFilterAsync("Podeta Status", [1], "remove", {
@@ -96,7 +99,9 @@ function normal(that) {
                 data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
                     isExcludeMode: false
                 })
-
+                data.applyFilterAsync("Podeta Status", [1], "remove", {
+                    isExcludeMode: false
+                })
             } else {
                 
                 data.applyFilterAsync("Poletd Status", [1], "remove", {
@@ -149,6 +154,9 @@ function delay(that) {
                 data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
+                data.applyFilterAsync("Poletd Status",  [1], "remove", {
+                    isExcludeMode: false
+                })
             } else {
                 
                 data.applyFilterAsync("Podeta Status",  [2], "remove", {
@@ -162,7 +170,9 @@ function delay(that) {
                 data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
                     isExcludeMode: false
                 })
-
+                data.applyFilterAsync("Podeta Status",  [2], "remove", {
+                    isExcludeMode: false
+                })
             } else {
                 
                 data.applyFilterAsync("Poletd Status",  [2], "remove", {
@@ -212,6 +222,9 @@ function cancelled(that) {
                 data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
+                data.applyFilterAsync("Poletd Status",  [3], "remove", {
+                    isExcludeMode: false
+                })
             } else {
 
                 data.applyFilterAsync("Podeta Status", [3], "remove", {
@@ -223,7 +236,9 @@ function cancelled(that) {
                 data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
                     isExcludeMode: false
                 })
-
+                data.applyFilterAsync("Podeta Status",  [3], "remove", {
+                    isExcludeMode: false
+                })
             } else {
                 data.applyFilterAsync("Poletd Status", [3], "remove", {
                     isExcludeMode: false
