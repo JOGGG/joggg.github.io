@@ -52,7 +52,7 @@ function normal(that) {
     //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
-    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 1] : [1], that.checked ? "add" : "remove", {
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 'Normal'] : ['Normal'], that.checked ? "add" : "remove", {
         isExcludeMode: false
     })
 }
@@ -61,7 +61,7 @@ function delay(that) {
     //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
-    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 2] : [2], that.checked ? "add" : "remove", {
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 'Delay'] : ['Delay'], that.checked ? "add" : "remove", {
         isExcludeMode: false
     })
 }
@@ -70,7 +70,7 @@ function cancelled(that) {
     //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
-    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 3] : [3], that.checked ? "add" : "remove", {
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 'Cancelled'] : ['Cancelled'], that.checked ? "add" : "remove", {
         isExcludeMode: false
     })
 }
