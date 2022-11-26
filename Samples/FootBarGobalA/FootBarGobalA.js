@@ -16,14 +16,14 @@ tableau.extensions.initializeAsync().then(function () {
     data.applyFilterAsync("Type (Portinfo)", [5, 'Null'], "replace", {
         isExcludeMode: false
     })
-    //未勾选初试化
-    data.applyFilterAsync("Podeta Status", ['Null', 1, 2, 3], "replace", {
+    //初始化
+    data.applyFilterAsync("status (View vesseldetail)", ['Null', 1, 2, 3], "replace", {
         isExcludeMode: false
     })
-    //勾选初始化
-    data.applyFilterAsync("Poletd Status", ['Null', 1, 2, 3], "replace", {
-        isExcludeMode: false
-    })
+    // //勾选初始化
+    // data.applyFilterAsync("Poletd Status", ['Null', 1, 2, 3], "replace", {
+    //     isExcludeMode: false
+    // })
     var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     const markSelection = tableau.TableauEventType.FilterChanged;
     //监听筛选器
@@ -35,260 +35,45 @@ tableau.extensions.initializeAsync().then(function () {
             dataList.forEach(item => {
                 document.getElementById(item).checked = true
             })
-            normal({checked:true})
-            delay({checked:true})
-            cancelled({checked:true})
+            normal({
+                checked: true
+            })
+            delay({
+                checked: true
+            })
+            cancelled({
+                checked: true
+            })
         }
     });
 });
 
-
 function normal(that) {
+    //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
 
-    data.getFiltersAsync().then(res => {
-        var direction = res.find(item => {
-            return item.fieldName == 'Ship direction'
-        })
-        console.log(direction)
-        var List = []
-        direction.appliedValues.forEach(item => {
-            List.push(item.value)
-        })
-        if (direction.isAllSelected) {
-            
-            if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Poletd Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('E') !== -1) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Poletd Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Podeta Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('I') !== -1) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Poletd Status", [1], "remove", {
-                    isExcludeMode: false
-                })
-
-            }
-        }
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 1] : [1], that.checked ? "add" : "remove", {
+        isExcludeMode: false
     })
-
-
 }
 
 function delay(that) {
+    //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
 
-    data.getFiltersAsync().then(res => {
-        var direction = res.find(item => {
-            return item.fieldName == 'Ship direction'
-        })
-        console.log(direction)
-        var List = []
-        direction.appliedValues.forEach(item => {
-            List.push(item.value)
-        })
-
-        if (direction.isAllSelected) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Poletd Status", [2], "remove", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", [2], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('E') !== -1) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Poletd Status",  [1], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Podeta Status",  [2], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('I') !== -1) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status",  [2], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Poletd Status",  [2], "remove", {
-                    isExcludeMode: false
-                })
-
-            }
-        }
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 2] : [2], that.checked ? "add" : "remove", {
+        isExcludeMode: false
     })
 }
 
 function cancelled(that) {
+    //勾选项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
 
-    data.getFiltersAsync().then(res => {
-        var direction = res.find(item => {
-            return item.fieldName == 'Ship direction'
-        })
-        console.log(direction)
-        var List = []
-        direction.appliedValues.forEach(item => {
-            List.push(item.value)
-        })
-
-        if (direction.isAllSelected) {
-            
-            if (that.checked) {
-                
-                data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
-                    isExcludeMode: false
-                })
-            } else {
-                
-                data.applyFilterAsync("Poletd Status", [3], "remove", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status", [3], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('E') !== -1) {
-            if (that.checked) {
-
-                data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Poletd Status",  [3], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-
-                data.applyFilterAsync("Podeta Status", [3], "remove", {
-                    isExcludeMode: false
-                })
-            }
-        } else if (List.indexOf('I') !== -1) {
-            if (that.checked) {
-                data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
-                    isExcludeMode: false
-                })
-                data.applyFilterAsync("Podeta Status",  [3], "remove", {
-                    isExcludeMode: false
-                })
-            } else {
-                data.applyFilterAsync("Poletd Status", [3], "remove", {
-                    isExcludeMode: false
-                })
-
-            }
-        }
+    data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 3] : [3], that.checked ? "add" : "remove", {
+        isExcludeMode: false
     })
 }
-
-// function incoming(that) {
-//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
-//     var filterData
-//     if (that.checked) {
-//         filterData = ['I', 'Null']
-//         data.applyFilterAsync("Poletd Status", [1], document.getElementById('normal').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-//         data.applyFilterAsync("Poletd Status", [2], document.getElementById('delay').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-//         data.applyFilterAsync("Poletd Status", [3], document.getElementById('cancelled').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-
-//     } else {
-//         filterData = ['E', 'Null']
-//         data.applyFilterAsync("Podeta Status", [1], document.getElementById('normal').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-//         data.applyFilterAsync("Podeta Status", [2], document.getElementById('delay').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-//         data.applyFilterAsync("Podeta Status", [3], document.getElementById('cancelled').checked ? "add" : "remove", {
-//             isExcludeMode: false
-//         })
-
-//     }
-//     data.applyFilterAsync("Ship_direction", filterData, "replace", {
-//         isExcludeMode: false
-//     })
-//     data.applyFilterAsync("Podeta Status", ['Null',1,2,3], "replace", {
-//         isExcludeMode: false
-//     })
-//     data.applyFilterAsync("Poletd Status", ['Null',1,2,3], "replace", {
-//         isExcludeMode: false
-//     })
-//     var dataList = ['normal','delay','cancelled']
-//     dataList.forEach(item => {
-//         document.getElementById(item).checked = true
-//     })
-//     console.log('OK','Ship_direction=>', that.checked ? 'I' : 'E')
-// }
 
 function ports(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
@@ -332,3 +117,203 @@ function factory(that) {
     })
     console.log('Type (Factoryinfo)=>', 10)
 }
+// function normal(that) {
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+
+//     data.getFiltersAsync().then(res => {
+//         var direction = res.find(item => {
+//             return item.fieldName == 'Ship direction'
+//         })
+//         console.log(direction)
+//         var List = []
+//         direction.appliedValues.forEach(item => {
+//             List.push(item.value)
+//         })
+//         if (direction.isAllSelected) {
+
+//             if (that.checked) {
+//                 data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Poletd Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('E') !== -1) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Podeta Status", ['Null', 1], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Poletd Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Podeta Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('I') !== -1) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Poletd Status", ['Null', 1], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Poletd Status", [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+
+//             }
+//         }
+//     })
+
+
+// }
+// function delay(that) {
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+
+//     data.getFiltersAsync().then(res => {
+//         var direction = res.find(item => {
+//             return item.fieldName == 'Ship direction'
+//         })
+//         console.log(direction)
+//         var List = []
+//         direction.appliedValues.forEach(item => {
+//             List.push(item.value)
+//         })
+
+//         if (direction.isAllSelected) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Poletd Status", [2], "remove", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", [2], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('E') !== -1) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Podeta Status", ['Null', 2], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Poletd Status",  [1], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Podeta Status",  [2], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('I') !== -1) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Poletd Status", ['Null', 2], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status",  [2], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Poletd Status",  [2], "remove", {
+//                     isExcludeMode: false
+//                 })
+
+//             }
+//         }
+//     })
+// }
+// function cancelled(that) {
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+
+//     data.getFiltersAsync().then(res => {
+//         var direction = res.find(item => {
+//             return item.fieldName == 'Ship direction'
+//         })
+//         console.log(direction)
+//         var List = []
+//         direction.appliedValues.forEach(item => {
+//             List.push(item.value)
+//         })
+
+//         if (direction.isAllSelected) {
+
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Poletd Status", [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status", [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('E') !== -1) {
+//             if (that.checked) {
+
+//                 data.applyFilterAsync("Podeta Status", ['Null', 3], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Poletd Status",  [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+
+//                 data.applyFilterAsync("Podeta Status", [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             }
+//         } else if (List.indexOf('I') !== -1) {
+//             if (that.checked) {
+//                 data.applyFilterAsync("Poletd Status", ['Null', 3], "add", {
+//                     isExcludeMode: false
+//                 })
+//                 data.applyFilterAsync("Podeta Status",  [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+//             } else {
+//                 data.applyFilterAsync("Poletd Status", [3], "remove", {
+//                     isExcludeMode: false
+//                 })
+
+//             }
+//         }
+//     })
+// }
