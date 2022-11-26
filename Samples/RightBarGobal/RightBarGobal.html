@@ -30,13 +30,10 @@
     <div class="filterRow">
       <div class="FilterItem">
         <div class="itemTitle">
-          <img class="iconPic" src="../../assets/27 POL.png" /> 
+          <img class="iconPic" src="../../assets/27 POL.png" />
         </div>
         <div>
-
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="PortPol" onchange="portPolChange(this)">
           </select>
         </div>
       </div>
@@ -46,9 +43,7 @@
         </div>
         <div>
 
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="PortPod" onchange="portPodChange(this)">
           </select>
         </div>
       </div>
@@ -57,10 +52,7 @@
           <img class="iconPic" src="../../assets/29 Service line.png" />
         </div>
         <div>
-
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="ServiceLine" onchange="serviceLineChange(this)">
           </select>
         </div>
       </div>
@@ -69,10 +61,11 @@
           <img class="iconPic" src="../../assets/30 Sort by.png" />
         </div>
         <div>
-
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="delayDetectBy" onchange="delayDetectByOnchange(this)">
+            <option value="All">All</option>
+            <option value="ETA (POD)">ETA (POD)</option>
+            <option value="ETA (POL)">ETA (POL)</option>
+            <option value="ETD (POL)">ETD (POL)</option>
           </select>
         </div>
       </div>
@@ -82,9 +75,11 @@
         </div>
         <div>
 
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="delayDetectBy" onchange="delayDetectByOnchange(this)">
+            <option value="All">All</option>
+            <option value="ETA (POD)">ETA (POD)</option>
+            <option value="ETA (POL)">ETA (POL)</option>
+            <option value="ETD (POL)">ETD (POL)</option>
           </select>
         </div>
       </div>
@@ -94,9 +89,11 @@
         </div>
         <div>
 
-          <select>
-            <option value="Mid">Mid</option>
-            <option value="Saab">Saab</option>
+          <select id="delayThreshold" onchange="delayThresholdOnchange(this)">
+            <option value="All">All</option>
+            <option value="0">0</option>
+            <option value="3">3</option>
+            <option value="7">7</option>
           </select>
         </div>
       </div>
@@ -180,11 +177,12 @@
   }
 
 
-  .itemTitle{
+  .itemTitle {
     font-size: 12px;
     color: rgb(104, 142, 211);
   }
-  .shipFilter{
+
+  .shipFilter {
     width: 150px;
     height: 60px;
     position: relative;
