@@ -19,14 +19,17 @@ tableau.extensions.initializeAsync().then(function () {
             listA.push(row[fieldA.index].value);
         }
         let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Ship").options.add(new Option('All', 'All'))
+        // document.getElementById("Ship").options.add(new Option('All', 'All'))
+        addDataList('All', 'Ship')
         valuesA.forEach(item => {
             //存在筛选项
             if (item) {
-                var shipOp = document.getElementById("Ship")
-                shipOp.options.add(new Option(item, item))
+                addDataList(item, 'Ship')
+                // var shipOp = document.getElementById("Ship")
+                // shipOp.options.add(new Option(item, item))
             }
         })
+        confirmDaraList('All', 'ShipInput')
 
         //筛选出航线
         let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
@@ -35,13 +38,16 @@ tableau.extensions.initializeAsync().then(function () {
             listB.push(row[fieldB.index].value);
         }
         let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
-        document.getElementById("Service").options.add(new Option('All', 'All'))
+        // document.getElementById("Service").options.add(new Option('All', 'All'))
+        addDataList('All', 'Service')
         valuesB.forEach(item => {
             if (item) {
-                var ser = document.getElementById("Service")
-                ser.options.add(new Option(item, item))
+                addDataList(item, 'Service')
+                // var ser = document.getElementById("Service")
+                // ser.options.add(new Option(item, item))
             }
         })
+        confirmDaraList('All', 'SerInput')
 
         //筛选出地区
         let fieldC = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
@@ -142,15 +148,20 @@ function tarchange(that) {
                 listA.push(row[fieldA.index].value);
             }
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
-            document.getElementById("Ship").options.length = 0
-            document.getElementById("Ship").options.add(new Option('All', 'All'))
+            // document.getElementById("Ship").options.length = 0
+            // document.getElementById("Ship").options.add(new Option('All', 'All'))
+            clearDataList('Ship')
+            addDataList('All', 'Ship')
             valuesA.forEach(item => {
                 //存在筛选项
                 if (item) {
-                    var shipOp = document.getElementById("Ship")
-                    shipOp.options.add(new Option(item, item))
+                    // var shipOp = document.getElementById("Ship")
+                    // shipOp.options.add(new Option(item, item))
+                    addDataList(item, 'Ship')
                 }
             })
+            confirmDaraList('All','ShipInput')
+
             //筛选出航线
             let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
             let listB = [];
@@ -158,14 +169,20 @@ function tarchange(that) {
                 listB.push(row[fieldB.index].value);
             }
             let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
-            document.getElementById("Service").options.length = 0
-            document.getElementById("Service").options.add(new Option('All', 'All'))
+            clearDataList('Service')
+            addDataList('All', 'Service')
+
+            // document.getElementById("Service").options.length = 0
+            // document.getElementById("Service").options.add(new Option('All', 'All'))
             valuesB.forEach(item => {
                 if (item) {
-                    var ser = document.getElementById("Service")
-                    ser.options.add(new Option(item, item))
+                    // var ser = document.getElementById("Service")
+                    // ser.options.add(new Option(item, item))
+                    addDataList(item, 'Service')
                 }
             })
+            confirmDaraList('All','SerInput')
+
 
         })
 
@@ -208,14 +225,17 @@ function tarchange(that) {
             })
             let newnewList = [...new Set(dataList)]
             console.log(newnewList)
-            var serOp = document.getElementById("Service")
-            serOp.options.length = 0
-            document.getElementById("Service").options.add(new Option('All', 'All'))
+            clearDataList('Service')
+            addDataList('All', 'Service')
+            // var serOp = document.getElementById("Service")
+            // serOp.options.length = 0
+            // document.getElementById("Service").options.add(new Option('All', 'All'))
             newnewList.forEach(item => {
                 //存在筛选项
-
-                serOp.options.add(new Option(item, item))
+                addDataList(item, 'Service')
+                // serOp.options.add(new Option(item, item))
             })
+            confirmDaraList('All','SerInput')
             data.applyFilterAsync("service (DWS Vesselinfo)", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -233,14 +253,17 @@ function tarchange(that) {
                 dataList = [...dataList, ...newData]
             })
             let filterList = [...new Set(dataList)]
-            var shipOp = document.getElementById("Ship")
-            shipOp.options.length = 0
-            document.getElementById("Ship").options.add(new Option('All', 'All'))
+            // var shipOp = document.getElementById("Ship")
+            // shipOp.options.length = 0
+            // document.getElementById("Ship").options.add(new Option('All', 'All'))
+            clearDataList('Ship')
+            addDataList('All', 'Ship')
             filterList.forEach(item => {
                 //存在筛选项
-
-                shipOp.options.add(new Option(item, item))
+                // shipOp.options.add(new Option(item, item))
+                addDataList(item, 'Ship')
             })
+            confirmDaraList('All','ShipInput')
             data.applyFilterAsync("Vessel Name", [...filterList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -250,6 +273,7 @@ function tarchange(that) {
 }
 
 function serchange(that) {
+    if(!that.value)return
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
         // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -306,13 +330,15 @@ function serchange(that) {
                 dataList = [...dataList, ...newData]
             })
             let newnewList = [...new Set(dataList)]
-            var shipOp = document.getElementById("Ship")
-            shipOp.options.length = 0
-            document.getElementById("Ship").options.add(new Option('All', 'All'))
+            // var shipOp = document.getElementById("Ship")
+            // shipOp.options.length = 0
+            // document.getElementById("Ship").options.add(new Option('All', 'All'))
+            clearDataList('Ship')
+            addDataList('All', 'Ship')
             newnewList.forEach(item => {
                 //存在筛选项
-
-                shipOp.options.add(new Option(item, item))
+                // shipOp.options.add(new Option(item, item))
+                addDataList(item, 'Ship')
             })
             data.applyFilterAsync("Vessel Name", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
@@ -326,16 +352,17 @@ function serchange(that) {
             })
 
             var selectValue = []
+            console.log(newFilter)
             newFilter.forEach(item => {
                 let newData = [item[regin.index].value]
                 selectValue = [...selectValue, ...newData]
             })
             let newFilterList = [...new Set(selectValue)][0]
             console.log(newFilterList)
-            var serOp = document.getElementById("Target")
-            for (let i = 0; i < serOp.length; i++) {
-                if (serOp[i].value === newFilterList) {
-                    serOp[i].selected = true
+            var RegOp = document.getElementById("Target")
+            for (let i = 0; i < RegOp.length; i++) {
+                if (RegOp[i].value === newFilterList) {
+                    RegOp[i].selected = true
                 }
             }
             data.applyFilterAsync("Region (DWS Portshiproute)", [newFilterList, 'Null'], "replace", {
@@ -344,7 +371,7 @@ function serchange(that) {
             data.applyFilterAsync("Region (DWS Vesselinfo)", [newFilterList, 'Null'], "replace", {
                 isExcludeMode: false
             })
-         
+
 
 
         })
@@ -353,6 +380,7 @@ function serchange(that) {
 }
 
 function shipchange(that) {
+    if(!that.value)return
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
         // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -409,12 +437,13 @@ function shipchange(that) {
             })
             let newnewList = [...new Set(selectValue)][0]
             console.log(newnewList)
-            var serOp = document.getElementById("Service")
-            for (let i = 0; i < serOp.length; i++) {
-                if (serOp[i].value === newnewList) {
-                    serOp[i].selected = true
-                }
-            }
+            confirmDaraList(newnewList, "SerInput")
+            // var serOp = document.getElementById("Service")
+            // for (let i = 0; i < serOp.length; i++) {
+            //     if (serOp[i].value === newnewList) {
+            //         serOp[i].selected = true
+            //     }
+            // }
             data.applyFilterAsync("service (DWS Vesselinfo)", [newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -433,10 +462,10 @@ function shipchange(that) {
             })
             let newFilterList = [...new Set(selectValue)][0]
             console.log(newFilterList)
-            var serOp = document.getElementById("Target")
-            for (let i = 0; i < serOp.length; i++) {
-                if (serOp[i].value === newFilterList) {
-                    serOp[i].selected = true
+            var RegOp = document.getElementById("Target")
+            for (let i = 0; i < RegOp.length; i++) {
+                if (RegOp[i].value === newFilterList) {
+                    RegOp[i].selected = true
                 }
             }
             data.applyFilterAsync("Region (DWS Portshiproute)", [newFilterList, 'Null'], "replace", {
@@ -477,4 +506,33 @@ function dirchange(that) {
         console.log('Ship direction=>', that.value)
     }
 
+}
+//添加候选list
+function addDataList(value, id) {
+    var op = document.createElement("option");
+    op.setAttribute("value", value);
+    // console.log(op)
+    document.getElementById(id).appendChild(op);
+}
+//清空候选list
+function clearDataList(id) {
+    var e = document.getElementById(id)
+    var first = e.firstElementChild
+    while (first) {
+        first.remove()
+        first = e.firstElementChild
+    }
+
+}
+
+function confirmDaraList(val, id, onchange) {
+    var o = document.getElementById(id)
+    o.value = val
+    if (!!onchange) {
+        if (o.fireEvent) {
+            o.fireEvent('onchange')
+        } else {
+            o.onchange()
+        }
+    }
 }

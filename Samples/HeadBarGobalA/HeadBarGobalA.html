@@ -31,13 +31,19 @@
         </div>
         <div class="selectItem">
             <span class="selectTitle">Service Line:</span>
-            <select id="Service" onchange="serchange(this)">
-            </select>
+            <!-- <select id="Service" onchange="serchange(this)">
+            </select> -->
+            <input class="selectInput" id="SerInput" list="Service" onchange="serchange(this)">
+            <datalist id="Service">
+            </datalist>
         </div>
         <div class="selectItem">
             <span class="selectTitle">Ship:</span>
-            <select id="Ship" onchange="shipchange(this)">
-            </select>
+            <!-- <select id="Ship" onchange="shipchange(this)">
+            </select> -->
+            <input class="selectInput" id="ShipInput" list="Ship" onchange="shipchange(this)">
+            <datalist id="Ship">
+            </datalist>
         </div>
         <div class="selectItem">
             <span class="selectTitle">Direction:</span>
@@ -79,6 +85,9 @@
 
     .selectItem:nth-last-child(1) {
         margin-right: unset;
+    }
+    .selectInput{
+        height: 19.5px;
     }
 </style>
 
