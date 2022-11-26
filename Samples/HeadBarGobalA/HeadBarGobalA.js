@@ -517,9 +517,9 @@ function wekchange(that) {
     //下拉项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
-        data.clearFilterAsync("Etd Weeks")
+        data.clearFilterAsync("etd_weeks (View_vesseldetail)")
     } else {
-        data.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("etd_weeks (View_vesseldetail)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('week change=>', that.value)
