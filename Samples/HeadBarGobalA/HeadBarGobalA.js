@@ -93,8 +93,31 @@ tableau.extensions.initializeAsync().then(function () {
         dirchange({
             value: 'All'
         })
-
-
+        let d1 = new Date()
+        let d2 = new Date()
+        d2.setMonth(0)
+        d2.setDate(1)
+        let rq = d1 - d2
+        let s1 = Math.ceil(rq / (24 * 60 * 60 * 1000))
+        let s2 = Math.ceil(s1 / 7)
+        console.log('第' + s1 + '天,第' + s2 + '周')
+        var fullYear = d1.getFullYear()
+        var year = `${fullYear}`.slice(-2)+s2
+        if(valuesD.indexOf(year) !== -1){
+            var wekOp = document.getElementById("Week")
+            for (let i = 0; i < wekOp.length; i++) {
+                if (wekOp[i].value === year) {
+                    wekOp[i].selected = true
+                }
+            }
+            wekchange({
+                value: year
+            })
+        }else{
+            wekchange({
+                value: 'All'
+            })
+        }
     });
 });
 
@@ -160,7 +183,7 @@ function tarchange(that) {
                     addDataList(item, 'Ship')
                 }
             })
-            confirmDaraList('All','ShipInput')
+            confirmDaraList('All', 'ShipInput')
 
             //筛选出航线
             let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
@@ -181,7 +204,7 @@ function tarchange(that) {
                     addDataList(item, 'Service')
                 }
             })
-            confirmDaraList('All','SerInput')
+            confirmDaraList('All', 'SerInput')
 
 
         })
@@ -235,7 +258,7 @@ function tarchange(that) {
                 addDataList(item, 'Service')
                 // serOp.options.add(new Option(item, item))
             })
-            confirmDaraList('All','SerInput')
+            confirmDaraList('All', 'SerInput')
             data.applyFilterAsync("service (DWS Vesselinfo)", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -263,7 +286,7 @@ function tarchange(that) {
                 // shipOp.options.add(new Option(item, item))
                 addDataList(item, 'Ship')
             })
-            confirmDaraList('All','ShipInput')
+            confirmDaraList('All', 'ShipInput')
             data.applyFilterAsync("Vessel Name", [...filterList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -273,7 +296,7 @@ function tarchange(that) {
 }
 
 function serchange(that) {
-    if(!that.value)return
+    if (!that.value) return
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
         // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -380,7 +403,7 @@ function serchange(that) {
 }
 
 function shipchange(that) {
-    if(!that.value)return
+    if (!that.value) return
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
         // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -490,7 +513,7 @@ function wekchange(that) {
         data.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        console.log('ship change=>', that.value)
+        console.log('week change=>', that.value)
     }
 }
 
@@ -503,7 +526,7 @@ function dirchange(that) {
         data.applyFilterAsync("Ship direction", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        console.log('Ship direction=>', that.value)
+        console.log('week=>', that.value)
     }
 
 }
