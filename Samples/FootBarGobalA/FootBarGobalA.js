@@ -6,7 +6,7 @@ tableau.extensions.initializeAsync().then(function () {
     dataList.forEach(item => {
         document.getElementById(item).checked = true
     })
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     data.applyFilterAsync("Type (Factoryinfo)", [10, 'Null'], "replace", {
         isExcludeMode: false
     })
@@ -24,7 +24,7 @@ tableau.extensions.initializeAsync().then(function () {
     // data.applyFilterAsync("Poletd Status", ['Null', 1, 2, 3], "replace", {
     //     isExcludeMode: false
     // })
-    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     const markSelection = tableau.TableauEventType.FilterChanged;
     //监听筛选器
     worksheet.addEventListener(markSelection, function (selectionEvent) {
@@ -50,7 +50,7 @@ tableau.extensions.initializeAsync().then(function () {
 
 function normal(that) {
     //勾选项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
     data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 1] : [1], that.checked ? "add" : "remove", {
         isExcludeMode: false
@@ -59,7 +59,7 @@ function normal(that) {
 
 function delay(that) {
     //勾选项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
     data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 2] : [2], that.checked ? "add" : "remove", {
         isExcludeMode: false
@@ -68,7 +68,7 @@ function delay(that) {
 
 function cancelled(that) {
     //勾选项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
     data.applyFilterAsync("status (View vesseldetail)", that.checked ? ['Null', 3] : [3], that.checked ? "add" : "remove", {
         isExcludeMode: false
@@ -76,7 +76,7 @@ function cancelled(that) {
 }
 
 function ports(that) {
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     var filterData
     if (that.checked) {
         filterData = [5, 'Null']
@@ -90,7 +90,7 @@ function ports(that) {
 }
 
 function warehouse(that) {
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     var filterData
     if (that.checked) {
         filterData = [1, 'Null']
@@ -105,7 +105,7 @@ function warehouse(that) {
 
 function factory(that) {
     //勾选项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     var filterData
     if (that.checked) {
         filterData = [10, 'Null']
@@ -118,7 +118,7 @@ function factory(that) {
     console.log('Type (Factoryinfo)=>', 10)
 }
 // function normal(that) {
-//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
 //     data.getFiltersAsync().then(res => {
 //         var direction = res.find(item => {
@@ -186,7 +186,7 @@ function factory(that) {
 
 // }
 // function delay(that) {
-//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
 //     data.getFiltersAsync().then(res => {
 //         var direction = res.find(item => {
@@ -254,7 +254,7 @@ function factory(that) {
 //     })
 // }
 // function cancelled(that) {
-//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+//     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
 
 //     data.getFiltersAsync().then(res => {
 //         var direction = res.find(item => {
