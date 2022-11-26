@@ -2,42 +2,46 @@
 <html>
 
 <head>
-  <title>ClickThrough Sample</title>
+    <title>ClickThrough Sample</title>
 
 
-  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+    <script src="../../lib/tableau.extensions.1.latest.js"></script>
 
-  <!-- Our extension's code -->
-  <script src="./RightBar.js"></script>
+    <!-- Our extension's code -->
+    <script src="./RightBar.js"></script>
 </head>
 
 <body style="background-color: transparent;">
-  <div class="RightBar">
-    <div class="RightTitle">
-      <img class="mapIcon" src="../../assets/17 mapfilter.png" />
-    </div>
-    <div class="FilterTitle">
-      Filter Options
-    </div>
-    <div class="FilterItem SelectItem">
-      <div class="selectTitle">
-        Inbound Area:
-      </div>
-      <div>
-        <select id="Logistic" onchange="logchange(this)">
-        </select>
-      </div>
-    </div>
-    <div class="FilterItem SelectItem">
-      <div class="selectTitle">
-        Province:
-      </div>
-      <div>
-        <select id="Province" onchange="prochange(this)">
-        </select>
-      </div>
-    </div>
-    <!-- <div class="FilterItem SelectItem">
+    <div class="RightBar">
+        <div class="imgDiv">
+            <img class="mapIcon" src="../../assets/17 mapfilter.png" />
+        </div>
+
+        <!-- <div class="RightTitle">
+      
+    </div> -->
+        <div class="FilterTitle">
+            Filter Options
+        </div>
+        <div class="FilterItem SelectItem">
+            <div class="selectTitle">
+                Inbound Area:
+            </div>
+            <div>
+                <select id="Logistic" onchange="logchange(this)">
+                </select>
+            </div>
+        </div>
+        <div class="FilterItem SelectItem">
+            <div class="selectTitle">
+                Province:
+            </div>
+            <div>
+                <select id="Province" onchange="prochange(this)">
+                </select>
+            </div>
+        </div>
+        <!-- <div class="FilterItem SelectItem">
       <div class="redC selectTitle">
         Special Monitoring:
       </div>
@@ -48,123 +52,149 @@
         </select>
       </div>
     </div> -->
-    <div class="FilterTitle">
-      Result Statistic
-    </div>
-    <div class="FilterItem">
-      <div class="h40">
-        <img class="iconPic" src="../../assets/12 A-LIN.png" /> 
-      </div>
-      <div class="data">
-        <span id="alinAll" class="blueC">0</span><span class="blackC">/</span><span class="redC" id="alinM">0</span>
-      </div>
-    </div>
-    <div class="FilterItem">
-      <div class="h40">
-        <img class="iconPic"  src="../../assets/13 L-CENTER.png" />
-      </div>
-      <div class="data">
-        <span id="lcAll" class="blueC">0</span><span class="blackC">/</span><span id="lcM" class="redC">0</span>
-      </div>
-    </div>
-    <div class="FilterItem">
-      <div class="h40">
-        <img class="iconPic" src="../../assets/14 EXTERNAL warehouse.png" />
-      </div>
-      <div class="data">
-        <span id="warAll" class="blueC">0</span><span class="blackC">/</span><span id="warM" class="redC">0</span>
-      </div>
-    </div>
-    <div class="FilterItem">
-      <div class="h40"> 
-        <img class="iconPic" src="../../assets/15 suppliers.png" />
-      </div>
-      <div class="data">
-        <span id="supAll" class="blueC">0</span><span class="blackC">/</span><span id="supM" class="redC">0</span>
-      </div>
-    </div>
-    <div class="FilterItem">
-        <div class="h40">
-          <img class="iconPic" src="../../assets/16 special monitoring.png" />
+        <div class="FilterTitle">
+            Result Statistic
         </div>
-        <div class="data">
-          <span id="MAll" class="redC">0</span>
+        <div class="FilterItem martop">
+            <div class="h40">
+                <img class="iconPic" src="../../assets/12 A-LIN.png" />
+            </div>
+            <div class="data">
+                <span id="alinAll" class="blueC">0</span><span class="blackC">/</span><span class="redC"
+                    id="alinM">0</span>
+            </div>
         </div>
-      </div>
-  </div>
+        <div class="FilterItem martop">
+            <div class="h40">
+                <img class="iconPic" src="../../assets/13 L-CENTER.png" />
+            </div>
+            <div class="data">
+                <span id="lcAll" class="blueC">0</span><span class="blackC">/</span><span id="lcM" class="redC">0</span>
+            </div>
+        </div>
+        <div class="FilterItem martop">
+            <div class="h40">
+                <img class="iconPic" src="../../assets/14 EXTERNAL warehouse.png" />
+            </div>
+            <div class="data">
+                <span id="warAll" class="blueC">0</span><span class="blackC">/</span><span id="warM"
+                    class="redC">0</span>
+            </div>
+        </div>
+        <div class="FilterItem martop">
+            <div class="h40">
+                <img class="iconPic" src="../../assets/15 suppliers.png" />
+            </div>
+            <div class="data">
+                <span id="supAll" class="blueC">0</span><span class="blackC">/</span><span id="supM"
+                    class="redC">0</span>
+            </div>
+        </div>
+        <div class="FilterItem martop">
+            <div class="h40">
+                <img class="iconPic" src="../../assets/16 special monitoring.png" />
+            </div>
+            <div class="data">
+                <span id="MAll" class="redC">0</span>
+            </div>
+        </div>
+    </div>
 </body>
 <style>
-  * {
-    font-weight: 700;
-    color: rgb(153, 153, 153);
-  }
-  body{
-    overflow: hidden;
-  }
-  .RightBar{
-    padding-left: 20px;
-  }
-  .iconPic {
-    max-width: 250px;
-    height: 40px;
-  }
+    * {
+        font-weight: 700;
+        color: rgb(153, 153, 153);
+    }
 
-  .FilterTitle {
-    font-size: 22px;
-    color: #4176BF;
-    margin-top: 10px;
-  }
+    body {
+        overflow: hidden;
+    }
 
-  select {
-    width: 100px;
-    text-align: center;
-    margin-right: 20px;
-    font-size: 15px;
-  }
+    .RightBar {
+        padding-left: 20px;
+    }
 
-  .FilterItem {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
-    justify-content: space-between;
-  }
+    .iconPic {
+        max-width: 250px;
+        height: 40px;
+    }
 
-  .RightTitle {
-    font-size: 40px;
-    padding-left: 20px;
-    text-align: end;
-    border-bottom: 2px #E3E3E3 solid;
-    margin-right: 50px;
-  }
+    .FilterTitle {
+        font-size: 22px;
+        color: #4176BF;
+        margin-top: 10px;
+    }
 
-  .data {
-    width: 80px;
-    font-size: 22px;
-    text-align: center;
-  }
-  .redC{
-    color: red;
-  }
-  .blueC{
-    color: #4176BF;
-  }
-  .blackC{
-    color: black;
-  }
-  .mapIcon{
-    max-width: 250px;
-    height: 65px;
-  }
-  .SelectItem{
-    margin-top: 15px;
-  }
-  .selectTitle{
-    font-size: 17px;
-    font-weight: 600;
-  }
-  .h40{
-    height: 40px;
-  }
+    select {
+        width: 100px;
+        text-align: center;
+        margin-right: 20px;
+        font-size: 15px;
+    }
+
+    .FilterItem {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        justify-content: space-between;
+    }
+
+    .RightTitle {
+        font-size: 40px;
+        padding-left: 20px;
+        text-align: end;
+        border-bottom: 2px #E3E3E3 solid;
+        margin-right: 50px;
+    }
+
+    .data {
+        width: 80px;
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .redC {
+        color: red;
+    }
+
+    .blueC {
+        color: #4176BF;
+    }
+
+    .blackC {
+        color: black;
+    }
+
+    .mapIcon {
+        width: 205px;
+        height: 70px;
+    }
+
+    .SelectItem {
+        margin-top: 15px;
+    }
+
+    .selectTitle {
+        font-size: 17px;
+        font-weight: unset
+    }
+
+    .h40 {
+        height: 35px;
+    }
+
+    .imgDiv {
+        margin-right: 50px;
+        position: relative;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        border-bottom: 2px rgb(227, 227, 227) solid;
+    }
+    .martop{
+        margin-top: 5px;
+    }
 </style>
 
 </html>
