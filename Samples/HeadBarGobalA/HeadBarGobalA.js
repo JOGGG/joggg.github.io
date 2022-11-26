@@ -29,7 +29,8 @@ tableau.extensions.initializeAsync().then(function () {
                 // shipOp.options.add(new Option(item, item))
             }
         })
-        confirmDaraList('All', 'ShipInput')
+        document.getElementById('ShipInput').setAttribute("placeholder","All")
+        // confirmDaraList('All', 'ShipInput')
 
         //筛选出航线
         let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
@@ -47,7 +48,8 @@ tableau.extensions.initializeAsync().then(function () {
                 // ser.options.add(new Option(item, item))
             }
         })
-        confirmDaraList('All', 'SerInput')
+        // confirmDaraList('All', 'SerInput')
+        document.getElementById('SerInput').setAttribute("placeholder","All")
 
         //筛选出地区
         let fieldC = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
@@ -183,7 +185,8 @@ function tarchange(that) {
                     addDataList(item, 'Ship')
                 }
             })
-            confirmDaraList('All', 'ShipInput')
+            // confirmDaraList('All', 'ShipInput')
+            document.getElementById('ShipInput').value = ''
 
             //筛选出航线
             let fieldB = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
@@ -204,7 +207,8 @@ function tarchange(that) {
                     addDataList(item, 'Service')
                 }
             })
-            confirmDaraList('All', 'SerInput')
+            // confirmDaraList('All', 'SerInput')
+            document.getElementById('SerInput').value = ''
 
 
         })
@@ -258,7 +262,9 @@ function tarchange(that) {
                 addDataList(item, 'Service')
                 // serOp.options.add(new Option(item, item))
             })
-            confirmDaraList('All', 'SerInput')
+            // confirmDaraList('All', 'SerInput')
+            document.getElementById('SerInput').value = ''
+
             data.applyFilterAsync("service (DWS Vesselinfo)", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -286,7 +292,9 @@ function tarchange(that) {
                 // shipOp.options.add(new Option(item, item))
                 addDataList(item, 'Ship')
             })
-            confirmDaraList('All', 'ShipInput')
+            // confirmDaraList('All', 'ShipInput')
+            document.getElementById('ShipInput').value = ''
+
             data.applyFilterAsync("Vessel Name", [...filterList, 'Null'], "replace", {
                 isExcludeMode: false
             })
@@ -341,6 +349,7 @@ function serchange(that) {
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
             })
         }).then(dataTable => {
+            //船名
             let alin = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
             let alinB = dataTable.columns.find(column => column.fieldName === "Vessel Name");
             let newAA = dataTable.data.filter(item => {
@@ -363,6 +372,7 @@ function serchange(that) {
                 // shipOp.options.add(new Option(item, item))
                 addDataList(item, 'Ship')
             })
+            document.getElementById('ShipInput').value = ''
             data.applyFilterAsync("Vessel Name", [...newnewList, 'Null'], "replace", {
                 isExcludeMode: false
             })
