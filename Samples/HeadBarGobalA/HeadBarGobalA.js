@@ -21,6 +21,7 @@ tableau.extensions.initializeAsync().then(function () {
         let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
         // document.getElementById("Ship").options.add(new Option('All', 'All'))
         addDataList('All', 'Ship')
+       
         valuesA.forEach(item => {
             //存在筛选项
             if (item) {
@@ -120,6 +121,7 @@ tableau.extensions.initializeAsync().then(function () {
                 value: 'All'
             })
         }
+       
     });
 });
 

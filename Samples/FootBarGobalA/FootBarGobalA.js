@@ -17,7 +17,7 @@ tableau.extensions.initializeAsync().then(function () {
         isExcludeMode: false
     })
     //初始化
-    data.applyFilterAsync("status (View vesseldetail)", ['Null', 1, 2, 3], "replace", {
+    data.applyFilterAsync("status (View vesseldetail)", ['Null', 'Normal', 'Delay', 'Cancelled'], "replace", {
         isExcludeMode: false
     })
     // //勾选初始化
