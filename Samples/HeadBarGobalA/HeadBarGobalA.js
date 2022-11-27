@@ -524,22 +524,29 @@ function wekchange(that) {
         data.applyFilterAsync("etd_weeks (View_vesseldetail)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        console.log('week change=>', that.value)
+        
     }
+    console.log('week change=>', that.value)
 }
 
 function dirchange(that) {
     //下拉项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
-        data.clearFilterAsync("Ship_direction (View_vesseldetail)")
+        // data.clearFilterAsync("Ship_direction (View_vesseldetail)")
+        data.applyFilterAsync("Ship_direction (View_vesseldetail)", ['I','E', 'Null'], "replace", {
+            isExcludeMode: false
+        })
     } else {
         data.applyFilterAsync("Ship_direction (View_vesseldetail)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        console.log('week=>', that.value)
+       
     }
-
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New").getFiltersAsync().then(datasources => {
+        console.log(datasources)
+    })
+    console.log('ship_dir=>', that.value)
 }
 //添加候选list
 function addDataList(value, id) {
