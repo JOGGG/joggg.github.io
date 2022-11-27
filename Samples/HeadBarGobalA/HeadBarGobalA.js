@@ -42,7 +42,7 @@ tableau.extensions.initializeAsync().then(function () {
         let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
         // document.getElementById("Service").options.add(new Option('All', 'All'))
         addDataList('All', 'Service')
-        valuesB.forEach(item => {
+        valuesB.sort().forEach(item => {
             if (item) {
                 addDataList(item, 'Service')
                 // var ser = document.getElementById("Service")
@@ -205,7 +205,7 @@ function tarchange(that) {
 
             // document.getElementById("Service").options.length = 0
             // document.getElementById("Service").options.add(new Option('All', 'All'))
-            valuesB.forEach(item => {
+            valuesB.sort().forEach(item => {
                 if (item) {
                     // var ser = document.getElementById("Service")
                     // ser.options.add(new Option(item, item))
