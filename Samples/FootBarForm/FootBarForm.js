@@ -10,6 +10,11 @@ tableau.extensions.initializeAsync().then(function () {
     // data.applyFilterAsync("Type (Factoryinfo)", [10, 'Null'], "replace", {
     //     isExcludeMode: false
     // })
+
+    console.log('---Footbar form initializeAsync------')
+    tableau.extensions.dashboardContent.dashboard.worksheets.forEach(item => {
+        console.log('---worksheet------', item.name)
+    })
  
     var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
     const markSelection = tableau.TableauEventType.FilterChanged;
