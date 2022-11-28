@@ -1,4 +1,9 @@
+
+var viz, workbook, activeSheet;
 tableau.extensions.initializeAsync().then(function () {
+    //  this.clearAllFilter();
+    //  initializeViz();
+    //  changeParam(7);
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -77,20 +82,34 @@ tableau.extensions.initializeAsync().then(function () {
 
         //筛选delayDetectBy
         var delayDetectBy = document.getElementById("delayDetectBy");
-        delayDetectBy.options.add(new Option('All', 'All'));
-        delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
-        delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
         delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
+        delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
+        delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
 
         //筛选delayThreshold
         var delayThreshold = document.getElementById("delayThreshold");
-        delayThreshold.options.add(new Option('All', 'All'))
         delayThreshold.options.add(new Option('0 day', '0'))
         delayThreshold.options.add(new Option('3 day', '3'))
         delayThreshold.options.add(new Option('7 day', '7'))
 
     })
 });
+
+
+function clearAllFilter() {
+    console.log('========clearAllFilter=========');
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图");
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表");
+    data.clearFilterAsync("pol (DWS Vesselinfo)");
+    data.clearFilterAsync("pod (DWS Vesselinfo)");
+    data.clearFilterAsync("service (DWS Vesselinfo)");
+    data.clearFilterAsync("Etd Weeks");
+    shipData.clearFilterAsync("pol (DWS Vesselinfo)");
+    shipData.clearFilterAsync("pod (DWS Vesselinfo)");
+    shipData.clearFilterAsync("service (DWS Vesselinfo)");
+    shipData.clearFilterAsync("Etd Weeks");
+
+}
 
 //PortPol filter
 function portPolChange(that) {
@@ -198,7 +217,31 @@ function weekOnchange(that) {
 
 //DelayDetectByOn filter
 function delayDetectByOnchange(that) {
-    //TODO
+    console.log('--- delayDetectByOnchange=>', that.value)
+    changeParam(7)
+    // var data = tableau.extensions.dashboardContent.dashboard;
+    // if (that.value === 'All') {
+    //     console.log("portPol all");
+    // } else {
+    //     data.changeParameterValueAsync("poletaDay", 7).then(function(){console.log(" changeParamete success");})
+    // }
+
+    
+    // delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
+    // delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
+    // delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
+
+
+    // if (that.value === 'All') {
+    //     data.clearFilterAsync("Poleta Status");        
+    //     data.clearFilterAsync("Poletd Status");      
+    //     data.clearFilterAsync("Podeta Status");
+    // } else if(ETA (POL)) {
+    //     data.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
+    //         isExcludeMode: false
+    //     })
+    //     console.log('ship change=>', that.value)
+    // }
     
 }
 
@@ -207,6 +250,50 @@ function delayThresholdOnchange(that) {
     //TODO
 }
 
+
+
+function initializeViz() {
+  var placeholderDiv = document.getElementById("vizContainer");
+   var url = "https://10.192.112.83/views/-1127/sheet13";
+//   var options = {
+//      width: "800px",
+//      height: "700px",
+//     onFirstInteractive: function () {
+//       workbook = viz.getWorkbook();
+//       activeSheet = workbook.getActiveSheet();
+//     }
+//   };
+//   viz = new tableauSoftware.Viz(placeholderDiv, url, options);
+
+  var options = {
+    hideTabs: true,
+    onFirstInteractive: function () {
+        workbook = viz.getWorkbook();
+      var sheetCount = viz.getWorkbook().getPublishedSheetsInfo().length;
+  }
+};
+  viz = new tableau.Viz(placeholderDiv, url, options); 
+}
+
+function showParams()
+{
+	workbook.getParametersAsync()
+	.then(function (params) {
+		var msg = '';
+		for(var i=0; i<params.length; i++)
+		{
+			msg += params[i].getName() + ' - ' + params[i].getDataType() + '\n';
+		}
+		alert(msg);
+	})
+}
+
+function changeParam(value)
+{
+	workbook.changeParameterValueAsync("poletaDay", value)
+	.then(function() {alert('success');})
+	.otherwise(function(err) { alert('failed: ' + err);});
+}
 
 
 function getData() {
