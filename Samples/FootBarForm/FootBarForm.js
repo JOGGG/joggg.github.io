@@ -11,16 +11,27 @@ tableau.extensions.initializeAsync().then(function () {
     //     isExcludeMode: false
     // })
  
-    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
     const markSelection = tableau.TableauEventType.FilterChanged;
     //监听筛选器
     worksheet.addEventListener(markSelection, function (selectionEvent) {
         // When the selection changes, reload the data
-        console.log('will123 filterChange=>>>>>>>>>', selectionEvent)
-         if (selectionEvent.fieldName === "service (DWS Vesselinfo)") {
+        console.log('----Listener start------', selectionEvent)
+        //{
+            console.log('---------service (DWS Vesselinfo)=>>>>>>>>>')
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表").getParametersAsync().then(function(paraPnl) {
+           if(paraPnl){
+            paraPnl.forEach(function(elePara){
+                console.log('---elePara name:'+elePara.name);
+                console.log('---elePara value:'+elePara.value);
+                console.log('---elePara innerText:'+elePara.innerText);
+            });
+           }             
+        });
+        //  if (selectionEvent.fieldName === "service (DWS Vesselinfo)") {
             console.log('---------service (DWS Vesselinfo)=>>>>>>>>>')
             //获取船舶表数据
-            tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
+            tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表").getDataSourcesAsync().then(datasources => {
                 var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
                 return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                     console.log('nihao123=>', logicalTables)
@@ -28,13 +39,17 @@ tableau.extensions.initializeAsync().then(function () {
                         return item.caption === '船舶'
                     })
                     console.log(lgTabel)
-                    console.log("---------lgTabel-------------");
                     return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
                 });
             }).then(dataTable => {
 
+                console.log("---------获取船舶表数据-------------");
+                console.log(  dataTable.data);
+              
+
+                console.log("---------开始获取船舶明细表的筛选器-------------");
                 //获取筛选器的值
-                var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+                var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
                 data.getFiltersAsync().then(res => {
                     //serviceline
                     var fvServiceLine = res.find(item => {
@@ -45,7 +60,7 @@ tableau.extensions.initializeAsync().then(function () {
                         List.push(item.value)
                     })
                     var valServiceLine = List[0];
-                    console.log("---------service (DWS Vesselinfo):"+valServiceLine)
+                    console.log("---------serviceLine:"+valServiceLine)
 
                     
                     //Pol
@@ -53,11 +68,15 @@ tableau.extensions.initializeAsync().then(function () {
                         return item.fieldName == 'pol (DWS Vesselinfo)'
                     })
                     var listPol = []
-                    fvPol.appliedValues.forEach(item => {
-                        listPol.push(item.value)
-                    })
-                    var valPol = listPol[0];
-                    console.log("---------pol (DWS Vesselinfo):"+valPol)
+                    var valPol = "";
+                    console.log("---------fvPol:"+fvPol)
+                    if(fvPol){
+                        fvPol.appliedValues.forEach(item => {
+                            listPol.push(item.value)
+                        })
+                        valPol = listPol[0];
+                        console.log("---------pol:"+valPol)
+                    }
 
                     
                     //Pod
@@ -65,11 +84,15 @@ tableau.extensions.initializeAsync().then(function () {
                         return item.fieldName == 'pod (DWS Vesselinfo)'
                     })
                     var listPod = []
-                    fvPod.appliedValues.forEach(item => {
-                        listPod.push(item.value)
-                    })
-                    var valPod = listPod[0];
-                    console.log("---------pod (DWS Vesselinfo):"+valPod)
+                    var valPod = "";
+                    console.log("---------fvPod:"+fvPod)
+                    if(fvPod){
+                        fvPod.appliedValues.forEach(item => {
+                            listPod.push(item.value)
+                        })
+                        valPod = listPod[0];
+                        console.log("---------pod:"+valPod)
+                    }
 
                     
                     //Etd Weeks
@@ -77,13 +100,19 @@ tableau.extensions.initializeAsync().then(function () {
                         return item.fieldName == 'Etd Weeks'
                     })
                     var listWeek = []
-                    fvWeek.appliedValues.forEach(item => {
-                        listWeek.push(item.value)
-                    })
-                    var valWeek = listWeek[0];
-                    console.log("---------Etd Weeks:"+valWeek)
+                    var valWeek = "";
+                    console.log("---------fvWeek:"+fvWeek)
+                    if(fvWeek){
+                        fvWeek.appliedValues.forEach(item => {
+                            listWeek.push(item.value)
+                        })
+                        valWeek = listWeek[0];
+                        console.log("---------Weeks:"+valWeek)
+                    }   
 
-                    console.log("---------dataTable-------------");
+                    console.log("---------获取船舶明细表的筛选器结束-------------");
+                    
+                    console.log("---------开始筛选-------------");
                     let fieldServiceLine = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
                     let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)");
                     let fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)");
@@ -93,33 +122,40 @@ tableau.extensions.initializeAsync().then(function () {
                     console.log(fieldPoletd);
                     console.log(fieldPodeta);
                     let filterData =dataTable.data;
+                    console.log("为筛选前数量："+filterData.length);
                     if(valServiceLine){
+                        console.log("===valServiceLine:"+valServiceLine)
                         filterData = filterData.filter(item => {
                             return (item[fieldServiceLine.index].value == valServiceLine )
                         }) 
+                        console.log("ServiceLine筛选后数量："+filterData.length);
                     }
                     
                     if(valPol){
+                        console.log("===valPol:"+valPol)
                         filterData = filterData.filter(item => {
                             return (item[fieldPol.index].value == valPol )
                         }) 
+                        console.log("Pol筛选后数量："+filterData.length);
                     }
 
                     if(valPod){
+                        console.log("===valPod:"+valPod)
                         filterData = filterData.filter(item => {
                             return (item[fieldPod.index].value == valPod )
                         }) 
+                        console.log("Pod筛选后数量："+filterData.length);
                     }
 
                     if(valWeek){
+                        console.log("===valWeek:"+valWeek)
                         filterData = filterData.filter(item => {
                             return (item[fieldWeek.index].value == valWeek )
                         }) 
+                        console.log("Week筛选后数量："+filterData.length);
                     }
-
-                    
     
-                    console.log("---------filterData-------------");
+                    console.log("---------筛选结束-------------");
                     console.log(filterData.length);
                     console.log(filterData);
 
@@ -156,7 +192,7 @@ tableau.extensions.initializeAsync().then(function () {
         //     normal({checked:true})
         //     delay({checked:true})
         //     cancelled({checked:true})
-        }
+        // }
     });
 });
 

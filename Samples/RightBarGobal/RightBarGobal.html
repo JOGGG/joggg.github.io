@@ -11,7 +11,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <script src="../../lib/tableau.extensions.1.latest.js"></script>
+	<!-- <script type="text/javascript" src="https://onlinehelp.tableausoftware.com/samples/en-us/js_api/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="https://onlinehelp.tableausoftware.com/samples/en-us/js_api/jquery-ui-1.10.0.custom.js"></script> -->
+    <!-- <script type="text/javascript" src="https://public.tableausoftware.com/javascripts/api/tableau_v8.js"></script> -->
+    <script type="text/javascript" src="https://public.tableau.com/javascripts/api/tableau-2.min.js"></script>
+
+    
+      <script src="../../lib/tableau.extensions.1.latest.js"></script>
 
   <!-- Our extension's code -->
   <script src="./RightBarGobal.js"></script>
@@ -25,7 +31,7 @@
       </div>
     </div>
     <div class="FilterTitle">
-      Filter Options
+        <img class="filteroptions" src="../../assets/18 filter options.png" />
     </div>
     <div class="filterRow">
       <div class="FilterItem">
@@ -97,14 +103,11 @@
   }
 
   .iconPic {
-    max-width: 140px;
-    height: 30px;
+    max-width: 150px;
+    height: 35px;
   }
 
   .FilterTitle {
-    font-size: 26px;
-    color: #4270CC;
-    margin-top: 20px;
   }
 
   select {
