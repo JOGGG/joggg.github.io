@@ -10,16 +10,15 @@ tableau.extensions.initializeAsync().then(function () {
     data.applyFilterAsync("Type", [1, 'Null'], "replace", {
         isExcludeMode: false
     })
-    data.applyFilterAsync("type (Lcenter)", [2, 'Null'], "replace", {
+    data.applyFilterAsync("type (Lcenterinfo)", [2, 'Null'], "replace", {
         isExcludeMode: false
     })
-    data.applyFilterAsync("type (Ex-warehouse)", [3, 'Null'], "replace", {
+    data.applyFilterAsync("type (Ex warehouseinfo)", [3, 'Null'], "replace", {
         isExcludeMode: false
     })
-    // data.applyFilterAsync("type (Suppliers)", [4, 'Null'], "replace", {
+    // data.applyFilterAsync("Type (Suppliersinfo)", [4, 'Null'], "replace", {
     //     isExcludeMode: false
-    // })
-
+    // })   
 });
 
 function alinCheck(that) {
@@ -44,10 +43,10 @@ function lcCheck(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("type (Lcenter)", filterData, "replace", {
+    data.applyFilterAsync("type (Lcenterinfo)", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('type (Lcenter)=>', 2)
+    console.log('type (Lcenterinfo)=>', 2)
 }
 
 function warCheck(that) {
@@ -58,10 +57,10 @@ function warCheck(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("type (Ex-warehouse)", filterData, "replace", {
+    data.applyFilterAsync("type (Ex warehouseinfo)", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('type (Ex-warehouse)=>', 3)
+    console.log('type (Ex warehouseinfo)=>', 3)
 }
 
 function supCheck(that) {
@@ -72,22 +71,23 @@ function supCheck(that) {
     } else {
         filterData = ['Null']
     }
-    data.applyFilterAsync("type (Suppliers)", filterData, "replace", {
+    data.applyFilterAsync("Type (Suppliersinfo)", filterData, "replace", {
         isExcludeMode: false
     })
-    console.log('type (Suppliers)=>', 4)
+    console.log('Type (Suppliersinfo)=>', 4)
 }
+
 function spaCheck(that) {
     console.log('spaCheck')
-    // var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
-    // var filterData
-    // if (that.checked) {
-    //     filterData = [4, 'Null']
-    // } else {
-    //     filterData = ['Null']
-    // }
-    // data.applyFilterAsync("type (Suppliers)", filterData, "replace", {
-    //     isExcludeMode: false
-    // })
-    // console.log('type (Suppliers)=>', 4)
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
+    var filterData
+    if (that.checked) {
+        filterData = [1, 'Null']
+    } else {
+        filterData = [0, 'Null']
+    }
+    data.applyFilterAsync("Status (Suppliersinfo)", filterData, "replace", {
+        isExcludeMode: false
+    })
+    console.log('Status (Suppliersinfo)=>')
 }
