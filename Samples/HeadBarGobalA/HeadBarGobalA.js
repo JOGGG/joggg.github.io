@@ -260,7 +260,7 @@ function tarchange(that) {
             // var serOp = document.getElementById("Service")
             // serOp.options.length = 0
             // document.getElementById("Service").options.add(new Option('All', 'All'))
-            newnewList.forEach(item => {
+            newnewList.sort().forEach(item => {
                 //存在筛选项
                 addDataList(item, 'Service')
                 // serOp.options.add(new Option(item, item))
