@@ -1,9 +1,7 @@
 
 var viz, workbook, activeSheet;
 tableau.extensions.initializeAsync().then(function () {
-    //  this.clearAllFilter();
-    //  initializeViz();
-    //  changeParam(7);
+     this.clearAllFilter();
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
@@ -17,6 +15,12 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
+
+        // console.log('---船舶 columns------')
+        // dataTable.columns.forEach(item => {
+        //     console.log('---column------', item.fieldName)
+        // })
+
         //筛选出Pol
         let fieldA = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)");
         var listA = [];
@@ -35,6 +39,7 @@ tableau.extensions.initializeAsync().then(function () {
 
         //筛选出Pol
         let fieldB = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)");
+        console.log('========pod:'+ fieldB);
         var listB = [];
         for (let row of dataTable.data) {
             listB.push(row[fieldB.index].value);
@@ -50,7 +55,8 @@ tableau.extensions.initializeAsync().then(function () {
         })
 
         //筛选出service
-        let fieldC = dataTable.columns.find(column => column.fieldName === "service (DWS Vesselinfo)");
+        let fieldC = dataTable.columns.find(column => column.fieldName === "Service Line");
+        console.log('========pod:'+ fieldC);
         var listC = [];
         for (let row of dataTable.data) {
             listC.push(row[fieldC.index].value);
@@ -99,14 +105,14 @@ tableau.extensions.initializeAsync().then(function () {
 function clearAllFilter() {
     console.log('========clearAllFilter=========');
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图");
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表");
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
     data.clearFilterAsync("pol (DWS Vesselinfo)");
     data.clearFilterAsync("pod (DWS Vesselinfo)");
-    data.clearFilterAsync("service (DWS Vesselinfo)");
+    data.clearFilterAsync("Service Line");
     data.clearFilterAsync("Etd Weeks");
     shipData.clearFilterAsync("pol (DWS Vesselinfo)");
     shipData.clearFilterAsync("pod (DWS Vesselinfo)");
-    shipData.clearFilterAsync("service (DWS Vesselinfo)");
+    shipData.clearFilterAsync("Service Line");
     shipData.clearFilterAsync("Etd Weeks");
 
 }
@@ -126,7 +132,7 @@ function portPolChange(that) {
     }
 
     //下拉项添加筛选器
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
     if (that.value === 'All') {
         console.log("shipData portPol all");
         shipData.clearFilterAsync("pol (DWS Vesselinfo)")
@@ -153,7 +159,7 @@ function portPodChange(that) {
     }
 
     //下拉项添加筛选器
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
     if (that.value === 'All') {
         shipData.clearFilterAsync("pod (DWS Vesselinfo)")
     } else {
@@ -170,20 +176,20 @@ function serviceLineChange(that) {
     //下拉项添加筛选器
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
     if (that.value === 'All') {
-        data.clearFilterAsync("service (DWS Vesselinfo)")
+        data.clearFilterAsync("Service Line")
     } else {
-        data.applyFilterAsync("service (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("Service Line", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('ship change=>', that.value)
     }
 
     //下拉项添加筛选器
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
     if (that.value === 'All') {
-        shipData.clearFilterAsync("service (DWS Vesselinfo)")
+        shipData.clearFilterAsync("Service Line")
     } else {
-        shipData.applyFilterAsync("service (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
+        shipData.applyFilterAsync("Service Line", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('ship change=>', that.value)
@@ -204,7 +210,7 @@ function weekOnchange(that) {
     }
 
     //下拉项添加筛选器
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶明细表")
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
     if (that.value === 'All') {
         shipData.clearFilterAsync("Etd Weeks")
     } else {
