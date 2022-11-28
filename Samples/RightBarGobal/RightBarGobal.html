@@ -20,11 +20,11 @@
 <body style="background-color: transparent;">
   <div class="RightBar">
     <div class="RightTitle">
-      <div onclick=addFilter()>
-        <img class="shipFilter" style="margin-right: 10px" src="../../assets/25 ship filter.png" />
+      <div>
+        <img class="shipFilter" src="../../assets/25 ship filter.png" />
       </div>
     </div>
-    <div class="FilterTitle" onclick=getData()>
+    <div class="FilterTitle">
       Filter Options
     </div>
     <div class="filterRow">
@@ -42,7 +42,6 @@
           <img class="iconPic" src="../../assets/28 POD.png" />
         </div>
         <div>
-
           <select id="PortPod" onchange="portPodChange(this)">
           </select>
         </div>
@@ -61,11 +60,7 @@
           <img class="iconPic" src="../../assets/30 Sort by.png" />
         </div>
         <div>
-          <select id="delayDetectBy" onchange="delayDetectByOnchange(this)">
-            <option value="All">All</option>
-            <option value="ETA (POD)">ETA (POD)</option>
-            <option value="ETA (POL)">ETA (POL)</option>
-            <option value="ETD (POL)">ETD (POL)</option>
+          <select id="Week" onchange="weekOnchange(this)">
           </select>
         </div>
       </div>
@@ -74,12 +69,7 @@
           <img class="iconPic" src="../../assets/31 delay detect.png" />
         </div>
         <div>
-
           <select id="delayDetectBy" onchange="delayDetectByOnchange(this)">
-            <option value="All">All</option>
-            <option value="ETA (POD)">ETA (POD)</option>
-            <option value="ETA (POL)">ETA (POL)</option>
-            <option value="ETD (POL)">ETD (POL)</option>
           </select>
         </div>
       </div>
@@ -88,17 +78,12 @@
           <img class="iconPic" src="../../assets/32 delay threshold.png" />
         </div>
         <div>
-
           <select id="delayThreshold" onchange="delayThresholdOnchange(this)">
-            <option value="All">All</option>
-            <option value="0">0</option>
-            <option value="3">3</option>
-            <option value="7">7</option>
           </select>
         </div>
+        
       </div>
     </div>
-
   </div>
 </body>
 <style>
@@ -150,7 +135,6 @@
     justify-content: space-between;
     align-items: flex-end;
     border-bottom: 1px gray solid;
-    margin-top: 20px;
   }
 
   .data {
@@ -185,8 +169,7 @@
   .shipFilter {
     width: 150px;
     height: 60px;
-    position: relative;
-    right: 20px;
+    transform: scale(1.25);
   }
 </style>
 
