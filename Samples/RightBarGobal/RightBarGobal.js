@@ -1,9 +1,9 @@
 
 var viz, workbook, activeSheet;
 tableau.extensions.initializeAsync().then(function () {
-     this.clearAllFilter();
-     initializeViz();
-     changeParam(7);
+    //  this.clearAllFilter();
+    //  initializeViz();
+    //  changeParam(7);
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
