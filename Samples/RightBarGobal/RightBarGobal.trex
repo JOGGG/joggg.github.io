@@ -7,7 +7,9 @@
     <author name="tableau" email="github@tableau.com" organization="tableau" website="https://www.tableau.com"/>
     <min-api-version>1.7</min-api-version>
     <source-location>
-      <url>http://localhost:8765/Samples/RightBarGobal/RightBarGobal.html</url>
+      <!-- <url>http://localhost:8765/Samples/RightBarGobal/RightBarGobal.html</url> -->
+           <url>https://joggg.github.io/Samples/RightBarGobal/RightBarGobal.html</url>
+
       <!-- <url>https://cimi.softwhere.com.cn/Samples/RightBarGobal/RightBarGobal.html</url> -->
       
     </source-location>
