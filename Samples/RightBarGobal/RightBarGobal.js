@@ -86,17 +86,17 @@ tableau.extensions.initializeAsync().then(function () {
             }
         })
 
-        //筛选delayDetectBy
-        var delayDetectBy = document.getElementById("delayDetectBy");
-        delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
-        delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
-        delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
+        // //筛选delayDetectBy
+        // var delayDetectBy = document.getElementById("delayDetectBy");
+        // delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
+        // delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
+        // delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
 
-        //筛选delayThreshold
-        var delayThreshold = document.getElementById("delayThreshold");
-        delayThreshold.options.add(new Option('0 day', '0'))
-        delayThreshold.options.add(new Option('3 day', '3'))
-        delayThreshold.options.add(new Option('7 day', '7'))
+        // //筛选delayThreshold
+        // var delayThreshold = document.getElementById("delayThreshold");
+        // delayThreshold.options.add(new Option('0 day', '0'))
+        // delayThreshold.options.add(new Option('3 day', '3'))
+        // delayThreshold.options.add(new Option('7 day', '7'))
 
     })
 });
