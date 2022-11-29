@@ -355,8 +355,14 @@ function getData(txt) {
                 })
             })
             .then(dataTable => {
-                document.getElementById('supAll').innerText = dataTable.data.length
-                console.log(warAll, warM)
+                let supB = dataTable.columns.find(column => column.fieldName === "Sup Province (Suppliersinfo)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[supB.index].value == Province)
+                })
+                console.log(newAA)
+                supAll = newAA.length
+                document.getElementById('supAll').innerText = supAll
+                console.log(supAll, '<======supALL')
             });
         //supM
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
