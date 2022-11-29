@@ -35,6 +35,36 @@ tableau.extensions.initializeAsync().then(function () {
         console.log('----Listener start------', selectionEvent)
         //{
        
+            calcOnFilterChange (); 
+    
+      
+    });
+
+    
+    calcOnFilterChange (); 
+});
+function onParameterChange (parameterChangeEvent) {
+    parameterChangeEvent.getParameterAsync().then(function (param) {
+        
+    console.log('---------参数变更-------------');
+    console.log('参数变更前数量：'+filterData.length);
+        console.log('---param name:'+param.name);
+        console.log('---param currentValue.formattedValue:'+param.currentValue.formattedValue);
+        console.log('---param currentValue:'+param.currentValue.value);
+        
+        calcOnFilterChange (); 
+    //     console.log("---------newRow-------------:"+rowsCancel.length);
+    //   const newRow = parameterRow(param);
+    //   const oldRow = $("tr[data-fieldname='" + param.id + "'");
+    //   oldRow.replaceWith(newRow);
+    });
+  }
+
+
+
+  function calcOnFilterChange () {
+
+
         //  if (selectionEvent.fieldName === "Service Line") {
             console.log('---------Service Line=>>>>>>>>>')
             //获取船舶表数据
@@ -50,32 +80,7 @@ tableau.extensions.initializeAsync().then(function () {
                 });
             }).then(dataTable => {
               
-               calcOnFilterChange (dataTable); 
                 // let result = [];
-
-            });
-      
-    });
-});
-function onParameterChange (parameterChangeEvent) {
-    parameterChangeEvent.getParameterAsync().then(function (param) {
-        
-    console.log('---------参数变更-------------');
-    console.log('参数变更前数量：'+filterData.length);
-        console.log('---param name:'+param.name);
-        console.log('---param currentValue.formattedValue:'+param.currentValue.formattedValue);
-        console.log('---param currentValue:'+param.currentValue.value);
-    //     console.log("---------newRow-------------:"+rowsCancel.length);
-    //   const newRow = parameterRow(param);
-    //   const oldRow = $("tr[data-fieldname='" + param.id + "'");
-    //   oldRow.replaceWith(newRow);
-    });
-  }
-
-
-
-  function calcOnFilterChange (dataTable) {
-
     console.log("---------calcOnFilterChange 开始获取船舶明细表的筛选器-------------");
     //获取筛选器的值
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
@@ -214,6 +219,11 @@ function onParameterChange (parameterChangeEvent) {
             console.log('---Delay Detec by:'+delayDetec);
             console.log('---Delay Threshold:'+delayThreshold);
 
+            
+            console.log("<---------参数筛选前-------------");
+            console.log("---------数量-------------:"+filterData.length);
+            console.log(filterData);
+
             var rowsNormal = []
             var rowsDelay = []
             switch (delayDetec) {
@@ -226,7 +236,9 @@ function onParameterChange (parameterChangeEvent) {
                         return (item[fieldPoletd.index].value != 3 && item[fieldPoletdDelay.index].value -delayThreshold>0)
                     }) 
                     console.log("---------normal-------------:"+rowsNormal.length);
+                    console.log(rowsNormal);
                     console.log("---------Delay-------------:"+rowsDelay.length);
+                    console.log(rowsDelay);
                     console.log("---------ETD(POL)------------->");
                 break;
                 case "ETA(POL)":                      
@@ -238,7 +250,9 @@ function onParameterChange (parameterChangeEvent) {
                         return (item[fieldPoleta.index].value != 3 && item[fieldPoletaDelay.index].value -delayThreshold>0)
                     }) 
                     console.log("---------normal-------------:"+rowsNormal.length);
+                    console.log(rowsNormal);
                     console.log("---------Delay-------------:"+rowsDelay.length);
+                    console.log(rowsDelay);
                     console.log("---------ETA(POL)------------->");
                 break;
                 case "ETA(POD)":     
@@ -250,7 +264,9 @@ function onParameterChange (parameterChangeEvent) {
                         return (item[fieldPodeta.index].value != 3 && item[fieldPodetaDelay.index].value -delayThreshold>0)
                     }) 
                     console.log("---------normal-------------:"+rowsNormal.length);
+                    console.log(rowsNormal);
                     console.log("---------Delay-------------:"+rowsDelay.length);
+                    console.log(rowsDelay);
                     console.log("---------ETA(POD)------------->");
                 break;    
             }            
@@ -264,6 +280,8 @@ function onParameterChange (parameterChangeEvent) {
         });
 
      
+
+    });
 
 
         // let rowsNormal = filterData.filter(item => {
@@ -290,15 +308,15 @@ function onParameterChange (parameterChangeEvent) {
   }
 
 
-  function calcOnParameterChange (parameterChangeEvent) {
-    parameterChangeEvent.getParameterAsync().then(function (param) {
+//   function calcOnParameterChange (parameterChangeEvent) {
+//     parameterChangeEvent.getParameterAsync().then(function (param) {
         
-        console.log('---12param name:'+param.name);
-        console.log('---param currentValue.formattedValue:'+param.currentValue.formattedValue);
-        console.log('---param currentValue:'+param.currentValue.value);
-    //     console.log("---------newRow-------------:"+rowsCancel.length);
-    //   const newRow = parameterRow(param);
-    //   const oldRow = $("tr[data-fieldname='" + param.id + "'");
-    //   oldRow.replaceWith(newRow);
-    });
-  }
+//         console.log('---12param name:'+param.name);
+//         console.log('---param currentValue.formattedValue:'+param.currentValue.formattedValue);
+//         console.log('---param currentValue:'+param.currentValue.value);
+//     //     console.log("---------newRow-------------:"+rowsCancel.length);
+//     //   const newRow = parameterRow(param);
+//     //   const oldRow = $("tr[data-fieldname='" + param.id + "'");
+//     //   oldRow.replaceWith(newRow);
+//     });
+//   }
