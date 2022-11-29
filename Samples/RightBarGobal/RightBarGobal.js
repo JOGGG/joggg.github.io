@@ -4,7 +4,7 @@ tableau.extensions.initializeAsync().then(function () {
      this.clearAllFilter();
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图").getDataSourcesAsync().then(datasources => {
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New").getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
@@ -104,7 +104,7 @@ tableau.extensions.initializeAsync().then(function () {
 
 function clearAllFilter() {
     console.log('========clearAllFilter=========');
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图");
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New");
     var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
     data.clearFilterAsync("pol (DWS Vesselinfo)");
     data.clearFilterAsync("pod (DWS Vesselinfo)");
@@ -120,7 +120,7 @@ function clearAllFilter() {
 //PortPol filter
 function portPolChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
         console.log("portPol all");
         data.clearFilterAsync("pol (DWS Vesselinfo)")
@@ -148,7 +148,7 @@ function portPolChange(that) {
 //PortPod filter
 function portPodChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
         data.clearFilterAsync("pod (DWS Vesselinfo)")
     } else {
@@ -174,7 +174,7 @@ function portPodChange(that) {
 //ServiceLine filter
 function serviceLineChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
         data.clearFilterAsync("Service Line")
     } else {
@@ -199,7 +199,7 @@ function serviceLineChange(that) {
 //Week filter
 function weekOnchange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观航运图")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
     if (that.value === 'All') {
         data.clearFilterAsync("Etd Weeks")
     } else {
@@ -299,35 +299,4 @@ function changeParam(value)
 	workbook.changeParameterValueAsync("poletaDay", value)
 	.then(function() {alert('success');})
 	.otherwise(function(err) { alert('failed: ' + err);});
-}
-
-
-function getData() {
-    tableau.extensions.initializeAsync().then(function () {
-        // Initialization succeeded! Get the dashboard
-        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "在货库存明细").getFiltersAsync().then(datasources => {
-            console.log(datasources)
-        })
-    }, function (err) {
-        // something went wrong in initialization
-        document.getElementById("resultBox").innerHTML = "Error while Initializing: " + err.toString();
-    });
-}
-
-tableau.extensions.initializeAsync().then(function () {
-    //Add your JavaScript code here to call the Extensions API
-}); function addFilter() {
-    tableau.extensions.initializeAsync().then(function () {
-        // Initialization succeeded! Get the dashboard
-        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "在货库存明细")
-        data.applyFilterAsync("位置", ["广州枝山仓库"], "replace", { isExcludeMode: false })
-    }, function (err) {
-        // something went wrong in initialization
-        document.getElementById("resultBox").innerHTML = "Error while Initializing: " + err.toString();
-    });
-}
-function nihao() {
-    var data = tableau.extensions.dashboardContent.dashboard
-    data.applyFilterAsync("位置", ["广州枝山仓库"], "replace", { isExcludeMode: false })
-
 }

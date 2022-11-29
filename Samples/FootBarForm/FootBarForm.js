@@ -2,7 +2,6 @@
 var filterData;
 tableau.extensions.initializeAsync().then(function () {
     //Add your JavaScript code here to call the Extensions API
-    var dataList = ['normal', 'delay', 'cancelled']
     // dataList.forEach(item => {
     //     document.getElementById(item).checked = true
     // })
@@ -63,7 +62,6 @@ function onParameterChange (parameterChangeEvent) {
 
 
   function calcOnFilterChange () {
-
 
         //  if (selectionEvent.fieldName === "Service Line") {
             console.log('---------Service Line=>>>>>>>>>')
