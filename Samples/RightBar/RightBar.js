@@ -8,7 +8,7 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'suppliersinfo'
+                    return item.caption === 'View_baseCity'
                 })
                 console.log(lgTabel)
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
@@ -18,7 +18,7 @@ tableau.extensions.initializeAsync().then(function () {
             console.log('dataTable=>', dataTable)
 
             //筛选区域
-            let fieldA = dataTable.columns.find(column => column.fieldName === "Sup Area (Suppliersinfo)");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "sup area (View!baseCity)");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -36,7 +36,7 @@ tableau.extensions.initializeAsync().then(function () {
             })
 
             //筛选省份
-            let fieldB = dataTable.columns.find(column => column.fieldName === "Sup Province (Suppliersinfo)");
+            let fieldB = dataTable.columns.find(column => column.fieldName === "sup province (View!baseCity)");
             var listB = [];
             for (let row of dataTable.data) {
                 listB.push(row[fieldB.index].value);
@@ -75,8 +75,8 @@ tableau.extensions.initializeAsync().then(function () {
         .then(dataTable => {
             //pickList
             console.log(dataTable)
-            let Province = dataTable.columns.find(column => column.fieldName === "sup province (View baseCity)");
-            let Region = dataTable.columns.find(column => column.fieldName === "sup area (View baseCity)");
+            let Province = dataTable.columns.find(column => column.fieldName === "sup province (View!baseCity)");
+            let Region = dataTable.columns.find(column => column.fieldName === "sup area (View!baseCity)");
             window.listPick = [];
             for (let row of dataTable.data) {
                 listPick.push({
@@ -96,7 +96,7 @@ function logchange(that) {
             var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'suppliersinfo'
+                    return item.caption === 'View_baseCity'
                 })
                 console.log(lgTabel)
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
@@ -104,7 +104,7 @@ function logchange(that) {
         }).then(dataTable => {
             console.log('dataTable=>', dataTable.columns)
             //筛选区域
-            let fieldA = dataTable.columns.find(column => column.fieldName === "Sup Area (Suppliersinfo)");
+            let fieldA = dataTable.columns.find(column => column.fieldName === "sup area (View!baseCity)");
             var listA = [];
             for (let row of dataTable.data) {
                 listA.push(row[fieldA.index].value);
@@ -114,6 +114,7 @@ function logchange(that) {
             var log = document.getElementById("Logistic")
             log.options.length = 0
             var filterLog = ['Null']
+            // var filterLog = []
             log.options.add(new Option('All', 'All'))
             valuesA.forEach(item => {
                 //存在筛选项
@@ -125,7 +126,7 @@ function logchange(that) {
 
 
             //筛选省份
-            let fieldB = dataTable.columns.find(column => column.fieldName === "Sup Province (Suppliersinfo)");
+            let fieldB = dataTable.columns.find(column => column.fieldName === "sup province (View!baseCity)");
             var listB = [];
             for (let row of dataTable.data) {
                 listB.push(row[fieldB.index].value);
@@ -135,7 +136,8 @@ function logchange(that) {
             pro.options.length = 0
             pro.options.add(new Option('All', 'All'))
             var filterPro = ['Null']
-            valuesB =  [...new Set(valuesB)]
+            // var filterPro = []
+            valuesB = [...new Set(valuesB)]
             valuesB.forEach(item => {
                 //存在筛选项
                 if (item) {
@@ -143,28 +145,21 @@ function logchange(that) {
                     filterPro.push(item)
                 }
             })
-            console.log('Sup Area (Suppliersinfo)', valuesA)
+            console.log('sup area (View!baseCity)', valuesA)
+            console.log(filterLog,'<======area')
+            data.applyFilterAsync("sup area (View!baseCity)", filterLog, "replace", {
+                isExcludeMode: false
+            })
+            console.log(filterPro,'<======province')
 
-            data.applyFilterAsync("Sup Area (Suppliersinfo)", filterLog, "replace", {
-                isExcludeMode: false
-            })
-            data.applyFilterAsync("Sup Province (Suppliersinfo)", filterPro, "replace", {
-                isExcludeMode: false
-            })
-            data.applyFilterAsync("Sup Province", filterPro, "replace", {
-                isExcludeMode: false
-            })
-            data.applyFilterAsync("sup province (Ex warehouseinfo)", filterPro, "replace", {
-                isExcludeMode: false
-            })
-            data.applyFilterAsync("sup province (Lcenterinfo)", filterPro, "replace", {
+            data.applyFilterAsync("sup province (View!baseCity)", filterPro, "replace", {
                 isExcludeMode: false
             })
             console.log(filterLog, filterPro)
             getData()
         });
     } else {
-        data.applyFilterAsync("Sup Area (Suppliersinfo)", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync("sup area (View!baseCity)", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         reloadPro(that.value)
@@ -177,16 +172,7 @@ function prochange(that) {
 
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
     if (that.value !== 'All') {
-        data.applyFilterAsync('Sup Province (Suppliersinfo)', [that.value, 'Null'], "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("Sup Province", [that.value, 'Null'], "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("sup province (Ex warehouseinfo)", [that.value, 'Null'], "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("sup province (Lcenterinfo)", [that.value, 'Null'], "replace", {
+        data.applyFilterAsync('sup province (View!baseCity)', [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         data.getDataSourcesAsync().then(datasources => {
@@ -195,14 +181,14 @@ function prochange(that) {
             return dataSource.getLogicalTablesAsync().then((logicalTables) => {
                 console.log('nihao=>', logicalTables)
                 var lgTabel = logicalTables.find(item => {
-                    return item.caption === 'suppliersinfo' //表名
+                    return item.caption === 'View_baseCity' //表名
                 })
                 console.log(lgTabel)
                 return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
             })
         }).then(dataTable => {
-            let regin = dataTable.columns.find(column => column.fieldName === "Sup Area (Suppliersinfo)");
-            let reginB = dataTable.columns.find(column => column.fieldName === "Sup Province (Suppliersinfo)");
+            let regin = dataTable.columns.find(column => column.fieldName === "sup area (View!baseCity)");
+            let reginB = dataTable.columns.find(column => column.fieldName === "sup province (View!baseCity)");
             let newFilter = dataTable.data.filter(item => {
                 return (item[reginB.index].value == that.value)
             })
@@ -222,20 +208,6 @@ function prochange(that) {
                 }
             }
         })
-        // var RegItem = window.listPick.find(item => {
-        //     return item.Province == that.value
-        // })
-        // log.options.length = 0
-        // log.options.add(new Option('All', 'All'))
-        // log.options.add(new Option(RegItem.Region), RegItem.Region)
-        // window.Region.forEach(item => {
-        //     //存在筛选项
-        //     if (item !== RegItem.Region) {
-        //         log.options.add(new Option(item, item))
-        //         console.log(item)
-        //     }
-        // })
-        
     } else {
         var sonAll = window.listPick.filter(item => {
             return item.Region == document.getElementById('Logistic').value
@@ -245,16 +217,7 @@ function prochange(that) {
             //存在筛选项
             filterData.push(item.Province)
         })
-        data.applyFilterAsync('Sup Province (Suppliersinfo)', filterData, "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("Sup Province", filterData, "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("sup province (Ex warehouseinfo)", filterData, "replace", {
-            isExcludeMode: false
-        })
-        data.applyFilterAsync("sup province (Lcenterinfo)", filterData, "replace", {
+        data.applyFilterAsync('sup province (View!baseCity)', filterData, "replace", {
             isExcludeMode: false
         })
     }
@@ -265,9 +228,9 @@ function reloadPro(data) {
     console.log(data)
     var newOptions = []
     console.log(window.listPick)
-    window.listPick.forEach(item=>{
-        if(item.Region==data){
-            newOptions = [...newOptions,item.Province]
+    window.listPick.forEach(item => {
+        if (item.Region == data) {
+            newOptions = [...newOptions, item.Province]
         }
     })
     var Province = document.getElementById("Province")
@@ -275,22 +238,15 @@ function reloadPro(data) {
     Province.options.length = 0
     Province.options.add(new Option('All', 'All'))
     newOptions = Array.from(new Set(newOptions))
+
     newOptions.forEach(item => {
         //存在筛选项
         Province.options.add(new Option(item), item)
         filterData.push(item)
     })
+   
     var newFilter = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图")
-    newFilter.applyFilterAsync("Sup Province (Suppliersinfo)", filterData, "replace", {
-        isExcludeMode: false
-    })
-    newFilter.applyFilterAsync("Sup Province", filterData, "replace", {
-        isExcludeMode: false
-    })
-    newFilter.applyFilterAsync("sup province (Ex warehouseinfo)", filterData, "replace", {
-        isExcludeMode: false
-    })
-    newFilter.applyFilterAsync("sup province (Lcenterinfo)", filterData, "replace", {
+    newFilter.applyFilterAsync("sup province (View!baseCity)", filterData, "replace", {
         isExcludeMode: false
     })
     console.log(newOptions)
@@ -298,25 +254,6 @@ function reloadPro(data) {
     getData('reg')
 }
 
-// function reloadReg(data) {
-//     var newOptions = window.listPick.filter(item => {
-//         return item.Province == data
-//     })
-//     var Logistic = document.getElementById("Logistic")
-//     var filterData = []
-//     Logistic.options.length = 0
-
-//     newOptions.forEach(item => {
-//         //存在筛选项
-//         Logistic.options.add(new Option(item.Region), item.Region)
-//         filterData.push(item.Region)
-//     })
-//     Logistic.options.add(new Option('All', 'All'))
-//     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").applyFilterAsync("Sup Area (Suppliersinfo)", filterData, "replace", {
-//         isExcludeMode: false
-//     })
-//     console.log(newOptions)
-// }
 function getData(txt) {
     var Logistic = document.getElementById('Logistic').value,
         Province = document.getElementById('Province').value,
@@ -346,19 +283,13 @@ function getData(txt) {
                 console.log(dataTable)
                 //多重条件筛选数据
                 let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+
                 let newAA = dataTable.data.filter(item => {
-                    return (item[alAA.index].value == 1 && item[alinB.index].value == Province)
+                    return (item[alinB.index].value == Province)
                 })
                 alinAll = newAA.length
-                // dataTable.data.forEach(item => {
-                //     if (item[alin.index].value == '1' && item[alAA.index].value == 1 && item[alinB.index].value == Province) {
-                //         alinM += 1
-                //     }
-                // })
                 document.getElementById('alinAll').innerText = alinAll
-                // document.getElementById('alinM').innerText = alinM
-                console.log(alinAll, alinM)
+                console.log(alinAll)
             });
 
         //lc
@@ -378,19 +309,12 @@ function getData(txt) {
                 console.log(dataTable.data)
                 // let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
                 let LcenterB = dataTable.columns.find(column => column.fieldName === "sup province (Lcenterinfo)");
-                let lcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenterinfo)");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[lcAA.index].value == 2 && item[LcenterB.index].value == Province)
+                    return (item[LcenterB.index].value == Province)
                 })
                 lcAll = newAA.length
 
-                // dataTable.data.forEach(item => {
-                //     if (item[Lcenter.index].value == '1' && item[lcAA.index].value == 2 && item[LcenterB.index].value == Province) {
-                //         lcM += 1
-                //     }
-                // })
                 document.getElementById('lcAll').innerText = lcAll
-                // document.getElementById('lcM').innerText = lcM
                 console.log(lcAll, lcM)
             });
         //war
@@ -408,23 +332,16 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                // let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
                 let warB = dataTable.columns.find(column => column.fieldName === "sup province (Ex warehouseinfo)");
-                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex warehouseinfo)");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[warAA.index].value == 3 && item[warB.index].value == Province)
+                    return (item[warB.index].value == Province)
                 })
                 warAll = newAA.length
-                // dataTable.data.forEach(item => {
-                //     if (item[war.index].value == '1' && item[warAA.index].value == 3 && item[warB.index].value == Province) {
-                //         warM += 1
-                //     }
-                // })
+
                 document.getElementById('warAll').innerText = warAll
-                // document.getElementById('warM').innerText = warM
                 console.log(warAll, warM)
             });
-        //sup
+        //supAll
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
                 console.log('datasource=>', datasources)
                 var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
@@ -438,23 +355,33 @@ function getData(txt) {
                 })
             })
             .then(dataTable => {
-                console.log(dataTable.data)
-                let sup = dataTable.columns.find(column => column.fieldName === "监控字段");
-                let supB = dataTable.columns.find(column => column.fieldName === "Sup Province (Suppliersinfo)");
-                let supAA = dataTable.columns.find(column => column.fieldName === "Type (Suppliersinfo)");
-                let newAA = dataTable.data.filter(item => {
-                    return (item[supAA.index].value == 4 && item[supB.index].value == Province)
-                })
-                supAll = newAA.length
-                dataTable.data.forEach(item => {
-                    if (item[sup.index].value == '1' && item[supAA.index].value == 4 && item[supB.index].value == Province) {
-                        supM += 1
-                    }
-                })
-                document.getElementById('supAll').innerText = supAll
-                document.getElementById('supM').innerText = supM
-                console.log(supAll, supM)
+                document.getElementById('supAll').innerText = dataTable.data.length
+                console.log(warAll, warM)
             });
+        //supM
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
+                console.log('datasource=>', datasources)
+                var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
+                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+                    console.log('nihao=>', logicalTables)
+                    var lgTabel = logicalTables.find(item => {
+                        return item.caption === 'View_SpecialSupplier' //表名
+                    })
+                    console.log(lgTabel)
+                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+                })
+            })
+            .then(dataTable => {
+                let warB = dataTable.columns.find(column => column.fieldName === "sup province (View!SpecialSupplier)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[warB.index].value == Province)
+                })
+                supM = newAA.length
+                document.getElementById('supM').innerText = supM
+                document.getElementById('MAll').innerText = supM
+            });
+      
+
     } else if (txt == 'reg') {
         //Alin
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
@@ -471,20 +398,13 @@ function getData(txt) {
             })
             .then(dataTable => {
                 console.log(dataTable.data)
-                // let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
-                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Area");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[alAA.index].value == 1 && item[alinB.index].value == Logistic)
+                    return (item[alinB.index].value == Logistic)
                 })
                 alinAll = newAA.length
-                // dataTable.data.forEach(item => {
-                //     if (item[alin.index].value == '1' && item[alinB.index].value == Logistic && item[alAA.index].value == 1) {
-                //         alinM += 1
-                //     }
-                // })
+
                 document.getElementById('alinAll').innerText = alinAll
-                // document.getElementById('alinM').innerText = alinM
                 console.log(alinAll, alinM)
             });
 
@@ -504,9 +424,8 @@ function getData(txt) {
             .then(dataTable => {
                 // let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
                 let LcenterB = dataTable.columns.find(column => column.fieldName === "sup area (Lcenterinfo)");
-                let lcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenterinfo)");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[lcAA.index].value == 2 && item[LcenterB.index].value == Logistic)
+                    return (item[LcenterB.index].value == Logistic)
                 })
                 lcAll = newAA.length
 
@@ -536,9 +455,8 @@ function getData(txt) {
                 console.log(dataTable.data)
                 // let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
                 let warB = dataTable.columns.find(column => column.fieldName === "sup area (Ex warehouseinfo)");
-                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex warehouseinfo)");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[warAA.index].value == 3 && item[warB.index].value == Logistic)
+                    return (item[warB.index].value == Logistic)
                 })
                 warAll = newAA.length
                 // dataTable.data.forEach(item => {
@@ -550,7 +468,29 @@ function getData(txt) {
                 // document.getElementById('warM').innerText = warM
                 console.log(warAll, warM)
             });
-        //sup
+        //supM
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
+                console.log('datasource=>', datasources)
+                var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
+                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+                    console.log('nihao=>', logicalTables)
+                    var lgTabel = logicalTables.find(item => {
+                        return item.caption === 'View_SpecialSupplier' //表名
+                    })
+                    console.log(lgTabel)
+                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+                })
+            })
+            .then(dataTable => {
+                let warB = dataTable.columns.find(column => column.fieldName === "sup area (View!SpecialSupplier)");
+                let newAA = dataTable.data.filter(item => {
+                    return (item[warB.index].value == Logistic)
+                })
+                supM = newAA.length
+                document.getElementById('supM').innerText = supM
+                document.getElementById('MAll').innerText = supM
+            });
+        //supAll
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
                 console.log('datasource=>', datasources)
                 var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
@@ -564,22 +504,15 @@ function getData(txt) {
                 })
             })
             .then(dataTable => {
-                let sup = dataTable.columns.find(column => column.fieldName === "监控字段");
                 let supB = dataTable.columns.find(column => column.fieldName === "Sup Area (Suppliersinfo)");
-                let supAA = dataTable.columns.find(column => column.fieldName === "Type (Suppliersinfo)");
                 let newAA = dataTable.data.filter(item => {
-                    return (item[supAA.index].value == 1 && item[supB.index].value == Logistic)
+                    return (item[supB.index].value == Logistic)
                 })
                 supAll = newAA.length
-                dataTable.data.forEach(item => {
-                    if (item[sup.index].value == '1' && item[supB.index].value == Logistic && item[supAA.index].value == 4) {
-                        supM += 1
-                    }
-                })
                 document.getElementById('supAll').innerText = supAll
-                document.getElementById('supM').innerText = supM
-                console.log(supAll, supM)
             });
+        document.getElementById('MAll').innerText = supM
+
     } else if (Logistic == 'All' && Province == 'All') {
         //Alin
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
@@ -596,17 +529,17 @@ function getData(txt) {
             })
             .then(dataTable => {
                 // let alin = dataTable.columns.find(column => column.fieldName === "Special Monitoring");
-                let alAA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
-                    return item[alAA.index].value == 1
-                })
-                alinAll = newAA.length
+                // let alAA = dataTable.columns.find(column => column.fieldName === "Type");
+                // let newAA = dataTable.data.filter(item => {
+                //     return item[alAA.index].value == 1
+                // })
+                // alinAll = newAA.length
                 // dataTable.data.forEach(item => {
                 //     if (item[alin.index].value == '1' && item[alAA.index].value == 1) {
                 //         alinM += 1
                 //     }
                 // })
-                document.getElementById('alinAll').innerText = alinAll
+                document.getElementById('alinAll').innerText = dataTable.data.length
                 // document.getElementById('alinM').innerText = alinM
                 console.log(alinAll, alinM)
             });
@@ -626,17 +559,17 @@ function getData(txt) {
             })
             .then(dataTable => {
                 // let Lcenter = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Lcenter)");
-                let LcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenterinfo)");
-                let newAA = dataTable.data.filter(item => {
-                    return item[LcAA.index].value == 2
-                })
-                lcAll = newAA.length
+                // let LcAA = dataTable.columns.find(column => column.fieldName === "type (Lcenterinfo)");
+                // let newAA = dataTable.data.filter(item => {
+                //     return item[LcAA.index].value == 2
+                // })
+                // lcAll = newAA.length
                 // dataTable.data.forEach(item => {
                 //     if (item[Lcenter.index].value == '1' && item[LcAA.index].value == 2) {
                 //         lcM += 1
                 //     }
                 // })
-                document.getElementById('lcAll').innerText = lcAll
+                document.getElementById('lcAll').innerText = dataTable.data.length
                 // document.getElementById('lcM').innerText = lcM
                 console.log(lcAll, lcM)
             });
@@ -655,21 +588,21 @@ function getData(txt) {
             })
             .then(dataTable => {
                 // let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
-                let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex warehouseinfo)");
-                let newAA = dataTable.data.filter(item => {
-                    return item[warAA.index].value == 3
-                })
-                warAll = newAA.length
+                // let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex warehouseinfo)");
+                // let newAA = dataTable.data.filter(item => {
+                //     return item[warAA.index].value == 3
+                // })
+                // warAll = newAA.length
                 // dataTable.data.forEach(item => {
                 //     if (item[war.index].value == '1' && item[warAA.index].value == 3) {
                 //         warM += 1
                 //     }
                 // })
-                document.getElementById('warAll').innerText = warAll
+                document.getElementById('warAll').innerText = dataTable.data.length
                 // document.getElementById('warM').innerText = warM
                 console.log(warAll, warM)
             });
-        //sup
+        //supAll
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
                 console.log('datasource=>', datasources)
                 var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
@@ -683,24 +616,47 @@ function getData(txt) {
                 })
             })
             .then(dataTable => {
-                // let sup = dataTable.columns.find(column => column.fieldName === "监控字段");
-                let supAA = dataTable.columns.find(column => column.fieldName === "Type (Suppliersinfo)");
-                let newAA = dataTable.data.filter(item => {
-                    return item[supAA.index].value == 4
+                // let war = dataTable.columns.find(column => column.fieldName === "Special Monitoring (Ex-warehouse)");
+                // let warAA = dataTable.columns.find(column => column.fieldName === "type (Ex warehouseinfo)");
+                // let newAA = dataTable.data.filter(item => {
+                //     return item[warAA.index].value == 3
+                // })
+                // warAll = newAA.length
+                // dataTable.data.forEach(item => {
+                //     if (item[war.index].value == '1' && item[warAA.index].value == 3) {
+                //         warM += 1
+                //     }
+                // })
+                document.getElementById('supAll').innerText = dataTable.data.length
+                // document.getElementById('warM').innerText = warM
+                console.log(warAll, warM)
+            });
+        //supM
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "宏观海运中国地图").getDataSourcesAsync().then(datasources => {
+                console.log('datasource=>', datasources)
+                var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)"); //数据源
+                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+                    console.log('nihao=>', logicalTables)
+                    var lgTabel = logicalTables.find(item => {
+                        return item.caption === 'View_SpecialSupplier' //表名
+                    })
+                    console.log(lgTabel)
+                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
                 })
-                supAll = newAA.length
+            })
+            .then(dataTable => {
                 // dataTable.data.forEach(item => {
                 //     if (item[sup.index].value == '1' && item[supAA.index].value == 4) {
                 //         supM += 1
                 //     }
                 // })
-                document.getElementById('supAll').innerText = supAll
-                // document.getElementById('supM').innerText = supM
-                console.log(supAll, supM)
+                supM = dataTable.data.length
+                document.getElementById('supM').innerText = supM
+                document.getElementById('MAll').innerText = supM
             });
+       
+
     }
 
-
     // document.getElementById('MAll').innerText = supM + warM + lcM + alinM
-    document.getElementById('MAll').innerText = supM 
 }
