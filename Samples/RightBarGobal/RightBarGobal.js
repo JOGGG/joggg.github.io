@@ -1,7 +1,6 @@
-
-var viz, workbook, activeSheet;
+var viz, workbook, activeSheet, regionList;
 tableau.extensions.initializeAsync().then(function () {
-     this.clearAllFilter();
+    this.clearAllFilter();
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New").getDataSourcesAsync().then(datasources => {
@@ -39,7 +38,7 @@ tableau.extensions.initializeAsync().then(function () {
 
         //筛选出Pol
         let fieldB = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)");
-        console.log('========pod:'+ fieldB);
+        console.log('========pod:' + fieldB);
         var listB = [];
         for (let row of dataTable.data) {
             listB.push(row[fieldB.index].value);
@@ -56,7 +55,7 @@ tableau.extensions.initializeAsync().then(function () {
 
         //筛选出service
         let fieldC = dataTable.columns.find(column => column.fieldName === "Service Line");
-        console.log('========pod:'+ fieldC);
+        console.log('========pod:' + fieldC);
         var listC = [];
         for (let row of dataTable.data) {
             listC.push(row[fieldC.index].value);
@@ -97,7 +96,7 @@ tableau.extensions.initializeAsync().then(function () {
         // delayThreshold.options.add(new Option('0 day', '0'))
         // delayThreshold.options.add(new Option('3 day', '3'))
         // delayThreshold.options.add(new Option('7 day', '7'))
-
+        getRegionList()
     })
 });
 
@@ -142,7 +141,7 @@ function portPolChange(that) {
         })
         console.log('shipData portPol change=>', that.value)
     }
-    
+    getRegionList()
 }
 
 //PortPod filter
@@ -168,7 +167,7 @@ function portPodChange(that) {
         })
         console.log('ship change=>', that.value)
     }
-    
+    getRegionList()
 }
 
 //ServiceLine filter
@@ -232,7 +231,7 @@ function delayDetectByOnchange(that) {
     //     data.changeParameterValueAsync("poletaDay", 7).then(function(){console.log(" changeParamete success");})
     // }
 
-    
+
     // delayDetectBy.options.add(new Option('ETA (POL)', 'ETA (POL)'))
     // delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
     // delayDetectBy.options.add(new Option('ETA (POD)', 'ETA (POD)'))
@@ -248,7 +247,7 @@ function delayDetectByOnchange(that) {
     //     })
     //     console.log('ship change=>', that.value)
     // }
-    
+
 }
 
 //DelayThreshold filter
@@ -281,22 +280,95 @@ function delayThresholdOnchange(that) {
 //   viz = new tableau.Viz(placeholderDiv, url, options); 
 // }
 
-function showParams()
-{
-	workbook.getParametersAsync()
-	.then(function (params) {
-		var msg = '';
-		for(var i=0; i<params.length; i++)
-		{
-			msg += params[i].getName() + ' - ' + params[i].getDataType() + '\n';
-		}
-		alert(msg);
-	})
+function showParams() {
+    workbook.getParametersAsync()
+        .then(function (params) {
+            var msg = '';
+            for (var i = 0; i < params.length; i++) {
+                msg += params[i].getName() + ' - ' + params[i].getDataType() + '\n';
+            }
+            alert(msg);
+        })
 }
 
-function changeParam(value)
-{
-	workbook.changeParameterValueAsync("poletaDay", value)
-	.then(function() {alert('success');})
-	.otherwise(function(err) { alert('failed: ' + err);});
+function changeParam(value) {
+    workbook.changeParameterValueAsync("poletaDay", value)
+        .then(function () {
+            alert('success');
+        })
+        .otherwise(function (err) {
+            alert('failed: ' + err);
+        });
+}
+
+function getRegionList() {
+    valuePol = document.getElementById('PortPol').value
+    valuePod = document.getElementById('PortPod').value
+    console.log(valuePod, valuePol)
+    var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    sheet.getDataSourcesAsync().then(datasources => {
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+            console.log('nihao=>', logicalTables)
+            var lgTabel = logicalTables.find(item => {
+                return item.caption === '船舶'
+            })
+            console.log(lgTabel)
+            return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
+        });
+    }).then(dataTable => {
+        //筛选出Region
+        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)");
+        let fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)");
+        let fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+        var valuesA = []
+        if (valuePol == 'All' && valuePod == 'All') {
+            dataTable.data.forEach(item => {
+                valuesA.push(item[fieldRegion.index].value)
+            })
+        } else if (valuePol == 'All' && valuePod !== 'All') {
+            let List = dataTable.data.filter(item => {
+                return (item[fieldPod.index].value == valuePod)
+            })
+            List.forEach(item => {
+                valuesA.push(item[fieldRegion.index].value)
+            })
+        } else if (valuePol !== 'All' && valuePod == 'All') {
+            let List = dataTable.data.filter(item => {
+                return (item[fieldPol.index].value == valuePol)
+            })
+            List.forEach(item => {
+                valuesA.push(item[fieldRegion.index].value)
+            })
+        } else {
+            let List = dataTable.data.filter(item => {
+                return (item[fieldPol.index].value == valuePol && item[fieldPod.index].value == valuePod)
+            })
+            List.forEach(item => {
+                valuesA.push(item[fieldRegion.index].value)
+            })
+        }
+        // let List = dataTable.data.filter(item => {
+        //     return (item[alinB.index].value == Province && item[alinA.index].value == 1)
+        // })
+        console.log('regionList========>', [...new Set(valuesA)])
+        valuesA = [...new Set(valuesA)]
+        // document.getElementById("PortPol").options.add(new Option('All', 'All'))
+        // List.forEach(item => {
+        //     //存在筛选项
+        //     if (item) {
+        //         var portPolOp = document.getElementById("PortPol")
+        //         portPolOp.options.add(new Option(item, item))
+        //     }
+        // })
+        var Ser = document.getElementById('ServiceLine')
+        if(valuesA.length){
+            Ser.options.length = 0
+            Ser.options.add(new Option('All', 'All'))
+        }else{
+            Ser.options.length = 0
+            Ser.options.add(new Option('--', ''))
+        }
+        sheet.applyFilterAsync('Region (DWS Portshiproute)',['Null',...valuesA],'replace')
+    })
 }
