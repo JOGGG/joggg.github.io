@@ -258,28 +258,28 @@ function delayThresholdOnchange(that) {
 
 
 
-function initializeViz() {
-  var placeholderDiv = document.getElementById("vizContainer");
-   var url = "https://10.192.112.83/views/-1127/sheet13";
-//   var options = {
-//      width: "800px",
-//      height: "700px",
-//     onFirstInteractive: function () {
-//       workbook = viz.getWorkbook();
-//       activeSheet = workbook.getActiveSheet();
-//     }
-//   };
-//   viz = new tableauSoftware.Viz(placeholderDiv, url, options);
+// function initializeViz() {
+//   var placeholderDiv = document.getElementById("vizContainer");
+//    var url = "https://10.192.112.83/views/-1127/sheet13";
+// //   var options = {
+// //      width: "800px",
+// //      height: "700px",
+// //     onFirstInteractive: function () {
+// //       workbook = viz.getWorkbook();
+// //       activeSheet = workbook.getActiveSheet();
+// //     }
+// //   };
+// //   viz = new tableauSoftware.Viz(placeholderDiv, url, options);
 
-  var options = {
-    hideTabs: true,
-    onFirstInteractive: function () {
-        workbook = viz.getWorkbook();
-      var sheetCount = viz.getWorkbook().getPublishedSheetsInfo().length;
-  }
-};
-  viz = new tableau.Viz(placeholderDiv, url, options); 
-}
+//   var options = {
+//     hideTabs: true,
+//     onFirstInteractive: function () {
+//         workbook = viz.getWorkbook();
+//       var sheetCount = viz.getWorkbook().getPublishedSheetsInfo().length;
+//   }
+// };
+//   viz = new tableau.Viz(placeholderDiv, url, options); 
+// }
 
 function showParams()
 {
