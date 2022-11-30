@@ -2,12 +2,12 @@
 
 tableau.extensions.initializeAsync().then(function () {
     //Add your JavaScript code here to call the Extensions API
-    var dataList = ['alinCheck', 'lcCheck', 'warCheck', 'supCheck', 'spaCheck']
+    var dataList = ['alinCheck', 'lcCheck', 'warCheck', 'spaCheck']
     dataList.forEach(item => {
         document.getElementById(item).checked = true
     })
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT")
-    data.applyFilterAsync("Type", [1, 2, 3, 4, 7, 'Null'], "replace", {
+    data.applyFilterAsync("Type", [1, 2, 3, 7, 'Null'], "replace", {
         isExcludeMode: false
     })
 });
