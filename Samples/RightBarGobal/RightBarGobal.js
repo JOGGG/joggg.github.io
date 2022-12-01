@@ -14,7 +14,7 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
-        data.applyFilterAsync("Layer_Tag", [1, 'Null'], "replace", {
+        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").applyFilterAsync("Layer_Tag", [1, 'Null'], "replace", {
             isExcludeMode: false
         })
         
