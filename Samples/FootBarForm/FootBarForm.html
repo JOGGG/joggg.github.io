@@ -2,132 +2,132 @@
 <html>
 
 <head>
-  <title>ClickThrough Sample</title>
+    <title>ClickThrough Sample</title>
 
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="../../lib/tableau.extensions.1.latest.js"></script>
 
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <script src="../../lib/tableau.extensions.1.latest.js"></script>
-
-  <!-- Our extension's code -->
-  <script src="./FootBarForm.js"></script>
+    <!-- Our extension's code -->
+    <script src="./FootBarForm.js"></script>
 </head>
 
 <body style="background-color: transparent;">
-  <div class="foot">
-    <div class="FootBar">
-      <div class="footBtn">
-        <img class="iconPic" src="../../assets/24 overview.png" />
-      </div>
-      <div class="footBtn">
-        <img class="iconPic" src="../../assets/03 normal ship.png" /><div id="normal" class="green">0</div>
-      </div>
-      <div class="footBtn">
-        <img class="iconPic" src="../../assets/04 delay ship.png" /><div id="delay" class="red">0</div>
-      </div>
-      <div class="footBtn">
-        <img class="iconPic" src="../../assets/05 cancelled ship.png" /><div id="cancelled" class="black">0</div>
-      </div>
+    <div class="foot">
+        <div class="FootBar">
+            <div class="footBtn">
+                <img class="iconPic" src="../../assets/24 overview.png" />
+            </div>
+            <div class="footBtn">
+                <img class="iconPic" src="../../assets/03 normal ship.png" />
+                <div id="normal" class="green">0</div>
+            </div>
+            <div class="footBtn">
+                <img class="iconPic" src="../../assets/04 delay ship.png" />
+                <div id="delay" class="red">0</div>
+            </div>
+            <div class="footBtn">
+                <img class="iconPic" src="../../assets/05 cancelled ship.png" />
+                <div id="cancelled" class="black">0</div>
+            </div>
+        </div>
     </div>
-
-
 </body>
 <style>
-    html{
+    html {
         height: 100%;
     }
-    body{
+
+    body {
         height: 100%;
         display: flex;
         align-items: center;
     }
-  * {
-    font-weight: 700;
-  }
-  body{
-    overflow-y: hidden;
-  }
-  .foot {
-    display: flex;
- 
-    justify-content: space-between;
-  }
-  
-  .FootBar {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    overflow-x: auto;
-  }
 
-  .footBtn {
-    margin-right: 20px;
-    font-weight: 700;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-  }
+    * {
+        font-weight: 700;
+    }
 
-  input[type="checkbox"] {
-    margin-top: 0px;
-  }
+    body {
+        overflow-y: hidden;
+    }
 
-  .iconPic {
-    max-width: 170px;
-    min-width: 50px;
-    height: 30px;
-  }
+    .foot {
+        display: flex;
 
-  .GreenLine,
-  .RedLine {
-    height: 2px;
-    width: 50px;
-  }
+        justify-content: space-between;
+    }
 
-  .green {
-    color: rgb(122, 166, 88);
-    margin-left: 5px;
-    font-size: 20px;
-  }
+    .FootBar {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-x: auto;
+    }
 
-  .blue {
-    color: rgb(62, 112, 199);
-    margin-left: 5px;
-    font-size: 20px;
-  }
+    .footBtn {
+        margin-right: 20px;
+        font-weight: 700;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+    }
 
-  .red {
-    color: rgb(218, 76, 77);
-    margin-left: 5px;
-    font-size: 20px;
-  }
+    input[type="checkbox"] {
+        margin-top: 0px;
+    }
 
-  .black {
-    color: rgb(125, 123, 124);
-    margin-left: 5px;
-    font-size: 20px;
-  }
+    .iconPic {
+        max-width: 170px;
+        min-width: 50px;
+        height: 30px;
+    }
 
-  .GreenLine {
-    background-color: greenyellow;
-  }
+    .GreenLine,
+    .RedLine {
+        height: 2px;
+        width: 50px;
+    }
 
-  .RedLine {
-    background-color: red;
-  }
+    .green {
+        color: rgb(122, 166, 88);
+        margin-left: 5px;
+        font-size: 20px;
+    }
 
-  .flex {
-    display: flex;
-    align-items: center;
-  }
-  .home{
-    width: 180px;
-    height: 70px;
-  }
+    .blue {
+        color: rgb(62, 112, 199);
+        margin-left: 5px;
+        font-size: 20px;
+    }
+
+    .red {
+        color: rgb(218, 76, 77);
+        margin-left: 5px;
+        font-size: 20px;
+    }
+
+    .black {
+        color: rgb(125, 123, 124);
+        margin-left: 5px;
+        font-size: 20px;
+    }
+
+    .GreenLine {
+        background-color: greenyellow;
+    }
+
+    .RedLine {
+        background-color: red;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .home {
+        width: 180px;
+        height: 70px;
+    }
 </style>
 
 </html>

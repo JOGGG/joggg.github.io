@@ -3,7 +3,7 @@ tableau.extensions.initializeAsync().then(function () {
     this.clearAllFilter();
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New").getDataSourcesAsync().then(datasources => {
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
@@ -14,7 +14,10 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
-
+        data.applyFilterAsync("Layer_Tag", [1, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        
         // console.log('---船舶 columns------')
         // dataTable.columns.forEach(item => {
         //     console.log('---column------', item.fieldName)
@@ -96,14 +99,14 @@ tableau.extensions.initializeAsync().then(function () {
         // delayThreshold.options.add(new Option('0 day', '0'))
         // delayThreshold.options.add(new Option('3 day', '3'))
         // delayThreshold.options.add(new Option('7 day', '7'))
-        getRegionList()
+        getList()
     })
 });
 
 
 function clearAllFilter() {
     console.log('========clearAllFilter=========');
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New");
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）");
     var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
     data.clearFilterAsync("pol (DWS Vesselinfo)");
     data.clearFilterAsync("pod (DWS Vesselinfo)");
@@ -119,7 +122,7 @@ function clearAllFilter() {
 //PortPol filter
 function portPolChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     if (that.value === 'All') {
         console.log("portPol all");
         data.clearFilterAsync("pol (DWS Vesselinfo)")
@@ -141,13 +144,13 @@ function portPolChange(that) {
         })
         console.log('shipData portPol change=>', that.value)
     }
-    getRegionList()
+    getList()
 }
 
 //PortPod filter
 function portPodChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     if (that.value === 'All') {
         data.clearFilterAsync("pod (DWS Vesselinfo)")
     } else {
@@ -167,13 +170,13 @@ function portPodChange(that) {
         })
         console.log('ship change=>', that.value)
     }
-    getRegionList()
+    getList()
 }
 
 //ServiceLine filter
 function serviceLineChange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     if (that.value === 'All') {
         data.clearFilterAsync("Service Line")
     } else {
@@ -193,12 +196,13 @@ function serviceLineChange(that) {
         })
         console.log('ship change=>', that.value)
     }
+    getList()
 }
 
 //Week filter
 function weekOnchange(that) {
     //下拉项添加筛选器
-    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     if (that.value === 'All') {
         data.clearFilterAsync("Etd Weeks")
     } else {
@@ -301,11 +305,11 @@ function changeParam(value) {
         });
 }
 
-function getRegionList() {
+function getList() {
     valuePol = document.getElementById('PortPol').value
     valuePod = document.getElementById('PortPod').value
     console.log(valuePod, valuePol)
-    var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图New")
+    var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     sheet.getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
@@ -317,58 +321,85 @@ function getRegionList() {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
-        //筛选出Region
-        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)");
-        let fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)");
-        let fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
-        var valuesA = []
+        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
+            fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
+            fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
+            fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+        var valuesA = [], //region
+            valuesB = [] //ser
+
         if (valuePol == 'All' && valuePod == 'All') {
+            //region
             dataTable.data.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
+            //ser
+            dataTable.data.forEach(item => {
+                valuesB.push(item[fieldSer.index].value)
+            })
         } else if (valuePol == 'All' && valuePod !== 'All') {
+            //region
             let List = dataTable.data.filter(item => {
                 return (item[fieldPod.index].value == valuePod)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
+            //ser
+            let ListB = dataTable.data.filter(item => {
+                return (item[fieldPod.index].value == valuePod)
+            })
+            ListB.forEach(item => {
+                valuesB.push(item[fieldSer.index].value)
+            })
         } else if (valuePol !== 'All' && valuePod == 'All') {
+            //region
             let List = dataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
+            //ser
+            let ListB = dataTable.data.filter(item => {
+                return (item[fieldPol.index].value == valuePol)
+            })
+            ListB.forEach(item => {
+                valuesB.push(item[fieldSer.index].value)
+            })
         } else {
+            //region
             let List = dataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol && item[fieldPod.index].value == valuePod)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
+            //ser
+            let ListB = dataTable.data.filter(item => {
+                return (item[fieldPol.index].value == valuePol && item[fieldPod.index].value == valuePod)
+            })
+            ListB.forEach(item => {
+                valuesB.push(item[fieldSer.index].value)
+            })
         }
-        // let List = dataTable.data.filter(item => {
-        //     return (item[alinB.index].value == Province && item[alinA.index].value == 1)
-        // })
         console.log('regionList========>', [...new Set(valuesA)])
+        console.log('serList========>', [...new Set(valuesB)])
         valuesA = [...new Set(valuesA)]
-        // document.getElementById("PortPol").options.add(new Option('All', 'All'))
-        // List.forEach(item => {
-        //     //存在筛选项
-        //     if (item) {
-        //         var portPolOp = document.getElementById("PortPol")
-        //         portPolOp.options.add(new Option(item, item))
-        //     }
-        // })
+        valuesB = [...new Set(valuesB)]
+        //航线赋值
         var Ser = document.getElementById('ServiceLine')
-        if(valuesA.length){
+        if (valuesB.length) {
             Ser.options.length = 0
             Ser.options.add(new Option('All', 'All'))
-        }else{
+            valuesB.forEach(item => {
+                //存在筛选项
+                Ser.options.add(new Option(item), item)
+            })
+        } else {
             Ser.options.length = 0
             Ser.options.add(new Option('--', ''))
         }
-        sheet.applyFilterAsync('Region (DWS Portshiproute)',['Null',...valuesA],'replace')
+        sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesA], 'replace')
     })
 }
