@@ -17,7 +17,7 @@ tableau.extensions.initializeAsync().then(function () {
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").applyFilterAsync("Layer_Tag", [1, 'Null'], "replace", {
             isExcludeMode: false
         })
-        
+
         // console.log('---船舶 columns------')
         // dataTable.columns.forEach(item => {
         //     console.log('---column------', item.fieldName)
@@ -87,7 +87,31 @@ tableau.extensions.initializeAsync().then(function () {
                 tar.options.add(new Option(item, item))
             }
         })
-
+        let d1 = new Date()
+        let d2 = new Date()
+        d2.setMonth(0)
+        d2.setDate(1)
+        let rq = d1 - d2
+        let s1 = Math.ceil(rq / (24 * 60 * 60 * 1000))
+        let s2 = Math.ceil(s1 / 7)
+        console.log('第' + s1 + '天,第' + s2 + '周')
+        var fullYear = d1.getFullYear()
+        var year = `${fullYear}`.slice(-2) + s2
+        if (valuesD.indexOf(year) !== -1) {
+            var wekOp = document.getElementById("Week")
+            for (let i = 0; i < wekOp.length; i++) {
+                if (wekOp[i].value === year) {
+                    wekOp[i].selected = true
+                }
+            }
+            weekOnchange({
+                value: year
+            })
+        } else {
+            weekOnchange({
+                value: 'All'
+            })
+        }
         // //筛选delayDetectBy
         // var delayDetectBy = document.getElementById("delayDetectBy");
         // delayDetectBy.options.add(new Option('ETD (POL)', 'ETD (POL)'))
@@ -110,6 +134,7 @@ function clearAllFilter() {
     var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
     data.clearFilterAsync("pol (DWS Vesselinfo)");
     data.clearFilterAsync("pod (DWS Vesselinfo)");
+    data.clearFilterAsync("Region (DWS Portshiproute)");
     data.clearFilterAsync("Service Line");
     data.clearFilterAsync("Etd Weeks");
     shipData.clearFilterAsync("pol (DWS Vesselinfo)");
@@ -196,7 +221,7 @@ function serviceLineChange(that) {
         })
         console.log('ship change=>', that.value)
     }
-    getList()
+    serChange()
 }
 
 //Week filter
@@ -401,5 +426,92 @@ function getList() {
             Ser.options.add(new Option('--', ''))
         }
         sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesA], 'replace')
+    })
+}
+
+function serChange() {
+    valueSer = document.getElementById('ServiceLine').value
+    console.log(valuePod, valueSer)
+    var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
+    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+    sheet.getDataSourcesAsync().then(datasources => {
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+            console.log('nihao=>', logicalTables)
+            var lgTabel = logicalTables.find(item => {
+                return item.caption === '船舶'
+            })
+            console.log(lgTabel)
+            return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
+        });
+    }).then(dataTable => {
+        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
+            fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
+            fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
+            fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+
+        if (valueSer !== 'All') {
+            //region
+            var valuesA = [],
+                valuesB = [], //ser
+                valuesC = []
+            let List = dataTable.data.filter(item => {
+                return (item[fieldSer.index].value == valueSer)
+            })
+            List.forEach(item => {
+                valuesA.push(item[fieldPol.index].value)
+            })
+            List.forEach(item => {
+                valuesB.push(item[fieldPod.index].value)
+            })
+            valuesA = [...new Set(valuesA)]
+            valuesB = [...new Set(valuesB)]
+
+            var pol = document.getElementById('PortPol')
+            for (let i = 0; i < pol.length; i++) {
+                if (pol[i].value === 'All') {
+                    pol[i].selected = true
+                }
+            }
+            var pod = document.getElementById('PortPod')
+            for (let i = 0; i < pod.length; i++) {
+                if (pod[i].value === 'All') {
+                    pod[i].selected = true
+                }
+            }
+
+
+
+            List.forEach(item => {
+                valuesC.push(item[fieldRegion.index].value)
+            })
+            sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesC], 'replace')
+            sheet.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
+            sheet.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
+            shipData.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
+            shipData.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
+        } else {
+            var pol = document.getElementById('PortPol')
+            for (let i = 0; i < pol.length; i++) {
+                if (pol[i].value === 'All') {
+                    pol[i].selected = true
+                }
+            }
+            var pod = document.getElementById('PortPod')
+            for (let i = 0; i < pod.length; i++) {
+                if (pod[i].value === 'All') {
+                    pod[i].selected = true
+                }
+            }
+            var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）");
+            var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
+            data.clearFilterAsync("pol (DWS Vesselinfo)");
+            data.clearFilterAsync("pod (DWS Vesselinfo)");
+            data.clearFilterAsync("Region (DWS Portshiproute)");
+            data.clearFilterAsync("Service Line");
+            shipData.clearFilterAsync("pol (DWS Vesselinfo)");
+            shipData.clearFilterAsync("pod (DWS Vesselinfo)");
+            shipData.clearFilterAsync("Service Line");
+        }
     })
 }
