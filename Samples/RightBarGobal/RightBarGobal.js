@@ -1,6 +1,7 @@
 var viz, workbook, activeSheet, regionList;
 tableau.extensions.initializeAsync().then(function () {
     this.clearAllFilter();
+
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
@@ -337,6 +338,7 @@ function getList() {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
+       
         let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
             fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
             fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
@@ -409,7 +411,7 @@ function getList() {
             Ser.options.length = 0
             Ser.options.add(new Option('All', 'All'))
             valuesB = valuesB.sort()
-            for(let i =0;i<valuesB.length;i++){
+            for (let i = 0; i < valuesB.length; i++) {
                 Ser.options.add(new Option(valuesB[i], valuesB[i]))
             }
         } else {
@@ -424,7 +426,6 @@ function serChange() {
     valueSer = document.getElementById('ServiceLine').value
     console.log(valuePod, valueSer)
     var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
-    var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
     sheet.getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
@@ -476,6 +477,8 @@ function serChange() {
             List.forEach(item => {
                 valuesC.push(item[fieldRegion.index].value)
             })
+            var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+
             sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesC], 'replace')
             sheet.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
             sheet.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
