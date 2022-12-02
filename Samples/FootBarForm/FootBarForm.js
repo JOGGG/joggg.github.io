@@ -84,14 +84,18 @@ function calcOnFilterChange() {
         //获取筛选器的值
         var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
         data.getFiltersAsync().then(res => {
+            console.log(res)
             //serviceline
             var fvServiceLine = res.find(item => {
                 return item.fieldName == 'Service Line'
             })
             var List = []
-            fvServiceLine.appliedValues.forEach(item => {
-                List.push(item.value)
-            })
+            if (fvServiceLine.length) {
+                fvServiceLine.appliedValues.forEach(item => {
+                    List.push(item.value)
+                })
+
+            }
             var valServiceLine = List[0];
             console.log("---------serviceLine:" + valServiceLine)
 
@@ -102,8 +106,8 @@ function calcOnFilterChange() {
             })
             var listPol = []
             var valPol = "";
-            console.log("---------fvPol:" + fvPol)
-            if (fvPol) {
+            console.log("---------fvPol:", +fvPol)
+            if (fvPol.length) {
                 fvPol.appliedValues.forEach(item => {
                     listPol.push(item.value)
                 })
@@ -119,7 +123,7 @@ function calcOnFilterChange() {
             var listPod = []
             var valPod = "";
             console.log("---------fvPod:" + fvPod)
-            if (fvPod) {
+            if (fvPod.length) {
                 fvPod.appliedValues.forEach(item => {
                     listPod.push(item.value)
                 })
@@ -135,7 +139,7 @@ function calcOnFilterChange() {
             var listWeek = []
             var valWeek = "";
             console.log("---------fvWeek:" + fvWeek)
-            if (fvWeek) {
+            if (fvWeek.length) {
                 fvWeek.appliedValues.forEach(item => {
                     listWeek.push(item.value)
                 })
@@ -195,7 +199,6 @@ function calcOnFilterChange() {
             console.log("---------筛选结束-------------");
             console.log(filterData.length);
             console.log(filterData);
-
             tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表").getParametersAsync().then(function (parameters) {
 
                 var delayDetec, delayThreshold;

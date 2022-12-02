@@ -1,6 +1,6 @@
 var viz, workbook, activeSheet, regionList;
 tableau.extensions.initializeAsync().then(function () {
-    this.clearAllFilter();
+    // this.clearAllFilter();
 
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
