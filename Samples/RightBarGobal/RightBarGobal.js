@@ -31,7 +31,7 @@ tableau.extensions.initializeAsync().then(function () {
         }
         let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
         document.getElementById("PortPol").options.add(new Option('All', 'All'))
-        valuesA.forEach(item => {
+        valuesA.sort().forEach(item => {
             //存在筛选项
             if (item) {
                 var portPolOp = document.getElementById("PortPol")
@@ -48,7 +48,7 @@ tableau.extensions.initializeAsync().then(function () {
         }
         let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
         document.getElementById("PortPod").options.add(new Option('All', 'All'))
-        valuesB.forEach(item => {
+        valuesB.sort().forEach(item => {
             //存在筛选项
             if (item) {
                 var polpodOP = document.getElementById("PortPod")
@@ -65,7 +65,7 @@ tableau.extensions.initializeAsync().then(function () {
         }
         let valuesC = listC.filter((el, i, arr) => arr.indexOf(el) === i);
         document.getElementById("ServiceLine").options.add(new Option('All', 'All'))
-        valuesC.forEach(item => {
+        valuesC.sort().forEach(item => {
             //存在筛选项
             if (item) {
                 var serviceLinrOp = document.getElementById("ServiceLine")
@@ -309,16 +309,7 @@ function delayThresholdOnchange(that) {
 //   viz = new tableau.Viz(placeholderDiv, url, options); 
 // }
 
-function showParams() {
-    workbook.getParametersAsync()
-        .then(function (params) {
-            var msg = '';
-            for (var i = 0; i < params.length; i++) {
-                msg += params[i].getName() + ' - ' + params[i].getDataType() + '\n';
-            }
-            alert(msg);
-        })
-}
+
 
 function changeParam(value) {
     workbook.changeParameterValueAsync("poletaDay", value)
@@ -417,10 +408,10 @@ function getList() {
         if (valuesB.length) {
             Ser.options.length = 0
             Ser.options.add(new Option('All', 'All'))
-            valuesB.forEach(item => {
-                //存在筛选项
-                Ser.options.add(new Option(item), item)
-            })
+            valuesB = valuesB.sort()
+            for(let i =0;i<valuesB.length;i++){
+                Ser.options.add(new Option(valuesB[i], valuesB[i]))
+            }
         } else {
             Ser.options.length = 0
             Ser.options.add(new Option('--', ''))
