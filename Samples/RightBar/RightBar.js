@@ -234,10 +234,9 @@ function reloadPro(data) {
     Province.options.length = 0
     Province.options.add(new Option('All', 'All'))
     newOptions = Array.from(new Set(newOptions))
-
     newOptions.forEach(item => {
         //存在筛选项
-        Province.options.add(new Option(item), item)
+        Province.options.add(new Option(item, item))
         filterData.push(item)
     })
 
