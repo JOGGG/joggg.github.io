@@ -1,4 +1,5 @@
 var viz, workbook, activeSheet, regionList;
+console.log(top.location.href)
 tableau.extensions.initializeAsync().then(function () {
     // this.clearAllFilter();
 
