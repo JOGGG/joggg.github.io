@@ -17,15 +17,15 @@
             </div>
             <div class="footBtn">
                 <img class="iconPic" src="../../assets/03 normal ship.png" />
-                <div id="normal" class="green">0</div>
+                <div id="normal " class="number green">0</div>
             </div>
             <div class="footBtn">
                 <img class="iconPic" src="../../assets/04 delay ship.png" />
-                <div id="delay" class="red">0</div>
+                <div id="delay" class="number red">0</div>
             </div>
             <div class="footBtn">
                 <img class="iconPic" src="../../assets/05 cancelled ship.png" />
-                <div id="cancelled" class="black">0</div>
+                <div id="cancelled" class="number black">0</div>
             </div>
         </div>
     </div>
@@ -54,7 +54,7 @@
 
         justify-content: space-between;
     }
-
+    
     .FootBar {
         display: flex;
         justify-content: flex-start;
@@ -77,7 +77,7 @@
     .iconPic {
         max-width: 170px;
         min-width: 50px;
-        height: 30px;
+        height: 27px;
     }
 
     .GreenLine,
@@ -117,7 +117,10 @@
     .RedLine {
         background-color: red;
     }
-
+    .number{
+        position: relative;
+        bottom: 2px;
+    }
     .flex {
         display: flex;
         align-items: center;

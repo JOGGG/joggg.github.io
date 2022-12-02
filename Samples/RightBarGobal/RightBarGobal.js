@@ -1,5 +1,9 @@
 var viz, workbook, activeSheet, regionList;
-console.log(top.location.href)
+try {
+    console.log(top.location.href)
+} catch (error) {
+    
+}
 tableau.extensions.initializeAsync().then(function () {
     // this.clearAllFilter();
 
