@@ -1,8 +1,9 @@
 var viz, workbook, activeSheet, regionList;
+var infoList = []
 try {
-    console.log(top.location.href)
+    infoList = top.location.href.split('&')
 } catch (error) {
-    
+
 }
 tableau.extensions.initializeAsync().then(function () {
     // this.clearAllFilter();
@@ -129,7 +130,13 @@ tableau.extensions.initializeAsync().then(function () {
         // delayThreshold.options.add(new Option('0 day', '0'))
         // delayThreshold.options.add(new Option('3 day', '3'))
         // delayThreshold.options.add(new Option('7 day', '7'))
+
         getList()
+        if (infoList.length&&infoList.length>1) {
+            infoList = infoList.splice(0,1)
+            var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
+            sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...infoList], 'replace')
+        }
     })
 });
 
@@ -343,7 +350,7 @@ function getList() {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
-       
+
         let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
             fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
             fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
