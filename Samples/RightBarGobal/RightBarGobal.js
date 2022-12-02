@@ -2,6 +2,7 @@ var viz, workbook, activeSheet, regionList;
 var infoList = []
 try {
     infoList = top.location.href.split('&')
+    console.log('infoList======>',infoList)
 } catch (error) {
 
 }
