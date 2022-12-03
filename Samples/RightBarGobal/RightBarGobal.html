@@ -98,7 +98,11 @@
         height: 28px;
     }
 
-    .FilterTitle {}
+    .FilterTitle {
+        position: relative;
+        bottom: 40px;
+    }
+    
 
     select {
         width: 90px;
@@ -113,9 +117,9 @@
         -moz-appearance: none;
         appearance: none;
         background: url("../../assets/arrowSelect.jpg") no-repeat scroll right center transparent;
-        background-color:rgb(255, 255, 255) ;
+        background-color: rgb(255, 255, 255);
         background-size: 7px;
-        background-position-x:97% ;
+        background-position-x: 97%;
         border: 1px rgba(51, 51, 51, 0.41) solid;
         padding-left: 5px;
         overflow: hidden;
@@ -123,12 +127,11 @@
 
     .filterRow {
         position: relative;
-        bottom: 5px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         position: relative;
-        bottom: 15px;
+        bottom: 45px;
         margin-bottom: 10px;
     }
 
@@ -138,7 +141,7 @@
         align-items: center;
         margin-top: 5px;
         position: relative;
-        bottom: 8px;
+        bottom:15px;
         font-size: 15px;
         justify-content: space-between;
     }
@@ -154,7 +157,6 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-        border-bottom: 1px gray solid;
     }
 
     .data {
@@ -190,6 +192,8 @@
         width: 180px;
         height: 60px;
         transform: scale(1.25);
+        position: relative;
+        bottom: 10px;
     }
 </style>
 
