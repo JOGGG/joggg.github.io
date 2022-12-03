@@ -146,6 +146,7 @@ function clearAllFilter() {
     console.log('========clearAllFilter=========');
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）");
     var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
+    var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）");
     data.clearFilterAsync("pol (DWS Vesselinfo)");
     data.clearFilterAsync("pod (DWS Vesselinfo)");
     data.clearFilterAsync("Region (DWS Portshiproute)");
@@ -155,6 +156,13 @@ function clearAllFilter() {
     shipData.clearFilterAsync("pod (DWS Vesselinfo)");
     shipData.clearFilterAsync("Service Line");
     shipData.clearFilterAsync("Etd Weeks");
+
+    shipDataDownload.clearFilterAsync("pol (DWS Vesselinfo)");
+    shipDataDownload.clearFilterAsync("pod (DWS Vesselinfo)");
+    shipDataDownload.clearFilterAsync("Service Line");
+    shipDataDownload.clearFilterAsync("Etd Weeks");
+
+    
 
 }
 
@@ -183,6 +191,20 @@ function portPolChange(that) {
         })
         console.log('shipData portPol change=>', that.value)
     }
+
+    //下拉项添加筛选器
+    var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
+    if (that.value === 'All') {
+        console.log("shipData portPol all");
+        shipDataDownload.clearFilterAsync("pol (DWS Vesselinfo)")
+    } else {
+        shipDataDownload.applyFilterAsync("pol (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        console.log('shipData portPol change=>', that.value)
+    }
+
+
     getList()
 }
 
@@ -209,6 +231,18 @@ function portPodChange(that) {
         })
         console.log('ship change=>', that.value)
     }
+
+    //下拉项添加筛选器
+    var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
+    if (that.value === 'All') {
+        shipDataDownload.clearFilterAsync("pod (DWS Vesselinfo)")
+    } else {
+        shipDataDownload.applyFilterAsync("pod (DWS Vesselinfo)", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        console.log('ship change=>', that.value)
+    }
+
     getList()
 }
 
@@ -235,6 +269,18 @@ function serviceLineChange(that) {
         })
         console.log('ship change=>', that.value)
     }
+
+    //下拉项添加筛选器
+    var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
+    if (that.value === 'All') {
+        shipDataDownload.clearFilterAsync("Service Line")
+    } else {
+        shipDataDownload.applyFilterAsync("Service Line", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        console.log('ship change=>', that.value)
+    }
+
     serChange()
 }
 
@@ -257,6 +303,17 @@ function weekOnchange(that) {
         shipData.clearFilterAsync("Etd Weeks")
     } else {
         shipData.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
+            isExcludeMode: false
+        })
+        console.log('ship change=>', that.value)
+    }
+
+    //下拉项添加筛选器
+    var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
+    if (that.value === 'All') {
+        shipDataDownload.clearFilterAsync("Etd Weeks")
+    } else {
+        shipDataDownload.applyFilterAsync("Etd Weeks", [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
         console.log('ship change=>', that.value)
@@ -491,12 +548,17 @@ function serChange() {
                 valuesC.push(item[fieldRegion.index].value)
             })
             var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+            var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
 
             sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesC], 'replace')
             sheet.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
             sheet.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
             shipData.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
             shipData.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
+
+            shipDataDownload.applyFilterAsync("pol (DWS Vesselinfo)", [...valuesA, 'Null'], "replace")
+            shipDataDownload.applyFilterAsync("pod (DWS Vesselinfo)", [...valuesB, 'Null'], "replace")
+            
         } else {
             var pol = document.getElementById('PortPol')
             for (let i = 0; i < pol.length; i++) {
@@ -512,6 +574,7 @@ function serChange() {
             }
             var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）");
             var shipData = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表");
+            var shipDataDownload = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表（下载）")
             data.clearFilterAsync("pol (DWS Vesselinfo)");
             data.clearFilterAsync("pod (DWS Vesselinfo)");
             data.clearFilterAsync("Region (DWS Portshiproute)");
@@ -519,6 +582,9 @@ function serChange() {
             shipData.clearFilterAsync("pol (DWS Vesselinfo)");
             shipData.clearFilterAsync("pod (DWS Vesselinfo)");
             shipData.clearFilterAsync("Service Line");
+            shipDataDownload.clearFilterAsync("pol (DWS Vesselinfo)");
+            shipDataDownload.clearFilterAsync("pod (DWS Vesselinfo)");
+            shipDataDownload.clearFilterAsync("Service Line");
         }
     })
 }
