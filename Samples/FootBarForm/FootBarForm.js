@@ -15,7 +15,7 @@ tableau.extensions.initializeAsync().then(function () {
         console.log('---worksheet------', item.name)
     })
 
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表").getParametersAsync().then(function (parameters) {
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getParametersAsync().then(function (parameters) {
         parameters.forEach(function (p) {
 
             console.log('---elePara name:' + p.name);
@@ -26,23 +26,16 @@ tableau.extensions.initializeAsync().then(function () {
         });
     });
 
-    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+    var worksheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     const markSelection = tableau.TableauEventType.FilterChanged;
     //监听筛选器
     worksheet.addEventListener(markSelection, function (selectionEvent) {
         // When the selection changes, reload the data
         console.log('----Listener start------', selectionEvent)
         //{
-
-        try {
-            calcOnFilterChange();
-        } catch (error) {
-
-        }
-
-
+        calcOnFilterChange();
     });
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表").getDataSourcesAsync().then(datasources => {
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao123=>', logicalTables)
@@ -56,7 +49,7 @@ tableau.extensions.initializeAsync().then(function () {
         // let result = [];
         console.log("---------calcOnFilterChange 开始获取船舶明细表的筛选器-------------");
         //获取筛选器的值
-        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
         data.getFiltersAsync().then(res => {
             console.log(res)
             //serviceline
@@ -182,8 +175,6 @@ tableau.extensions.initializeAsync().then(function () {
 
 
             filterData.forEach(item => {
-                console.log(rNormal, rDelay, rCancel)
-                console.log(item[fieldShip.index].value, item[fieldPoletd.index].value, item[fieldPodeta.index].value)
                 if (item[fieldShip.index].value == 'I' && item[fieldPoletd.index].value == '1') {
                     rNormal = rNormal + 1
                 } else if (item[fieldShip.index].value == 'E' && item[fieldPodeta.index].value == '1') {
@@ -233,7 +224,7 @@ function calcOnFilterChange() {
     //  if (selectionEvent.fieldName === "Service Line") {
     console.log('---------Service Line=>>>>>>>>>')
     //获取船舶表数据
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表").getDataSourcesAsync().then(datasources => {
+    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
         var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao123=>', logicalTables)
@@ -248,7 +239,7 @@ function calcOnFilterChange() {
         // let result = [];
         console.log("---------calcOnFilterChange 开始获取船舶明细表的筛选器-------------");
         //获取筛选器的值
-        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "船舶航线明细表")
+        var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
         data.getFiltersAsync().then(res => {
             console.log(res)
             //serviceline
