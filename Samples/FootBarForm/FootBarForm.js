@@ -143,7 +143,7 @@ function calcOnFilterChange() {
                     fvWeek.appliedValues.forEach(item => {
                         listWeek.push(item.value)
                     })
-                    valWeek = listWeek[0];
+                    valWeek = listWeek[0]=='%null%'?listWeek[1]:listWeek[0];
                 } 
             }
             console.log("---------Weeks:" + valWeek)
