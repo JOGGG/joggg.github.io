@@ -1,5 +1,5 @@
 var viz, workbook, activeSheet, regionList;
-var infoList = []
+var infoList = [] //查询是或否有携带参数跳转
 try {
     infoList = top.location.href.split('&')
     console.log('infoList======>',infoList)
@@ -134,6 +134,7 @@ tableau.extensions.initializeAsync().then(function () {
 
         getList()
         if (infoList.length&&infoList.length>1) {
+            //如果有参数
             infoList = infoList.splice(0,1)
             var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
             sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...infoList], 'replace')
