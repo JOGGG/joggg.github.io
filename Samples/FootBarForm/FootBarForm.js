@@ -61,7 +61,7 @@ function onParameterChange(parameterChangeEvent) {
 function calcOnFilterChange() {
 
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao123=>', logicalTables)
             var lgTabel = logicalTables.find(item => {

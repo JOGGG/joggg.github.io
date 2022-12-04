@@ -12,7 +12,7 @@ tableau.extensions.initializeAsync().then(function () {
     // Initialization succeeded! 
     //Add your JavaScript code here to call the Extensions API
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
             var lgTabel = logicalTables.find(item => {
@@ -399,7 +399,7 @@ function getList() {
     console.log(valuePod, valuePol)
     var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     sheet.getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
             var lgTabel = logicalTables.find(item => {
@@ -498,7 +498,7 @@ function serChange() {
     console.log(valuePod, valueSer)
     var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
     sheet.getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New)");
+        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
             console.log('nihao=>', logicalTables)
             var lgTabel = logicalTables.find(item => {
