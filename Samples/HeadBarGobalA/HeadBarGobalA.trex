@@ -7,8 +7,8 @@
     <author name="tableau" email="github@tableau.com" organization="tableau" website="https://www.tableau.com"/>
     <min-api-version>1.7</min-api-version>
     <source-location>
-           <url>https://joggg.github.io/Samples/HeadBarGobalA/HeadBarGobalA.html</url>
-           <!-- <url>https://tableautest.nissanchina.cn/zh/extend-HeadBarGobalA.html</url> -->
+           <!-- <url>https://joggg.github.io/Samples/HeadBarGobalA/HeadBarGobalA.html</url> -->
+           <url>https://tableauportal.nissanchina.cn:9443/extend/HeadBarGobalA.html</url>
 
       <!-- <url>http://localhost:8765/Samples/HeadBarGobalA/HeadBarGobalA.html</url> -->
     </source-location>
