@@ -20,20 +20,23 @@
       
     </div> -->
         <div class="FilterTitle">
-            Filter Options
+            <!-- Filter Options -->
+            <img class="filterop" src="../../assets/26 filter options.png" />
         </div>
-        <div class="FilterItem SelectItem">
+        <div class="FilterItem ">
             <div class="selectTitle">
-                Inbound Area:
+                <!-- Inbound Area: -->
+                <img class="grayPic "  src="../../assets/Inbound Area.png" />
             </div>
             <div>
                 <select id="Logistic" onchange="logchange(this)">
                 </select>
             </div>
         </div>
-        <div class="FilterItem SelectItem">
+        <div class="FilterItem ">
             <div class="selectTitle">
-                Province:
+                <!-- Province: -->
+                <img class="grayPic pro" src="../../assets/20 province.png" />
             </div>
             <div>
                 <select id="Province" onchange="prochange(this)">
@@ -52,7 +55,8 @@
       </div>
     </div> -->
         <div class="FilterTitle">
-            Result Statistic
+            <!-- Result Statistic -->
+            <img class="resultsta"  src="../../assets/Result Statistic.png" />
         </div>
         <div class="FilterItem martop">
             <div class="h40">
@@ -128,7 +132,7 @@
     .FilterTitle {
         font-size: 22px;
         color: #4176BF;
-        margin-top: 10px;
+        /* margin-top: 10px; */
     }
 
     select {
@@ -201,6 +205,22 @@
 
     .martop {
         margin-top: 5px;
+    }
+    .filterop,.resultsta{
+        width: 100px;
+        height: 30px;
+        position: relative;
+        left: 10px;
+        transform: scale(1.5);
+    }
+    .grayPic{
+        max-width: 150px;
+        height: 30px;
+        transform: scale(1.25);
+    }
+    .pro{
+        position:relative;
+        right: 3px;
     }
 </style>
 
