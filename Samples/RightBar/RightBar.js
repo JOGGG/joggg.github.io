@@ -1,6 +1,5 @@
 'use strict';
-
-
+var fullDataTable
 tableau.extensions.initializeAsync().then(function () {
     tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
             console.log('datasource=>', datasources)
@@ -15,6 +14,7 @@ tableau.extensions.initializeAsync().then(function () {
             })
         })
         .then(dataTable => {
+            fullDataTable = dataTable
             //筛选区域
             let fieldA = dataTable.columns.find(column => column.fieldName === "Sup Area");
             var listA = [];
@@ -57,24 +57,24 @@ tableau.extensions.initializeAsync().then(function () {
             // })
         });
     //pickList
-    tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-            console.log('datasource=>', datasources)
-            var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)");
-            return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                console.log(logicalTables)
-                var lgTabel = logicalTables.find(item => {
-                    return item.caption === '完整数据'
-                })
-                return dataSource.getLogicalTableDataAsync(lgTabel.id) //PickList
-            })
-        })
-        .then(dataTable => {
+    // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+    //         console.log('datasource=>', datasources)
+    //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)");
+    //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+    //             console.log(logicalTables)
+    //             var lgTabel = logicalTables.find(item => {
+    //                 return item.caption === '完整数据'
+    //             })
+    //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //PickList
+    //         })
+    //     })
+    //     .then(dataTable => {
             //pickList
-            console.log(dataTable)
-            let Province = dataTable.columns.find(column => column.fieldName === "sup province (View baseCity)");
-            let Region = dataTable.columns.find(column => column.fieldName === "sup area (View baseCity)");
+            console.log(fullDataTable)
+            let Province = fullDataTable.columns.find(column => column.fieldName === "sup province (View baseCity)");
+            let Region = fullDataTable.columns.find(column => column.fieldName === "sup area (View baseCity)");
             window.listPick = [];
-            for (let row of dataTable.data) {
+            for (let row of fullDataTable.data) {
                 listPick.push({
                     Region: row[Region.index].value,
                     Province: row[Province.index].value,
@@ -82,27 +82,27 @@ tableau.extensions.initializeAsync().then(function () {
             }
             console.log('window.listPick=>', window.listPick)
 
-        });
+        // });
 });
 
 function logchange(that) {
     var data = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT")
     if (that.value === 'All') {
-        data.getDataSourcesAsync().then(datasources => {
-            var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)");
-            return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                var lgTabel = logicalTables.find(item => {
-                    return item.caption === '完整数据'
-                })
-                console.log(lgTabel)
-                return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
-            })
-        }).then(dataTable => {
-            console.log('dataTable=>', dataTable.columns)
+        // data.getDataSourcesAsync().then(datasources => {
+        //     var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)");
+        //     return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //         var lgTabel = logicalTables.find(item => {
+        //             return item.caption === '完整数据'
+        //         })
+        //         console.log(lgTabel)
+        //         return dataSource.getLogicalTableDataAsync(lgTabel.id) //仓库
+        //     })
+        // }).then(dataTable => {
+            console.log('fullDataTable=>', fullDataTable.columns)
             //筛选区域
-            let fieldA = dataTable.columns.find(column => column.fieldName === "Sup Area");
+            let fieldA = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
             var listA = [];
-            for (let row of dataTable.data) {
+            for (let row of fullDataTable.data) {
                 listA.push(row[fieldA.index].value);
             }
             let valuesA = listA.filter((el, i, arr) => arr.indexOf(el) === i);
@@ -121,9 +121,9 @@ function logchange(that) {
 
 
             //筛选省份
-            let fieldB = dataTable.columns.find(column => column.fieldName === "Sup Province");
+            let fieldB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
             var listB = [];
-            for (let row of dataTable.data) {
+            for (let row of fullDataTable.data) {
                 listB.push(row[fieldB.index].value);
             }
             let valuesB = listB.filter((el, i, arr) => arr.indexOf(el) === i);
@@ -152,7 +152,7 @@ function logchange(that) {
             })
             console.log(filterLog, filterPro)
             getData()
-        });
+        // });
     } else {
         data.applyFilterAsync("Sup Area", [that.value, 'Null'], "replace", {
             isExcludeMode: false
@@ -171,21 +171,21 @@ function prochange(that) {
         data.applyFilterAsync('Sup Province', [that.value, 'Null'], "replace", {
             isExcludeMode: false
         })
-        data.getDataSourcesAsync().then(datasources => {
-            console.log('datasource=>', datasources)
-            var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-            return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                console.log('nihao=>', logicalTables)
-                var lgTabel = logicalTables.find(item => {
-                    return item.caption === '完整数据' //表名
-                })
-                console.log(lgTabel)
-                return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-            })
-        }).then(dataTable => {
-            let regin = dataTable.columns.find(column => column.fieldName === "Sup Area");
-            let reginB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-            let newFilter = dataTable.data.filter(item => {
+        // data.getDataSourcesAsync().then(datasources => {
+        //     console.log('datasource=>', datasources)
+        //     var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //     return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //         console.log('nihao=>', logicalTables)
+        //         var lgTabel = logicalTables.find(item => {
+        //             return item.caption === '完整数据' //表名
+        //         })
+        //         console.log(lgTabel)
+        //         return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //     })
+        // }).then(dataTable => {
+            let regin = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
+            let reginB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
+            let newFilter = fullDataTable.data.filter(item => {
                 return (item[reginB.index].value == that.value)
             })
 
@@ -203,7 +203,7 @@ function prochange(that) {
                     RegOp[i].selected = true
                 }
             }
-        })
+        // })
     } else {
         var sonAll = window.listPick.filter(item => {
             return item.Region == document.getElementById('Logistic').value
@@ -262,307 +262,307 @@ function getData(txt) {
         supM = 0
     if (txt == 'pro' && Province !== 'All') {
         //Alin
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                console.log(dataTable)
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                console.log(fullDataTable)
                 //多重条件筛选数据
-                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let alinA = dataTable.columns.find(column => column.fieldName === "Type");
+                let alinB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
+                let alinA = fullDataTable.columns.find(column => column.fieldName === "Type");
 
-                let newAA = dataTable.data.filter(item => {
+                let alinAA = fullDataTable.data.filter(item => {
                     return (item[alinB.index].value == Province && item[alinA.index].value == 1)
                 })
-                alinAll = newAA.length
+                alinAll = alinAA.length
                 document.getElementById('alinAll').innerText = alinAll
                 console.log(alinAll)
 
-            });
+            // });
 
         //lc
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                console.log(dataTable.data)
-                let LcenterA = dataTable.columns.find(column => column.fieldName === "Type");
-                let LcenterB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                console.log(fullDataTable.data)
+                let LcenterA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let LcenterB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
+                let lcAA = fullDataTable.data.filter(item => {
                     return (item[LcenterB.index].value == Province && item[LcenterA.index].value == 2)
                 })
-                lcAll = newAA.length
+                lcAll = lcAA.length
 
                 document.getElementById('lcAll').innerText = lcAll
                 console.log(lcAll, lcM)
-            });
+            // });
         //war
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                console.log(dataTable.data)
-                let warA = dataTable.columns.find(column => column.fieldName === "Type");
-                let warB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                console.log(fullDataTable.data)
+                let warA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let warB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
+                let warAA = fullDataTable.data.filter(item => {
                     return (item[warB.index].value == Province && item[warA.index].value == 3)
                 })
-                warAll = newAA.length
+                warAll = warAA.length
                 document.getElementById('warAll').innerText = warAll
                 console.log(warAll, warM)
-            });
+            // });
         //supAll
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let supA = dataTable.columns.find(column => column.fieldName === "Type");
-                let supB = dataTable.columns.find(column => column.fieldName === "Sup Province");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let supA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let supB = fullDataTable.columns.find(column => column.fieldName === "Sup Province");
+                let supAA = fullDataTable.data.filter(item => {
                     return (item[supB.index].value == Province && item[supA.index].value == 4)
                 })
-                let newSp = dataTable.data.filter(item => {
+                let newSp = fullDataTable.data.filter(item => {
                     return (item[supB.index].value == Province && item[supA.index].value == 7)
                 })
-                console.log(newAA)
-                supAll = newAA.length
+                console.log(supAA)
+                supAll = supAA.length
                 supM = newSp.length
                 document.getElementById('supAll').innerText = supAll
                 document.getElementById('supM').innerText = supM
                 document.getElementById('MAll').innerText = supM
-            });
+            // });
 
     } else if (Logistic == 'All' && Province == 'All') {
         //Alin
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let alinA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let alinA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let alinAA = fullDataTable.data.filter(item => {
                     return (item[alinA.index].value == 1)
                 })
-                alinAll = newAA.length
+                alinAll = alinAA.length
                 document.getElementById('alinAll').innerText = alinAll
-            });
+            // });
 
         //lc
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let lcA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let lcA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let lcAA = fullDataTable.data.filter(item => {
                     return (item[lcA.index].value == 2)
                 })
-                lcAll = newAA.length
+                lcAll = lcAA.length
                 document.getElementById('lcAll').innerText = lcAll
-            });
+            // });
         //war
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let warA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let warA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let warAA = fullDataTable.data.filter(item => {
                     return (item[warA.index].value == 3)
                 })
-                warAll = newAA.length
+                warAll = warAA.length
                 document.getElementById('warAll').innerText = warAll
                 console.log(warAll, warM)
-            });
+            // });
         //supAll
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let supA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let newAA = fullDataTable.data.filter(item => {
+                    return (item[supA.index].value == 4)
                 })
-            })
-            .then(dataTable => {
-                let warA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
-                    return (item[warA.index].value == 4)
-                })
-                let newBB = dataTable.data.filter(item => {
-                    return (item[warA.index].value == 7)
+                let newBB = fullDataTable.data.filter(item => {
+                    return (item[supA.index].value == 7)
                 })
                 supAll = newAA.length
                 supM = newBB.length
                 document.getElementById('supAll').innerText = supAll
                 document.getElementById('supM').innerText = supM
                 document.getElementById('MAll').innerText = supM
-            });
+            // });
     } else if (txt == 'reg' || Province == 'All') {
         //Alin
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                console.log(dataTable.data)
-                let alinB = dataTable.columns.find(column => column.fieldName === "Sup Area");
-                let alinA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                console.log(fullDataTable.data)
+                let alinB = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
+                let alinA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let alinAA = fullDataTable.data.filter(item => {
                     return (item[alinB.index].value == Logistic && item[alinA.index].value == 1)
                 })
-                alinAll = newAA.length
+                alinAll = alinAA.length
 
                 document.getElementById('alinAll').innerText = alinAll
                 console.log(alinAll, alinM)
-            });
+            // });
 
         //lc
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let LcenterB = dataTable.columns.find(column => column.fieldName === "Sup Area");
-                let LcenterA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let LcenterB = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
+                let LcenterA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let lcAA = fullDataTable.data.filter(item => {
                     return (item[LcenterB.index].value == Logistic && item[LcenterA.index].value == 2)
                 })
-                lcAll = newAA.length
+                lcAll = lcAA.length
                 document.getElementById('lcAll').innerText = lcAll
                 console.log(lcAll, lcM)
-            });
+            // });
         //war
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                console.log(dataTable.data)
-                let warB = dataTable.columns.find(column => column.fieldName === "Sup Area");
-                let warA = dataTable.columns.find(column => column.fieldName === "Type");
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                console.log(fullDataTable.data)
+                let warB = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
+                let warA = fullDataTable.columns.find(column => column.fieldName === "Type");
 
-                let newAA = dataTable.data.filter(item => {
+                let warAA = fullDataTable.data.filter(item => {
                     return (item[warB.index].value == Logistic && item[warA.index].value == 3)
                 })
-                warAll = newAA.length
+                warAll = warAA.length
                 document.getElementById('warAll').innerText = warAll
                 console.log(warAll, warM)
-            });
+            // });
         //supM
-        tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
-                console.log('datasource=>', datasources)
-                var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
-                return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-                    console.log('nihao=>', logicalTables)
-                    var lgTabel = logicalTables.find(item => {
-                        return item.caption === '完整数据' //表名
-                    })
-                    console.log(lgTabel)
-                    return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
-                })
-            })
-            .then(dataTable => {
-                let supB = dataTable.columns.find(column => column.fieldName === "Sup Area");
-                let supA = dataTable.columns.find(column => column.fieldName === "Type");
-                let newAA = dataTable.data.filter(item => {
+        // tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "中国地图正式版UAT").getDataSourcesAsync().then(datasources => {
+        //         console.log('datasource=>', datasources)
+        //         var dataSource = datasources.find(datasource => datasource.name === "ailninfo+ (KWE_NCIC_TABLEAU)"); //数据源
+        //         return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+        //             console.log('nihao=>', logicalTables)
+        //             var lgTabel = logicalTables.find(item => {
+        //                 return item.caption === '完整数据' //表名
+        //             })
+        //             console.log(lgTabel)
+        //             return dataSource.getLogicalTableDataAsync(lgTabel.id) //表Id
+        //         })
+        //     })
+        //     .then(dataTable => {
+                let supB = fullDataTable.columns.find(column => column.fieldName === "Sup Area");
+                let supA = fullDataTable.columns.find(column => column.fieldName === "Type");
+                let supAA = fullDataTable.data.filter(item => {
                     return (item[supB.index].value == Logistic && item[supA.index].value == 7)
                 })
-                let newBB = dataTable.data.filter(item => {
+                let newBB = fullDataTable.data.filter(item => {
                     return (item[supB.index].value == Logistic && item[supA.index].value == 4)
                 })
-                supM = newAA.length
+                supM = supAA.length
                 supAll = newBB.length
                 document.getElementById('supM').innerText = supM
                 document.getElementById('MAll').innerText = supM
                 document.getElementById('supAll').innerText = supAll
-            });
+            // });
     }
 }

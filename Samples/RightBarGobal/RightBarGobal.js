@@ -1,4 +1,4 @@
-var viz, workbook, activeSheet, regionList;
+var viz, workbook, activeSheet, regionList,shipDataTable;
 var infoList = [] //查询是或否有携带参数跳转
 try {
     infoList = top.location.href.split('&')
@@ -22,6 +22,7 @@ tableau.extensions.initializeAsync().then(function () {
             return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
         });
     }).then(dataTable => {
+        shipDataTable = dataTable
         tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）").applyFilterAsync("Layer_Tag", [1, 'Null'], "replace", {
             isExcludeMode: false
         })
@@ -398,44 +399,44 @@ function getList() {
     valuePod = document.getElementById('PortPod').value
     console.log(valuePod, valuePol)
     var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
-    sheet.getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
-        return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-            console.log('nihao=>', logicalTables)
-            var lgTabel = logicalTables.find(item => {
-                return item.caption === '船舶'
-            })
-            console.log(lgTabel)
-            return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
-        });
-    }).then(dataTable => {
+    // sheet.getDataSourcesAsync().then(datasources => {
+    //     var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
+    //     return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+    //         console.log('nihao=>', logicalTables)
+    //         var lgTabel = logicalTables.find(item => {
+    //             return item.caption === '船舶'
+    //         })
+    //         console.log(lgTabel)
+    //         return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
+    //     });
+    // }).then(dataTable => {
 
-        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
-            fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
-            fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
-            fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+        let fieldPol = shipDataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
+            fieldSer = shipDataTable.columns.find(column => column.fieldName === "Service Line"),
+            fieldPod = shipDataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
+            fieldRegion = shipDataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
         var valuesA = [], //region
             valuesB = [] //ser
 
         if (valuePol == 'All' && valuePod == 'All') {
             //region
-            dataTable.data.forEach(item => {
+            shipDataTable.data.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
             //ser
-            dataTable.data.forEach(item => {
+            shipDataTable.data.forEach(item => {
                 valuesB.push(item[fieldSer.index].value)
             })
         } else if (valuePol == 'All' && valuePod !== 'All') {
             //region
-            let List = dataTable.data.filter(item => {
+            let List = shipDataTable.data.filter(item => {
                 return (item[fieldPod.index].value == valuePod)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
             //ser
-            let ListB = dataTable.data.filter(item => {
+            let ListB = shipDataTable.data.filter(item => {
                 return (item[fieldPod.index].value == valuePod)
             })
             ListB.forEach(item => {
@@ -443,14 +444,14 @@ function getList() {
             })
         } else if (valuePol !== 'All' && valuePod == 'All') {
             //region
-            let List = dataTable.data.filter(item => {
+            let List = shipDataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
             //ser
-            let ListB = dataTable.data.filter(item => {
+            let ListB = shipDataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol)
             })
             ListB.forEach(item => {
@@ -458,14 +459,14 @@ function getList() {
             })
         } else {
             //region
-            let List = dataTable.data.filter(item => {
+            let List = shipDataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol && item[fieldPod.index].value == valuePod)
             })
             List.forEach(item => {
                 valuesA.push(item[fieldRegion.index].value)
             })
             //ser
-            let ListB = dataTable.data.filter(item => {
+            let ListB = shipDataTable.data.filter(item => {
                 return (item[fieldPol.index].value == valuePol && item[fieldPod.index].value == valuePod)
             })
             ListB.forEach(item => {
@@ -490,35 +491,35 @@ function getList() {
             Ser.options.add(new Option('--', ''))
         }
         sheet.applyFilterAsync('Region (DWS Portshiproute)', ['Null', ...valuesA], 'replace')
-    })
+    // })
 }
 
 function serChange() {
     valueSer = document.getElementById('ServiceLine').value
     console.log(valuePod, valueSer)
     var sheet = tableau.extensions.dashboardContent.dashboard.worksheets.find(w => w.name === "世界宏观海运图（航线仪表板用）")
-    sheet.getDataSourcesAsync().then(datasources => {
-        var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
-        return dataSource.getLogicalTablesAsync().then((logicalTables) => {
-            console.log('nihao=>', logicalTables)
-            var lgTabel = logicalTables.find(item => {
-                return item.caption === '船舶'
-            })
-            console.log(lgTabel)
-            return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
-        });
-    }).then(dataTable => {
-        let fieldPol = dataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
-            fieldSer = dataTable.columns.find(column => column.fieldName === "Service Line"),
-            fieldPod = dataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
-            fieldRegion = dataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
+    // sheet.getDataSourcesAsync().then(datasources => {
+    //     var dataSource = datasources.find(datasource => datasource.name === "仓库+ (宏观航运全局New) (3)");
+    //     return dataSource.getLogicalTablesAsync().then((logicalTables) => {
+    //         console.log('nihao=>', logicalTables)
+    //         var lgTabel = logicalTables.find(item => {
+    //             return item.caption === '船舶'
+    //         })
+    //         console.log(lgTabel)
+    //         return dataSource.getLogicalTableDataAsync(lgTabel.id) //船舶表
+    //     });
+    // }).then(dataTable => {
+        let fieldPol = shipDataTable.columns.find(column => column.fieldName === "pol (DWS Vesselinfo)"),
+            fieldSer = shipDataTable.columns.find(column => column.fieldName === "Service Line"),
+            fieldPod = shipDataTable.columns.find(column => column.fieldName === "pod (DWS Vesselinfo)"),
+            fieldRegion = shipDataTable.columns.find(column => column.fieldName === "Region (DWS Vesselinfo)");
 
         if (valueSer !== 'All') {
             //region
             var valuesA = [],
                 valuesB = [], //ser
                 valuesC = []
-            let List = dataTable.data.filter(item => {
+            let List = shipDataTable.data.filter(item => {
                 return (item[fieldSer.index].value == valueSer)
             })
             List.forEach(item => {
@@ -587,5 +588,5 @@ function serChange() {
             shipDataDownload.clearFilterAsync("pod (DWS Vesselinfo)");
             shipDataDownload.clearFilterAsync("Service Line");
         }
-    })
+    // })
 }
